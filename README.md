@@ -6,15 +6,17 @@ ROS package for ArchiLeon
 - 関連パッケージのインストール
     - Joy  
     `sudo apt-get install ros-kinetic-joy`
-    - jsk-visualization
+    - jsk-visualization  
     `sudo apt-get install ros-kinetic-jsk-rviz-plugins`
+    `sudo apt-get install ros-kinetic-jsk-visualization`
+    `sudo apt-get upgrade`
 - リポジトリのclone  
 `cd ~/catkin_ws/src`  
 `git clone git@github.com:eriac/archileon_ros_t1.git`  
-- ビルド
+- ビルド  
 `cd ~/catkin_ws`  
 `catkin_make`
-- シリアル通信の権限を取得
+- シリアル通信の権限を取得  
 `sudo gpasswd -a [USERNAME] dialout`  
 `sudo reboot`
 
