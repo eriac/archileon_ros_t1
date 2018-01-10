@@ -212,3 +212,6 @@ target_link_libraries(joy_control ${catkin_LIBRARIES})
 add_executable(move_sim src/move_sim.cpp)
 target_link_libraries(move_sim ${catkin_LIBRARIES})
 
+add_executable(arduino_serial src/arduino_serial.cpp)
+target_link_libraries(arduino_serial ${catkin_LIBRARIES})
+
