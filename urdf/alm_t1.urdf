@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<robot name="my_robo" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="alm_wheelset" params="prefix parent pos_xyz pos_rpy">
+ 
+    <!-- links -->
+    <link name="${prefix}_holder1_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://archileon_ros_t1/urdf/holder1.stl" />
+        </geometry>
+        <material name="gray">
+          <color rgba="0.8 0.8 0.8 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <link name="${prefix}_holder2_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://archileon_ros_t1/urdf/holder2.stl" />
+        </geometry>
+        <material name="gray">
+        </material>
+      </visual> 
+    </link>
+
+    <link name="${prefix}_wheel_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://archileon_ros_t1/urdf/wheel.stl" />
+        </geometry>
+        <material name="red">
+          <color rgba="1.0 0.0 0.0 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <!-- joints -->
+    <joint name="${prefix}_holder1_joint" type="prismatic">
+      <parent link="${parent}" />
+      <child link="${prefix}_holder1_link" />
+      <origin xyz="${pos_xyz}" rpy="${pos_rpy}"/>
+      <axis xyz="0 1 0" />
+      <limit lower="-0.11" upper="0.11" effort="1.0" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}_holder2_joint" type="revolute">
+      <parent link="${prefix}_holder1_link"/>
+      <child link="${prefix}_holder2_link"/>
+      <origin rpy="0 0 0" xyz="0 0 -0.020"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-1.0" upper="1.0" effort="1.0" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="${prefix}_holder2_link"/>
+      <child link="${prefix}_wheel_link"/>
+      <origin rpy="1.5707 0 0" xyz="0 0 -0.075"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+  </xacro:macro>
+
+  <link name="world" />
+  <link name="base_link" />
+  <joint name="base_joint" type="planar">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+  </joint>
+
+  <link name="body_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://archileon_ros_t1/urdf/body.stl" />
+      </geometry>
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="body_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="body_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0.140"/>
+  </joint>
+
+  <link name="slider0_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://archileon_ros_t1/urdf/slider.stl" />
+      </geometry>
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="slider0_joint" type="prismatic">
+    <parent link="body_link"/>
+    <child link="slider0_link"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.010"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.11" upper="0.11" effort="1.0" velocity="1.0"/>
+  </joint>
+
+  <link name="slider1_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://archileon_ros_t1/urdf/slider.stl" />
+      </geometry>
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="slider1_joint" type="prismatic">
+    <parent link="body_link"/>
+    <child link="slider1_link"/>
+    <origin rpy="0 0 0" xyz="-0 0 -0.010"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.11" upper="0.11" effort="1.0" velocity="1.0"/>
+  </joint>
+
+
+  <xacro:alm_wheelset prefix="wheelset0" parent="slider0_link" pos_xyz="0  0  0" pos_rpy="0 0 0"/>
+  <xacro:alm_wheelset prefix="wheelset1" parent="slider0_link" pos_xyz="0 -0  0" pos_rpy="0 0 0"/>
+  <xacro:alm_wheelset prefix="wheelset2" parent="slider1_link" pos_xyz="0  0 -0" pos_rpy="0 0 3.1415"/>
+  <xacro:alm_wheelset prefix="wheelset3" parent="slider1_link" pos_xyz="0 -0 -0" pos_rpy="0 0 3.1415"/>
+
+</robot>

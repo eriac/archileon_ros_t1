@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="joy_node" pkg="joy" type="joy_node" >
+    <param name="coalesce_interval" value="0.1"/>
+  </node>
+  <node name="joy_control" pkg="archileon_ros_t1" type="joy_control">
+    <remap from="servo1" to="pif/FL/servo1"/>
+    <remap from="motor1" to="pif/FL/mortor"/>
+  </node>
+  <node name="pif_servo1" pkg="archileon_ros_t1" type="pif_servo1">
+    <remap from="servo" to="pif/FL/servo1"/>
+  </node>
+  <node name="pif_motor" pkg="archileon_ros_t1" type="pif_motor">
+    <remap from="motor" to="pif/FL/mortor"/>
+  </node>
+<!--
+  <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial.py" />
+-->
+</launch>
+

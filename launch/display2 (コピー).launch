@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="model" default="$(find archileon_ros_t1)/urdf/alm_t1.urdf"/>
+  <arg name="gui" default="true" />
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+  <arg name="rvizconfig" default="$(find archileon_ros_t1)/config/SETTING.rviz" />
+
+  <node name="joy_node" pkg="joy" type="joy_node" >
+    <param name="coalesce_interval" value="0.1"/>
+  </node>
+  <node name="joy_control" pkg="archileon_ros_t1" type="joy_control">
+    <remap from="servo0" to="pif/FL/servo1"/>
+    <remap from="servo1" to="pif/FR/servo1"/>
+    <remap from="servo2" to="pif/BL/servo1"/>
+    <remap from="servo3" to="pif/BR/servo1"/>
+    <remap from="motor0" to="pif/FL/motor"/>
+    <remap from="motor1" to="pif/FR/motor"/>
+    <remap from="motor2" to="pif/BL/motor"/>
+    <remap from="motor3" to="pif/BR/motor"/>
+  </node>
+  <node name="move_sim" pkg="archileon_ros_t1" type="move_sim">
+    <remap from="steer0" to="pif/FL/servo1"/>
+    <remap from="steer1" to="pif/FR/servo1"/>
+    <remap from="steer2" to="pif/BL/servo1"/>
+    <remap from="steer3" to="pif/BR/servo1"/>
+    <remap from="motor0" to="pif/FL/motor"/>
+    <remap from="motor1" to="pif/FR/motor"/>
+    <remap from="motor2" to="pif/BL/motor"/>
+    <remap from="motor3" to="pif/BR/motor"/>
+  </node>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+  <node name="FL_servo1" pkg="archileon_ros_t1" type="pif_servo1">
+    <param name="ID" value="FL"/>
+    <param name="REDUCTION" value="2.0"/>
+    <remap from="servo" to="pif/FL/servo1"/>
+  </node>
+  <node name="FR_servo1" pkg="archileon_ros_t1" type="pif_servo1">
+    <param name="ID" value="FR"/>
+    <param name="REDUCTION" value="2.0"/>
+    <remap from="servo" to="pif/FR/servo1"/>
+  </node>
+  <node name="BL_servo1" pkg="archileon_ros_t1" type="pif_servo1">
+    <param name="ID" value="BL"/>
+    <param name="REDUCTION" value="2.0"/>
+    <remap from="servo" to="pif/BL/servo1"/>
+  </node>
+  <node name="BR_servo1" pkg="archileon_ros_t1" type="pif_servo1">
+    <param name="ID" value="BR"/>
+    <param name="REDUCTION" value="2.0"/>
+    <remap from="servo" to="pif/BR/servo1"/>
+  </node>
+
+  <node name="FL_motor" pkg="archileon_ros_t1" type="pif_motor">
+    <param name="ID" value="FL"/>
+    <remap from="motor" to="pif/FL/motor"/>
+  </node>
+  <node name="FR_motor" pkg="archileon_ros_t1" type="pif_motor">
+    <param name="ID" value="FR"/>
+    <remap from="motor" to="pif/FR/motor"/>
+  </node>
+  <node name="BL_motor" pkg="archileon_ros_t1" type="pif_motor">
+    <param name="ID" value="BL"/>
+    <param name="ACC" value="-1.0"/>
+    <remap from="motor" to="pif/BL/motor"/>
+  </node>
+  <node name="BR_motor" pkg="archileon_ros_t1" type="pif_motor">
+    <param name="ID" value="BR"/>
+    <param name="ACC" value="-1.0"/>
+    <remap from="motor" to="pif/BR/motor"/>
+  </node>
+
+  <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial.py" output="screen"/>
+
+
+</launch>
+
