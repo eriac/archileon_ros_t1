@@ -8,7 +8,7 @@ ROS package for ArchiLeon
     `sudo apt-get install ros-kinetic-joy`
     - jsk-visualization  
     `sudo apt-get install ros-kinetic-jsk-rviz-plugins`  
-    `sudo apt-get install ros-kinetic-jsk-visualization`
+    `sudo apt-get install ros-kinetic-jsk-visualization`  
     `sudo apt-get upgrade`
 - リポジトリのclone  
 `cd ~/catkin_ws/src`  
