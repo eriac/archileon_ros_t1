@@ -4,8 +4,11 @@ ROS package for ArchiLeon
 # セットアップの仕方（ソフトウェア）
 - ROSのインストール
 - 関連パッケージのインストール
-    - Joy
-- リポジトリのclone
+    - Joy  
+    `sudo apt-get install ros-kinetic-joy`
+    - jsk-visualization
+    `sudo apt-get install ros-kinetic-jsk-rviz-plugins`
+- リポジトリのclone  
 `cd ~/catkin_ws/src`  
 `git clone git@github.com:eriac/archileon_ros_t1.git`  
 - ビルド
