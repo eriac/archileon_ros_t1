@@ -28,4 +28,4 @@ FL(左前)がch.0、FR:1、BL:ch.2、BR:ch.3
 - PCにジョイスティックを刺す
 
 # ROSの起動
-`roslaunch archileon_ros_t1 display2.launch`
+`roslaunch archileon_ros_t1 robot.launch`
