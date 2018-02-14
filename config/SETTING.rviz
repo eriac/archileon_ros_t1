@@ -6,8 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /JoyDiagnostic1
-        - /OverlayDiagnostic1
       Splitter Ratio: 0.491666675
     Tree Height: 463
   - Class: rviz/Selection
@@ -173,6 +171,56 @@ Visualization Manager:
       stall duration: 5
       top: 120
       type: SAC
+    - Buffer length: 100
+      Class: jsk_rviz_plugin/Plotter2D
+      Enabled: true
+      Name: button_go
+      Show Value: true
+      Topic: /cmd0
+      Value: true
+      auto color change: false
+      auto scale: true
+      background color: 0; 0; 0
+      backround alpha: 0
+      border: true
+      foreground alpha: 0.699999988
+      foreground color: 25; 255; 240
+      height: 100
+      left: 120
+      linewidth: 1
+      max color: 255; 0; 0
+      max value: 1
+      min value: -1
+      show caption: true
+      text size: 12
+      top: 0
+      update interval: 0.0399999991
+      width: 100
+    - Buffer length: 100
+      Class: jsk_rviz_plugin/Plotter2D
+      Enabled: true
+      Name: button_curve
+      Show Value: true
+      Topic: /cmd1
+      Value: true
+      auto color change: false
+      auto scale: true
+      background color: 0; 0; 0
+      backround alpha: 0
+      border: true
+      foreground alpha: 0.699999988
+      foreground color: 25; 255; 240
+      height: 100
+      left: 120
+      linewidth: 1
+      max color: 255; 0; 0
+      max value: 1
+      min value: -1
+      show caption: true
+      text size: 12
+      top: 120
+      update interval: 0.0399999991
+      width: 100
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
