@@ -8,9 +8,11 @@ ros::Publisher  arduino_pub;
 std::string ID ="NONE";
 float ACC=1.0;
 
+float max_speed=0.055;//0.05 is max
 void mortor_callback(const std_msgs::Float32& float_msg){
-	if(-1.0<float_msg.data*ACC && float_msg.data*ACC <1.0){
-		int target=0x0100+float_msg.data*ACC*0x0100;
+	if(-max_speed<float_msg.data*ACC && float_msg.data*ACC<max_speed){
+		int ppt=float_msg.data*ACC/0.20*2000/20;
+		int target=0x0100+ppt;
 		std_msgs::String pub_data;
 		std::string f1="#";
 		std::string f2="M";

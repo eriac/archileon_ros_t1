@@ -18,13 +18,14 @@ float ws_pos[4][2]={
 };
 float min_radius=0.3;
 float max_radius=10.0;
+float move_speed=0.05;
 
 void joy_callback(const sensor_msgs::Joy& joy_msg){
 	if(-0.05<joy_msg.axes[0] && joy_msg.axes[0]<0.05){//straight
 		std_msgs::Float32 ss;
 		ss.data=0;
 		std_msgs::Float32 ms;
-		ms.data=0.5*joy_msg.axes[1];
+		ms.data=move_speed*joy_msg.axes[1];
 		for(int i=0;i<4;i++){
 			servo_pub[i].publish(ss);
 			motor_pub[i].publish(ms);
@@ -36,7 +37,7 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 			std_msgs::Float32 sv;
 			std_msgs::Float32 mv;
 			sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
-			mv.data=0.5*joy_msg.axes[1]*(center_y-ws_pos[i][1])/center_y;
+			mv.data=move_speed*joy_msg.axes[1]*(center_y-ws_pos[i][1])/center_y;
 			servo_pub[i].publish(sv);
 			motor_pub[i].publish(mv);
 		}	
@@ -47,7 +48,7 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 			std_msgs::Float32 sv;
 			std_msgs::Float32 mv;
 			sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y);
-			mv.data=-0.5*joy_msg.axes[1]*(ws_pos[i][1]-center_y)/center_y;
+			mv.data=-move_speed*joy_msg.axes[1]*(ws_pos[i][1]-center_y)/center_y;
 			servo_pub[i].publish(sv);
 			motor_pub[i].publish(mv);
 		}
