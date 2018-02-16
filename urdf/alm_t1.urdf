@@ -61,6 +61,7 @@
     </joint>
   </xacro:macro>
 
+  <!-- main -->
   <link name="world" />
   <link name="base_link" />
   <joint name="base_joint" type="planar">
@@ -85,6 +86,23 @@
     <child link="body_link"/>
     <origin rpy="0 0 0" xyz="0 0 0.140"/>
   </joint>
+
+  <link name="vive_tracker_link">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="vive_tracker_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="vive_tracker_link"/>
+    <origin rpy="0 0 0" xyz="-0.2 0 0.15"/>
+  </joint>
+
 
   <link name="slider0_link">
     <visual>

@@ -215,3 +215,10 @@ target_link_libraries(move_sim ${catkin_LIBRARIES})
 add_executable(arduino_serial src/arduino_serial.cpp)
 target_link_libraries(arduino_serial ${catkin_LIBRARIES})
 
+add_executable(udp_reciever src/udp_reciever.cpp)
+target_link_libraries(udp_reciever ${catkin_LIBRARIES})
+
+add_executable(pif_to_joint src/pif_to_joint.cpp)
+target_link_libraries(pif_to_joint ${catkin_LIBRARIES})
+
+

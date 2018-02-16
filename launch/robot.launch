@@ -5,10 +5,12 @@
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
   <param name="use_gui" value="$(arg gui)"/>
   <arg name="rvizconfig" default="$(find archileon_ros_t1)/config/SETTING.rviz" />
+  <arg name="vive" default="false"/>
 
   <node name="joy_node" pkg="joy" type="joy_node" >
     <param name="coalesce_interval" value="0.1"/>
   </node>
+
   <node name="joy_control" pkg="archileon_ros_t1" type="joy_control">
     <remap from="servo0" to="pif/FL/servo1"/>
     <remap from="servo1" to="pif/FR/servo1"/>
@@ -19,7 +21,24 @@
     <remap from="motor2" to="pif/BL/motor"/>
     <remap from="motor3" to="pif/BR/motor"/>
   </node>
-  <node name="move_sim" pkg="archileon_ros_t1" type="move_sim">
+  
+  <group if="$(arg vive)">
+    <node name="udp_reciever" pkg="archileon_ros_t1" type="udp_reciever" />
+  </group>
+  <group unless="$(arg vive)">
+    <node name="move_sim" pkg="archileon_ros_t1" type="move_sim">
+      <remap from="steer0" to="pif/FL/servo1"/>
+      <remap from="steer1" to="pif/FR/servo1"/>
+      <remap from="steer2" to="pif/BL/servo1"/>
+      <remap from="steer3" to="pif/BR/servo1"/>
+      <remap from="motor0" to="pif/FL/motor"/>
+      <remap from="motor1" to="pif/FR/motor"/>
+      <remap from="motor2" to="pif/BL/motor"/>
+      <remap from="motor3" to="pif/BR/motor"/>
+    </node>
+  </group>
+
+  <node name="pif_to_joint" pkg="archileon_ros_t1" type="pif_to_joint">
     <remap from="steer0" to="pif/FL/servo1"/>
     <remap from="steer1" to="pif/FR/servo1"/>
     <remap from="steer2" to="pif/BL/servo1"/>
@@ -29,6 +48,7 @@
     <remap from="motor2" to="pif/BL/motor"/>
     <remap from="motor3" to="pif/BR/motor"/>
   </node>
+
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
@@ -76,7 +96,5 @@
   </node>
 
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
-
-
 </launch>
 

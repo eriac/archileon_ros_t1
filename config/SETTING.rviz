@@ -6,6 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1
+        - /OverlayDiagnostic1
       Splitter Ratio: 0.491666675
     Tree Height: 463
   - Class: rviz/Selection
@@ -73,6 +75,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         slider1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vive_tracker_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -161,7 +168,7 @@ Visualization Manager:
       type: SAC
     - Class: jsk_rviz_plugin/OverlayDiagnostic
       Enabled: true
-      Name: OverlayDiagnostic
+      Name: SerialDiagnostic
       Topic: /diagnostics
       Value: true
       alpha: 0.800000012
@@ -221,6 +228,90 @@ Visualization Manager:
       top: 120
       update interval: 0.0399999991
       width: 100
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        base_link:
+          Value: true
+        body_link:
+          Value: false
+        slider0_link:
+          Value: false
+        slider1_link:
+          Value: false
+        vive_tracker_link:
+          Value: true
+        wheelset0_holder1_link:
+          Value: false
+        wheelset0_holder2_link:
+          Value: false
+        wheelset0_wheel_link:
+          Value: false
+        wheelset1_holder1_link:
+          Value: false
+        wheelset1_holder2_link:
+          Value: false
+        wheelset1_wheel_link:
+          Value: false
+        wheelset2_holder1_link:
+          Value: false
+        wheelset2_holder2_link:
+          Value: false
+        wheelset2_wheel_link:
+          Value: false
+        wheelset3_holder1_link:
+          Value: false
+        wheelset3_holder2_link:
+          Value: false
+        wheelset3_wheel_link:
+          Value: false
+        world:
+          Value: false
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        world:
+          base_link:
+            body_link:
+              slider0_link:
+                wheelset0_holder1_link:
+                  wheelset0_holder2_link:
+                    wheelset0_wheel_link:
+                      {}
+                wheelset1_holder1_link:
+                  wheelset1_holder2_link:
+                    wheelset1_wheel_link:
+                      {}
+              slider1_link:
+                wheelset2_holder1_link:
+                  wheelset2_holder2_link:
+                    wheelset2_wheel_link:
+                      {}
+                wheelset3_holder1_link:
+                  wheelset3_holder2_link:
+                    wheelset3_wheel_link:
+                      {}
+            vive_tracker_link:
+              {}
+      Update Interval: 0
+      Value: true
+    - Class: jsk_rviz_plugin/OverlayDiagnostic
+      Enabled: true
+      Name: OverlayDiagnostic
+      Topic: /diagnostics
+      Value: true
+      alpha: 0.800000012
+      diagnostics namespace: /
+      left: 128
+      size: 128
+      stall duration: 5
+      top: 128
+      type: SAC
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -261,10 +352,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.785398006
+      Pitch: 0.460397929
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.785398006
+      Yaw: 1.37039745
     Saved: ~
 Window Geometry:
   Displays:

@@ -64,45 +64,42 @@ void motor3_callback(const std_msgs::Float32& float_msg){
 }
 
 ros::Publisher joint_pub;
-
-void set_robot(float *position, float *direction){
-	static tf::TransformBroadcaster br;
-	tf::Transform transform;
-
-	transform.setOrigin( tf::Vector3(position[0], position[1], position[2]) );
-	tf::Quaternion q;
-	q.setRPY(direction[0], direction[1], direction[2]);
-	transform.setRotation(q);
-	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "base_link"));	
-}
-void move_robot(float dt){
-	static float pos_x=0;
-	static float pos_y=0;
-	static float rot_z=0;
-		
-	float acc_x=0;
-	float acc_y=0;
-	float str_z=0;
-		
-
-	for(int i=0;i<4;i++){
-		acc_x+=target_motor[i]*cos(target_steer[i]);
-		acc_y+=target_motor[i]*sin(target_steer[i]);
-	}
-	float sum_r=target_steer[0]+target_steer[1]-target_steer[2]-target_steer[3];
-	str_z=acc_x*sin(sum_r/4)/3.1415/WHEEL_BASE;
-
-
-	pos_x+=(acc_x*cos(rot_z)-acc_y*sin(rot_z))/4*dt;
-	pos_y+=(acc_y*cos(rot_z)+acc_x*sin(rot_z))/4*dt;
-	rot_z+=str_z*dt;
+void jp(){
+	sensor_msgs::JointState js0;
+	js0.header.stamp = ros::Time::now();
+	js0.name.resize(14);
+	js0.name[ 0]="slider0_joint";
+	js0.name[ 1]="slider1_joint";
+	js0.name[ 2]="wheelset0_holder1_joint";
+	js0.name[ 3]="wheelset0_holder2_joint";
+	js0.name[ 4]="wheelset0_wheel_joint";
+	js0.name[ 5]="wheelset1_holder1_joint";
+	js0.name[ 6]="wheelset1_holder2_joint";
+	js0.name[ 7]="wheelset1_wheel_joint";
+	js0.name[ 8]="wheelset2_holder1_joint";
+	js0.name[ 9]="wheelset2_holder2_joint";
+	js0.name[10]="wheelset2_wheel_joint";
+	js0.name[11]="wheelset3_holder1_joint";
+	js0.name[12]="wheelset3_holder2_joint";
+	js0.name[13]="wheelset3_wheel_joint";
 	
-	float pos_xyz[3]={0,0,0};
-	float pos_rpy[3]={0,0,0};
-	pos_xyz[0]=pos_x;
-	pos_xyz[1]=pos_y;
-	pos_rpy[2]=rot_z;
-	set_robot(pos_xyz,pos_rpy);
+	js0.position.resize(14);
+	js0.position[ 0]= WHEEL_BASE/2;
+	js0.position[ 1]=-WHEEL_BASE/2;
+	js0.position[ 2]= target_width[0]/2;
+	js0.position[ 3]= target_steer[0];
+	js0.position[ 4]= 0;
+	js0.position[ 5]=-target_width[0]/2;
+	js0.position[ 6]= target_steer[1];
+	js0.position[ 7]= 0;
+	js0.position[ 8]=-target_width[1]/2;
+	js0.position[ 9]= target_steer[2];
+	js0.position[10]= 0;
+	js0.position[11]= target_width[1]/2;
+	js0.position[12]= target_steer[3];
+	js0.position[13]= 0;
+	
+	joint_pub.publish(js0);
 }
 
 int main(int argc, char **argv)
@@ -127,10 +124,9 @@ int main(int argc, char **argv)
 	ros::Subscriber motor2_sub   = n.subscribe("motor2", 10, motor2_callback); 
 	ros::Subscriber motor3_sub   = n.subscribe("motor3", 10, motor3_callback); 
 			
-	float dt=1.0/20;
 	ros::Rate loop_rate(20); 
 	while (ros::ok()){
-		move_robot(dt);
+		jp();
 		ros::spinOnce();
 		loop_rate.sleep();
 	} 
