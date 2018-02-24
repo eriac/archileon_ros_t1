@@ -306,16 +306,15 @@ Visualization Manager:
       Topic: /diagnostics
       Value: true
       alpha: 0.800000012
-      diagnostics namespace: /
-      left: 128
-      size: 128
+      diagnostics namespace: "udp_reciever: Connect"
+      left: 0
+      size: 100
       stall duration: 5
-      top: 128
+      top: 240
       type: SAC
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Default Light: true
     Fixed Frame: world
     Frame Rate: 30
   Name: root
@@ -355,7 +354,7 @@ Visualization Manager:
       Pitch: 0.460397929
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.37039745
+      Yaw: 1.36539745
     Saved: ~
 Window Geometry:
   Displays:

@@ -203,6 +203,9 @@ include_directories(
 add_executable(pif_servo1 src/pif_servo1.cpp)
 target_link_libraries(pif_servo1 ${catkin_LIBRARIES})
 
+add_executable(pif_servo2 src/pif_servo2.cpp)
+target_link_libraries(pif_servo2 ${catkin_LIBRARIES})
+
 add_executable(pif_motor src/pif_motor.cpp)
 target_link_libraries(pif_motor ${catkin_LIBRARIES})
 

@@ -6,7 +6,7 @@
 #include <string>
 
 
-ros::Publisher servo_pub[4];
+ros::Publisher servo_pub[6];
 ros::Publisher motor_pub[4];
 
 ros::Publisher cmd_pub[2];
@@ -93,6 +93,31 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 		}
 	}
 
+	//tube
+	static int t_val0=0;
+	static int t_val1=0;
+	if(joy_msg.buttons[10] && t_val0>-20){//L1
+		t_val0--;
+	}
+	if(joy_msg.buttons[8] && t_val0<20){//L2
+		t_val0++;
+	}
+	if(joy_msg.buttons[11] && t_val1>-20){//R1
+		t_val1--;
+	}
+	if(joy_msg.buttons[9] && t_val1<20){//R2
+		t_val1++;
+	}
+	if(joy_msg.buttons[12]){//Tri
+		t_val0=0;
+		t_val1=0;
+	}
+	std_msgs::Float32 tt0;
+	std_msgs::Float32 tt1;
+	tt0.data=t_val0/20.0;
+	tt1.data=t_val1/20.0;
+	servo_pub[4].publish(tt0);
+	servo_pub[5].publish(tt1);
 
 /*
 	std_msgs::Float32 s1;
@@ -119,6 +144,8 @@ int main(int argc, char **argv){
 	servo_pub[1] = n.advertise<std_msgs::Float32>("servo1", 1000);
 	servo_pub[2] = n.advertise<std_msgs::Float32>("servo2", 1000);
 	servo_pub[3] = n.advertise<std_msgs::Float32>("servo3", 1000);
+	servo_pub[4] = n.advertise<std_msgs::Float32>("servo4", 1000);
+	servo_pub[5] = n.advertise<std_msgs::Float32>("servo5", 1000);
 	motor_pub[0] = n.advertise<std_msgs::Float32>("motor0", 1000);
 	motor_pub[1] = n.advertise<std_msgs::Float32>("motor1", 1000);
 	motor_pub[2] = n.advertise<std_msgs::Float32>("motor2", 1000);

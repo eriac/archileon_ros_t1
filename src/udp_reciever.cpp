@@ -7,6 +7,7 @@
 #include "sensor_msgs/JointState.h"
 #include "sensor_msgs/Joy.h"
 #include <tf/transform_broadcaster.h>
+#include "diagnostic_updater/diagnostic_updater.h"
 
 #include <string>
 #include <iostream>
@@ -70,11 +71,24 @@ void set_robot(float *pos, float *dir){
 	br.sendTransform(tf::StampedTransform(transform*transform2, ros::Time::now(), "world", "base_link"));
 }
 
+int diagnostic_counter=0;
+void diagnostic0(diagnostic_updater::DiagnosticStatusWrapper &stat){
+	if(diagnostic_counter<100){
+		stat.summaryf(diagnostic_msgs::DiagnosticStatus::OK, "Active.");
+	}
+	else stat.summaryf(diagnostic_msgs::DiagnosticStatus::ERROR, "No Connection.");
+	
+}
 
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "udp_reciever");
 	ros::NodeHandle n;
+
+	//Diagnostic
+	diagnostic_updater::Updater updater;
+	updater.setHardwareID("Vive_UDP");
+	updater.add("Connect", diagnostic0);
 
 	/* ポート番号、ソケット */
 	unsigned short port = 4001;
@@ -112,6 +126,7 @@ int main(int argc, char **argv)
 	/* selectで待つ読み込みソケットとしてsock1を登録します */
 	FD_SET(recvSocket, &readfds);
 	
+	ros::Rate loop_rate(200); 
 	while (ros::ok()){
 		memcpy(&fds, &readfds, sizeof(fd_set));
 		int n = select(recvSocket+1, &fds, NULL, NULL, &tv);
@@ -140,8 +155,13 @@ int main(int argc, char **argv)
 					else if(name=="TRACKER")set_robot(linear,angular);
 				}
 			}
+			diagnostic_counter=0;
 		}
-		//sense_link to base_link
+		else diagnostic_counter++;
+
+		updater.update();
+		ros::spinOnce();
+		loop_rate.sleep();
 	} 
  	return 0;
 }

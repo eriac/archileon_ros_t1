@@ -16,6 +16,8 @@
     <remap from="servo1" to="pif/FR/servo1"/>
     <remap from="servo2" to="pif/BL/servo1"/>
     <remap from="servo3" to="pif/BR/servo1"/>
+    <remap from="servo4" to="pif/BL/servo2"/>
+    <remap from="servo5" to="pif/BR/servo2"/>
     <remap from="motor0" to="pif/FL/motor"/>
     <remap from="motor1" to="pif/FR/motor"/>
     <remap from="motor2" to="pif/BL/motor"/>
@@ -72,6 +74,17 @@
     <param name="ID" value="BR"/>
     <param name="REDUCTION" value="-1.0"/>
     <remap from="servo" to="pif/BR/servo1"/>
+  </node>
+
+  <node name="BL_servo2" pkg="archileon_ros_t1" type="pif_servo2">
+    <param name="ID" value="BL"/>
+    <param name="REDUCTION" value="0.6"/>
+    <remap from="servo" to="pif/BL/servo2"/>
+  </node>
+  <node name="BR_servo2" pkg="archileon_ros_t1" type="pif_servo2">
+    <param name="ID" value="BR"/>
+    <param name="REDUCTION" value="0.6"/>
+    <remap from="servo" to="pif/BR/servo2"/>
   </node>
 
   <node name="FL_motor" pkg="archileon_ros_t1" type="pif_motor">
