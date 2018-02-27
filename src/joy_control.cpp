@@ -49,6 +49,10 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 		if(joy_msg.buttons[5] && b_val0>-50)b_val0--;
 		if(joy_msg.buttons[4] && b_val1< 50)b_val1++;
 		if(joy_msg.buttons[6] && b_val1>-50)b_val1--;
+		if(joy_msg.buttons[13]){//Circle
+			b_val1=0;
+		}
+
 		
 		f_val0=b_val0/50.0;
 		f_val1=b_val1/50.0;
@@ -112,6 +116,7 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 		t_val0=0;
 		t_val1=0;
 	}
+
 	std_msgs::Float32 tt0;
 	std_msgs::Float32 tt1;
 	tt0.data=t_val0/20.0;
