@@ -78,12 +78,12 @@
 
   <node name="BL_servo2" pkg="archileon_ros_t1" type="pif_servo2">
     <param name="ID" value="BL"/>
-    <param name="REDUCTION" value="0.6"/>
+    <param name="REDUCTION" value="1.2"/>
     <remap from="servo" to="pif/BL/servo2"/>
   </node>
   <node name="BR_servo2" pkg="archileon_ros_t1" type="pif_servo2">
     <param name="ID" value="BR"/>
-    <param name="REDUCTION" value="0.6"/>
+    <param name="REDUCTION" value="1.2"/>
     <remap from="servo" to="pif/BR/servo2"/>
   </node>
 
