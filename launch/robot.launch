@@ -64,6 +64,8 @@
     <remap from="motor1" to="pif/FR/motor"/>
     <remap from="motor2" to="pif/BL/motor"/>
     <remap from="motor3" to="pif/BR/motor"/>
+    <remap from="tube0"  to="pif/BL/servo2"/>
+    <remap from="tube1"  to="pif/BR/servo2"/>
   </node>
 
 
@@ -129,7 +131,7 @@
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
 
   <!-- TEST FOR TF -->
-  <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" output="screen"/>
+  <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
 
 </launch>
 

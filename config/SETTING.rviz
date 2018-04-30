@@ -79,6 +79,26 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        tubeL_link0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tubeL_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tubeR_link0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tubeR_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         vive_tracker_link:
           Alpha: 1
           Show Axes: false
@@ -241,6 +261,14 @@ Visualization Manager:
           Value: false
         slider1_link:
           Value: false
+        tubeL_link0:
+          Value: false
+        tubeL_link1:
+          Value: false
+        tubeR_link0:
+          Value: false
+        tubeR_link1:
+          Value: false
         vive_tracker_link:
           Value: true
         wheelset0_holder1_link:
@@ -296,6 +324,12 @@ Visualization Manager:
                   wheelset3_holder2_link:
                     wheelset3_wheel_link:
                       {}
+            tubeL_link0:
+              tubeL_link1:
+                {}
+            tubeR_link0:
+              tubeR_link1:
+                {}
             vive_tracker_link:
               {}
       Update Interval: 0
@@ -353,25 +387,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 5.69512796
+      Distance: 2.07246757
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.33338571
-        Y: 0.38475275
-        Z: -0.446142882
+        X: -0.135190368
+        Y: -0.165691301
+        Z: 0.313649327
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.790397942
+      Pitch: 0.39020294
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.90039718
+      Yaw: 1.58540142
     Saved: ~
 Window Geometry:
   Displays:
