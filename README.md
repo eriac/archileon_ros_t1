@@ -29,3 +29,10 @@ FL(左前)がch.0、FR:1、BL:ch.2、BR:ch.3
 
 # ROSの起動
 `roslaunch archileon_ros_t1 robot.launch`
+
+# memo
+## 実機とRvizのロボットの曲がり方が違うかも
+move_driver.cpp中のline 11  
+float curve_factor=0.6;//really 1?  
+でロボットの曲がり方の微調整をしている。小さいほうが強く曲がる  
+実機を動かすときは調整して
