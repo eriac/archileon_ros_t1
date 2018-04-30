@@ -1,5 +1,6 @@
 #include "ros/ros.h"
-  
+
+#include "std_msgs/Float32MultiArray.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "tf/transform_listener.h"
 
@@ -36,19 +37,27 @@ int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "test_tf_listen");
 	ros::NodeHandle n;
-	
-    
-	ros::Rate loop_rate(5); 
+
+  ros::Publisher status_pub = n.advertise<std_msgs::Float32MultiArray>("robot_status", 10,true);
+
+
+	ros::Rate loop_rate(5);
 	while (ros::ok()){
 		try{//sometime tf cause exeption (especially initial time)
             float v0,v1,v2;
             get_pose(v0,v1,v2);
+            std_msgs::Float32MultiArray s0;
+            s0.data.push_back(v0);
+            s0.data.push_back(v1);
+            s0.data.push_back(v2);
+        		status_pub.publish(s0);
+
 		}
 		catch(...){
 			printf("error\n");
 		}
 		ros::spinOnce();
 		loop_rate.sleep();
-	} 
+	}
  	return 0;
 }
