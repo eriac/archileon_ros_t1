@@ -92,8 +92,8 @@
       <geometry>
         <box size="0.1 0.1 0.1" />
       </geometry>
-      <material name="red">
-        <color rgba="1.0 0.0 0.0 1.0"/>
+      <material name="blue">
+        <color rgba="0.0 0.0 1.0 1.0"/>
       </material>
     </visual>
   </link>
@@ -145,5 +145,70 @@
   <xacro:alm_wheelset prefix="wheelset1" parent="slider0_link" pos_xyz="0 -0  0" pos_rpy="0 0 0"/>
   <xacro:alm_wheelset prefix="wheelset2" parent="slider1_link" pos_xyz="0  0 -0" pos_rpy="0 0 3.1415"/>
   <xacro:alm_wheelset prefix="wheelset3" parent="slider1_link" pos_xyz="0 -0 -0" pos_rpy="0 0 3.1415"/>
+
+  <link name="tubeL_link0">
+    <visual>
+      <origin xyz="-0.06 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.12 0.02 0.02"/>
+      </geometry>
+      <material name="gray" />
+    </visual>
+  </link>
+  <joint name="tubeL_joint0" type="revolute">
+    <parent link="base_link"/>
+    <child link="tubeL_link0"/>
+    <origin rpy="0 0 0" xyz="-0.13 0.09 0.1"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1" upper="1" effort="1.0" velocity="1.0"/>
+  </joint>
+
+  <link name="tubeL_link1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.02" length="0.08"/>
+      </geometry>
+      <material name="red" />
+    </visual>
+  </link>
+  <joint name="tubeL_joint1" type="fixed">
+    <parent link="tubeL_link0"/>
+    <child link="tubeL_link1"/>
+    <origin rpy="0 0 0" xyz="-0.12 0 -0.03"/>
+  </joint>
+
+  <link name="tubeR_link0">
+    <visual>
+      <origin xyz="-0.06 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.12 0.02 0.02"/>
+      </geometry>
+      <material name="gray" />
+    </visual>
+  </link>
+  <joint name="tubeR_joint0" type="revolute">
+    <parent link="base_link"/>
+    <child link="tubeR_link0"/>
+    <origin rpy="0 0 0" xyz="-0.13 -0.09 0.1"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1" upper="1" effort="1.0" velocity="1.0"/>
+  </joint>
+
+  <link name="tubeR_link1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.02" length="0.08"/>
+      </geometry>
+      <material name="red" />
+    </visual>
+  </link>
+  <joint name="tubeR_joint1" type="fixed">
+    <parent link="tubeR_link0"/>
+    <child link="tubeR_link1"/>
+    <origin rpy="0 0 0" xyz="-0.12 0 -0.03"/>
+  </joint>
+
 
 </robot>
