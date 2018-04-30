@@ -12,15 +12,13 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 int main(int argc, char **argv){
 	ros::init(argc, argv, "joy_control");
 	ros::NodeHandle n;
-
 	//publish
 	ros::Publisher curve_pub = n.advertise<std_msgs::Float32>("move_curve", 1000);
 	ros::Publisher speed_pub = n.advertise<std_msgs::Float32>("move_speed", 1000);
 
 	//subscriibe
-	ros::Subscriber joy_sub   = n.subscribe("joy", 10, joy_callback); 
-
-	ros::Rate loop_rate(10); 
+	ros::Subscriber joy_sub   = n.subscribe("joy", 10, joy_callback);
+	ros::Rate loop_rate(10);
 	while (ros::ok()){
         std_msgs::Float32 curve0;
         curve0.data=curve_value;
@@ -30,8 +28,6 @@ int main(int argc, char **argv){
         speed_pub.publish(speed0);
 		ros::spinOnce();
 		loop_rate.sleep();
-	} 
+	}
  	return 0;
 }
-
-

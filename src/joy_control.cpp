@@ -53,7 +53,7 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 			b_val1=0;
 		}
 
-		
+
 		f_val0=b_val0/50.0;
 		f_val1=b_val1/50.0;
 		std_msgs::Float32 cmd_data0;
@@ -81,9 +81,10 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 			std_msgs::Float32 mv;
 			sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
 			mv.data=move_speed*f_val1*(center_y-ws_pos[i][1])/center_y;
+
 			servo_pub[i].publish(sv);
 			motor_pub[i].publish(mv);
-		}	
+		}
 	}
 	else{
 		float center_y=min_radius/f_val0;
@@ -161,14 +162,12 @@ int main(int argc, char **argv){
 
 
 	//subscriibe
-	ros::Subscriber joy_sub   = n.subscribe("joy", 10, joy_callback); 
+	ros::Subscriber joy_sub   = n.subscribe("joy", 10, joy_callback);
 
-	ros::Rate loop_rate(20); 
+	ros::Rate loop_rate(20);
 	while (ros::ok()){
 		ros::spinOnce();
 		loop_rate.sleep();
-	} 
+	}
  	return 0;
 }
-
-

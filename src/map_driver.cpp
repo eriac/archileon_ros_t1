@@ -33,21 +33,19 @@ int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "map_driver");
 	ros::NodeHandle n;
-	ros::NodeHandle pn("~");
-	
+	ros::NodeHandle pn("~");	
 	//publish
 	//ros::Publisher marker_pub = n.advertise<std_msgs::Marker>("map_vis", 10);
     //subscribe
-    ros::Subscriber canin_sub = n.subscribe("map_data", 10, map_callback); 
+    ros::Subscriber canin_sub = n.subscribe("map_data", 10, map_callback);
 
-	ros::Rate loop_rate(10); 
+	ros::Rate loop_rate(10);
 	while (ros::ok()){
         if(array_enable){
 
         }
 		ros::spinOnce();
 		loop_rate.sleep();
-	} 
+	}
  	return 0;
 }
-

@@ -23,18 +23,19 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "map_visualizer");
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
-	
+
 	//publish
 	ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("map_vis", 10);
     //subscribe
-    ros::Subscriber canin_sub = n.subscribe("map_data", 10, map_callback); 
-	
-	
+  ros::Subscriber canin_sub = n.subscribe("map_data", 10, map_callback);
 
 
 
-	ros::Rate loop_rate(10); 
+
+
+	ros::Rate loop_rate(10);
 	while (ros::ok()){
+        //線の設定
         visualization_msgs::Marker line_strip;
         line_strip.header.frame_id="world";
         line_strip.header.stamp=ros::Time::now();
@@ -46,6 +47,7 @@ int main(int argc, char **argv)
         line_strip.scale.x = 0.1;
         line_strip.color.b = 1.0;
         line_strip.color.a = 1.0;
+        //ここpにデータを突っ込むと、Rviz上にその点がマップされる使用
         for(int i=0;i<(int)map_data.data.size()/2;i++){
             geometry_msgs::Point p;
             p.x=map_data.data[i*2+0];
@@ -57,7 +59,6 @@ int main(int argc, char **argv)
 
 		ros::spinOnce();
 		loop_rate.sleep();
-	} 
+	}
  	return 0;
 }
-
