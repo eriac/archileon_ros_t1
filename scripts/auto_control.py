@@ -3,7 +3,7 @@
 import rospy
 from std_msgs.msg import Float32
 
-rospy.init_node("topic_pub")
+rospy.init_node("auto_control")
 pub = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub = rospy.Publisher('move_time', Float32, queue_size=1000)
 
