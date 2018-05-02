@@ -71,6 +71,9 @@ int main(int argc, char **argv){
                 servo_pub[i].publish(ss);
                 motor_pub[i].publish(ms);
             }
+            for(int i=4;i<6;i++){
+                servo_pub[i].publish(ss);
+            }
         }
         else if(f_val0>0){//curve
             float center_y=1/f_val0;

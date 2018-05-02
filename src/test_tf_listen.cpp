@@ -17,13 +17,13 @@ void get_pose(float &pos_x, float &pos_y, float &rot_z){
 
 
     double roll,pitch,yaw;
-	tf::Quaternion btq(
-        target_pose.pose.orientation.x,
-        target_pose.pose.orientation.y,
-        target_pose.pose.orientation.z,
-        target_pose.pose.orientation.w
-        );
-	tf::Matrix3x3(btq).getRPY(roll, pitch, yaw);
+	  tf::Quaternion btq(
+      target_pose.pose.orientation.x,
+      target_pose.pose.orientation.y,
+      target_pose.pose.orientation.z,
+      target_pose.pose.orientation.w
+    );
+	  tf::Matrix3x3(btq).getRPY(roll, pitch, yaw);
 
     printf("P X:%f, Y:%f, Z:%f\n",target_pose.pose.position.x,target_pose.pose.position.y,target_pose.pose.position.z);
     printf("O R:%f, P:%f, Y:%f\n",roll,pitch,yaw);
