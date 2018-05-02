@@ -9,7 +9,7 @@ import time
 
 x = Symbol("x")
 y = Symbol("y")
-world_target_position = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5), (0, 3.0), (-0.5, 3.5),(0, 4.0)]
+world_target_position = [(1.0, 1.0), (0, 2.0), (-1, 3.0), (0, 4.0), (1, 5.0)]
 move_speed = 0.5
 
 class timer:
@@ -76,25 +76,18 @@ def callback(msg):
             rad = math.atan2((rob_target_y - a), rob_target_x)
 
         print("RADIAN " +str(math.degrees(rad)))
-        print(" ")
-
         arc_circle = 2 * a * math.pi * (math.degrees(rad)/360)
-        print("ARC CIRCLE " + str(arc_circle))
-        print(" ")
 
+        print("ARC CIRCLE " + str(arc_circle))
         move_time = arc_circle / move_speed
         timer.set_time(move_time)
         print("SET TIME " + str(move_time))
-        print(" ")
 
         print("MOVE CURVE " + str(1 / move_curve))
-        print(" ")
-
         pub_curve.publish(1 / move_curve)
         timer.start_time(time.time())
 
         print("START TIME " + str(timer.start))
-        print(" ")
         print("//////////////////////////////////////////////////////")
         # print("x value is " + str(x))
         # print("y value is " + str(y))
