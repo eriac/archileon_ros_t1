@@ -41,7 +41,7 @@ int main(int argc, char **argv)
   ros::Publisher status_pub = n.advertise<std_msgs::Float32MultiArray>("robot_status", 10,true);
 
 
-	ros::Rate loop_rate(5);
+	ros::Rate loop_rate(0.1);
 	while (ros::ok()){
 		try{//sometime tf cause exeption (especially initial time)
             float v0,v1,v2;

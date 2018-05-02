@@ -4,13 +4,13 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
 import numpy as np
 from sympy import *
-
-world_target_position = [(1, 1)]
+import math
+import time
 
 x = Symbol("x")
 y = Symbol("y")
-a = Symbol("a")
-fx = x**2 + (y-a)**2 - a**2
+world_target_position = [(1, 0.5)]
+
 
 def callback(msg):
     world_x = msg.data[0]
@@ -29,14 +29,30 @@ def callback(msg):
     x = rob_target_position[0]
     y = rob_target_position[1]
 
+    # x**2 + (y - a)**2 = a**2
     a = (x**2 + y**2)/ 2 * y
     move_curve = a
+
+    if y == a:
+        rad = math.atan2(a, a)
+    elif y < a:
+        rad = math.atan2((a-y), x)
+        # rad = math.atan2((a-y)/x)
+    elif a < y:
+        rad = math.atan2((y-a), x)
+
+    print("RADIAN")
+    print(math.degrees(rad))
+    arc_circle = 2 * a * math.pi * math.degrees(rad)
+    move_time = arc_circle / move_speed
+
+    print("MOVE CURVE")
     print(move_curve)
     pub_curve.publish(move_curve)
 
-    print("x value is " + str(x))
-    print("y value is " + str(y))
-    print("theta value is " + str(theta))
+    # print("x value is " + str(x))
+    # print("y value is " + str(y))
+    # print("theta value is " + str(world_theta))
 
 
 
@@ -44,15 +60,13 @@ def callback(msg):
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
-
-rate = rospy.Rate(10)
-move_speed = 0.5
+start_time = time.time()
+rate = rospy.Rate(0.1)
+move_speed = 0.05
 # move_curve =  0
 
 sub = rospy.Subscriber("robot_status", Float32MultiArray, callback)
 
 while not rospy.is_shutdown():
-    print(move_speed)
     pub_speed.publish(move_speed)
-
     rate.sleep()
