@@ -17,11 +17,13 @@ void curve_callback(const std_msgs::Float32& float_msg){
     if     (float_msg.data<-(1.0/min_radius))curve_value=-(1.0/min_radius);
     else if(float_msg.data>+(1.0/min_radius))curve_value=+(1.0/min_radius);
     else curve_value=float_msg.data;
+    printf("AAAAAAAAAAAAAAAAAAAAAAAA");
 }
 void speed_callback(const std_msgs::Float32& float_msg){
     if     (float_msg.data<-max_speed)speed_value=-max_speed;
     else if(float_msg.data>+max_speed)speed_value=+max_speed;
     else speed_value=float_msg.data;
+    printf("BBBBBBBBBBBBBBBBBBBBBBBB");
 }
 //temporal fixed
 float ws_pos[4][2]={
@@ -68,6 +70,8 @@ int main(int argc, char **argv){
             std_msgs::Float32 ms;
             ms.data=f_val1;
             for(int i=0;i<4;i++){
+                // printf("f_val0 is between -0.05 ~ 0.05 %lf", ss);
+                printf("f_val0 is between -0.05 ~ 0.05");
                 servo_pub[i].publish(ss);
                 motor_pub[i].publish(ms);
             }
@@ -83,6 +87,8 @@ int main(int argc, char **argv){
                 std_msgs::Float32 mv;
                 sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                 mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                // printf("f_val0 is over 0 %lf", sv);
+                printf("f_val0 is over 0");
                 servo_pub[i].publish(sv);
                 motor_pub[i].publish(mv);
               }
@@ -104,6 +110,8 @@ int main(int argc, char **argv){
                 std_msgs::Float32 mv;
                 sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y);
                 mv.data=-f_val1*(ws_pos[i][1]-center_y)/center_y;
+                // printf("f_val0 is under 0 %lf", sv);
+                printf("f_val0 is under 0 ");
                 servo_pub[i].publish(sv);
                 motor_pub[i].publish(mv);
               }
