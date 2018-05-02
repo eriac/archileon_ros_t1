@@ -12,7 +12,7 @@ move_speed = 0.05
 move_curve = 1 / 0.3
 
 while not rospy.is_shutdown():
-    print("%f", move_speed)
+    # print(move_speed)
     pub_speed.publish(move_speed)
     pub_curve.publish(move_curve)
     rate.sleep()

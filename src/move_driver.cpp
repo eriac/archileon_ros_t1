@@ -44,10 +44,8 @@ int main(int argc, char **argv){
 	servo_pub[1] = n.advertise<std_msgs::Float32>("servo1", 1000);
 	servo_pub[2] = n.advertise<std_msgs::Float32>("servo2", 1000);
 	servo_pub[3] = n.advertise<std_msgs::Float32>("servo3", 1000);
-	servo_pub[4] = n.advertise<std_msgs::Float32>("servo4", 1000);
+  servo_pub[4] = n.advertise<std_msgs::Float32>("servo4", 1000);
 	servo_pub[5] = n.advertise<std_msgs::Float32>("servo5", 1000);
-  servo_pub[6] = n.advertise<std_msgs::Float32>("tube0", 1000);
-	servo_pub[7] = n.advertise<std_msgs::Float32>("tube1", 1000);
 	motor_pub[0] = n.advertise<std_msgs::Float32>("motor0", 1000);
 	motor_pub[1] = n.advertise<std_msgs::Float32>("motor1", 1000);
 	motor_pub[2] = n.advertise<std_msgs::Float32>("motor2", 1000);
@@ -85,33 +83,33 @@ int main(int argc, char **argv){
                 servo_pub[i].publish(sv);
                 motor_pub[i].publish(mv);
               }
-              else if(4 =< i) {
+              else if(4 <= i) {
                 std_msgs::Float32 sv;
-                std_msgs::Float32 mv;
-                rad=atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]);
-                rad = (rad /2 ) + rad
-                sv.data=rad;
-                mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                sv.data=atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]) + atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]) / 2;
                 servo_pub[i].publish(sv);
-                motor_pub[i].publish(mv);
+                // motor_pub[i].publish(mv);
               }
-
-
             }
-            for(int i=6; i <8; i++){
-                servo_pub[i].publish(ss+2/ss);
-            }
+
 
         }
         else{
             float center_y=1/f_val0;
             for(int i=0;i<6;i++){
+              if(i < 4){
                 std_msgs::Float32 sv;
                 std_msgs::Float32 mv;
                 sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y);
                 mv.data=-f_val1*(ws_pos[i][1]-center_y)/center_y;
                 servo_pub[i].publish(sv);
                 motor_pub[i].publish(mv);
+              }
+              else if(4 <= i){
+                std_msgs::Float32 sv;
+                sv.data=atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]) + atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]) / 2;
+                servo_pub[i].publish(sv);
+                // motor_pub[i].publish(mv);
+              }
             }
         }
 

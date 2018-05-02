@@ -37,8 +37,6 @@
     <remap from="motor1" to="pif/FR/motor"/>
     <remap from="motor2" to="pif/BL/motor"/>
     <remap from="motor3" to="pif/BR/motor"/>
-    <remap from="tube0"  to="pif/BL/servo2"/>
-    <remap from="tube1"  to="pif/BR/servo2"/>
   </node>
 
   <group if="$(arg vive)">
