@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 
 
 
-	ros::Rate loop_rate(10);
+	ros::Rate loop_rate(100);
 	while (ros::ok()){
         //線の設定
         visualization_msgs::Marker line_strip;

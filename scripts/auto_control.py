@@ -9,8 +9,8 @@ import time
 
 x = Symbol("x")
 y = Symbol("y")
-world_target_position = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0)]
-move_speed = 0.1
+world_target_position = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5), (0, 3.0), (-0.5, 3.5),(0, 4.0)]
+move_speed = 0.5
 
 class timer:
     def set_time(self, time):
@@ -18,30 +18,32 @@ class timer:
     def start_time(self, time):
         self.start = time
 
+set_time = 0
+start_time = 0
+
 def callback(msg):
     if world_target_position == []:
         print("END OF POSITION")
     if (timer.set <= (time.time() - timer.start)):
+    # if (set_time <= (time.time() - start_time)):
+
+        print("//////////////////////////////////////////////////////")
         print("callback")
         print(timer.set -((time.time() + timer.start)))
-
-        world_x = msg.data[0]
-        world_y = msg.data[1]
+        print(" ")
+        world_rob_target_x = msg.data[0]
+        world_rob_target_y = msg.data[1]
         world_theta = msg.data[2]
 
-        print("world_x")
-        print(world_x)
-        print("world_y")
-        print(world_y)
+        print("world_rob_target_x " + str(world_rob_target_x))
+        print("world_rob_target_y " + str(world_rob_target_y))
+        print(" ")
 
-        print("world_target_position x ")
-        print(world_target_position[0][0])
-
-        print("world_target_position y ")
-        print(world_target_position[0][1])
-
-        pr_x = world_target_position[0][0] - world_x
-        pr_y = world_target_position[0][1] - world_y
+        print("world_target_position x " + str(world_target_position[0][0]))
+        print("world_target_position y " + str(world_target_position[0][1]))
+        print(" ")
+        pr_x = world_target_position[0][0] - world_rob_target_x
+        pr_y = world_target_position[0][1] - world_rob_target_y
 
 
         world_target_position.pop(0)
@@ -52,49 +54,48 @@ def callback(msg):
 
         reverse_rotate = np.array([[cos, sin], [-sin, cos]])
         rob_target_position = np.dot(reverse_rotate, pr)
-        x = rob_target_position[0]
-        y = rob_target_position[1]
+        rob_target_x = rob_target_position[0]
+        rob_target_y = rob_target_position[1]
 
-        print("x value is " + str(x))
-        print("y value is " + str(y))
-
+        print("rob_target_x  is " + str(rob_target_x))
+        print("rob_target_y  is " + str(rob_target_y))
+        print(" ")
 
         # x**2 + (y - a)**2 = a**2
-        a = (x**2 + y**2)/ (2 * y)
+        a = (rob_target_x**2 + rob_target_y**2)/ (2 * rob_target_y)
         move_curve = a
 
-        print("y is " + str(y))
         print("a is " + str(a))
-
-        if y == a:
+        print(" ")
+        if rob_target_y == a:
             rad = math.pi / 2
-        elif y < a:
-            rad = math.atan2((a-y), x)
+        elif rob_target_y < a:
+            rad = math.atan2((a - rob_target_y), rob_target_x)
             # rad = math.atan2((a-y)/x)
-        elif a < y:
-            rad = math.atan2((y-a), x)
+        elif a < rob_target_y:
+            rad = math.atan2((rob_target_y - a), rob_target_x)
 
-        print("RADIAN")
-        print(math.degrees(rad))
+        print("RADIAN " +str(math.degrees(rad)))
+        print(" ")
+
         arc_circle = 2 * a * math.pi * (math.degrees(rad)/360)
-
-        print("ARC CIRCLE")
-        print(arc_circle)
+        print("ARC CIRCLE " + str(arc_circle))
+        print(" ")
 
         move_time = arc_circle / move_speed
         timer.set_time(move_time)
-        print("SET TIME")
-        print(timer.set)
+        print("SET TIME " + str(move_time))
+        print(" ")
 
-        print("MOVE CURVE")
-        print(move_curve)
+        print("MOVE CURVE " + str(1 / move_curve))
+        print(" ")
 
         pub_curve.publish(1 / move_curve)
         timer.start_time(time.time())
 
-        print("START TIME")
-        print(timer.start)
-
+        print("START TIME " + str(timer.start))
+        print(" ")
+        print("//////////////////////////////////////////////////////")
         # print("x value is " + str(x))
         # print("y value is " + str(y))
         # print("theta value is " + str(world_theta))
