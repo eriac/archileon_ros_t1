@@ -10,7 +10,7 @@ import time
 x = Symbol("x")
 y = Symbol("y")
 world_target_position = [(1.0, 1.0), (0, 2.0), (-1, 3.0), (0, 4.0), (1, 5.0)]
-move_speed = 0.5
+move_speed = 0.05
 
 class timer:
     def set_time(self, time):
@@ -31,26 +31,26 @@ def callback(msg):
         print("callback")
         print(timer.set -((time.time() + timer.start)))
         print(" ")
-        world_rob_target_x = msg.data[0]
-        world_rob_target_y = msg.data[1]
-        world_theta = msg.data[2]
+        world_rob_x = msg.data[0]
+        world_rob_y = msg.data[1]
+        world_rob_theta = msg.data[2]
 
-        print("world_rob_target_x " + str(world_rob_target_x))
-        print("world_rob_target_y " + str(world_rob_target_y))
+        print("world_rob_x " + str(world_rob_x))
+        print("world_rob_y " + str(world_rob_y))
         print(" ")
 
         print("world_target_position x " + str(world_target_position[0][0]))
         print("world_target_position y " + str(world_target_position[0][1]))
         print(" ")
-        pr_x = world_target_position[0][0] - world_rob_target_x
-        pr_y = world_target_position[0][1] - world_rob_target_y
+        pr_x = world_target_position[0][0] - world_rob_x
+        pr_y = world_target_position[0][1] - world_rob_y
 
 
         world_target_position.pop(0)
         pr = np.array([pr_x, pr_y])
 
-        cos = np.cos(world_theta)
-        sin = np.sin(world_theta)
+        cos = np.cos(world_rob_theta)
+        sin = np.sin(world_rob_theta)
 
         reverse_rotate = np.array([[cos, sin], [-sin, cos]])
         rob_target_position = np.dot(reverse_rotate, pr)
