@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#coding: UTF-8
 import rospy
 from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
@@ -22,7 +23,7 @@ set_time = 0
 start_time = 0
 
 def callback(msg):
-    if world_target_position == []:
+    if world_target_position is []:
         print("END OF POSITION")
     if (timer.set <= (time.time() - timer.start)):
     # if (set_time <= (time.time() - start_time)):
@@ -75,15 +76,15 @@ def callback(msg):
         elif a < rob_target_y:
             rad = math.atan2((rob_target_y - a), rob_target_x)
 
-        print("RADIAN " +str(math.degrees(rad)))
+        print("角度 " +str(math.degrees(rad)))
         arc_circle = 2 * a * math.pi * (math.degrees(rad)/360)
 
-        print("ARC CIRCLE " + str(arc_circle))
+        print("円弧の長さ " + str(arc_circle))
         move_time = arc_circle / move_speed
         timer.set_time(move_time)
         print("SET TIME " + str(move_time))
 
-        print("MOVE CURVE " + str(1 / move_curve))
+        print("曲率" + str(1 / move_curve))
         pub_curve.publish(1 / move_curve)
         timer.start_time(time.time())
 
@@ -92,10 +93,11 @@ def callback(msg):
         # print("x value is " + str(x))
         # print("y value is " + str(y))
         # print("theta value is " + str(world_theta))
-
-
     else:
         pass
+
+
+
 
 
 timer = timer()
