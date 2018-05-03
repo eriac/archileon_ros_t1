@@ -11,7 +11,7 @@ import time
 x = Symbol("x")
 y = Symbol("y")
 world_target_position = [(1.0, 1.0), (0, 2.0), (-1, 3.0), (0, 4.0), (1, 5.0)]
-move_speed = 0.05
+move_speed = 0.
 
 class timer:
     def set_time(self, time):
@@ -90,11 +90,18 @@ def callback(msg):
 
         print("曲率" + str(1.0 / move_curve))
         # pub_curve.publish(1 / move_curve)
-        pub_curve[0].publish(1.0 / move_curve)
+        # pub_curve[0].publish(1.0 / move_curve)
         timer.start_time(time.time())
-        pub_curve[1].publish(1.0 / move_curve)
-        pub_curve[2].publish(1.0 / move_curve)
-        pub_curve[3].publish(1.0 / move_curve)
+
+        # pub_curve[1].publish(1.0 / move_curve)
+        # pub_curve[2].publish(1.0 / move_curve)
+        # pub_curve[3].publish(1.0 / move_curve)
+
+
+        rate = rospy.Rate(4)
+        while not rospy.is_shutdown():
+            pub_curve.publish(1.0 / move_curve)
+            rate.sleep()
 
 
         print("START TIME " + str(timer.start))
@@ -162,13 +169,18 @@ def callback(msg):
             print("動いてほしい時間 " + str(move_time))
 
             print("曲率" + str(1.0 / move_curve))
-            # pub_curve.publish(1 / move_curve)
-            pub_curve[0].publish(1.0 / move_curve)
+            # pub_curve.publish(1 / move_curve0)
+            # pub_curve[0].publish(1.0 / move_curve)
             timer.start_time(time.time())
-            pub_curve[1].publish(1.0 / move_curve)
-            pub_curve[2].publish(1.0 / move_curve)
-            pub_curve[3].publish(1.0 / move_curve)
+            # pub_curve[1].publish(1.0 / move_curve)
+            # pub_curve[2].publish(1.0 / move_curve)
+            # pub_curve[3].publish(1.0 / move_curve)
 
+
+            rate = rospy.Rate(4)
+            while not rospy.is_shutdown():
+                pub_curve.publish(1.0 / move_curve)
+                rate.sleep()
 
             print("START TIME " + str(timer.start))
             print("//////////////////////////////////////////////////////")
@@ -187,11 +199,12 @@ timer.start_time(None)
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 
-pub_curve = [0]* 4
-pub_curve[0] = rospy.Publisher('move_curve', Float32, queue_size=1000)
-pub_curve[1] = rospy.Publisher('move_curve', Float32, queue_size=1000)
-pub_curve[2] = rospy.Publisher('move_curve', Float32, queue_size=1000)
-pub_curve[3] = rospy.Publisher('move_curve', Float32, queue_size=1000)
+pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
+# pub_curve = [0]* 4
+# pub_curve[0] = rospy.Publisher('move_curve', Float32, queue_size=1000)
+# pub_curve[1] = rospy.Publisher('move_curve', Float32, queue_size=1000)
+# pub_curve[2] = rospy.Publisher('move_curve', Float32, queue_size=1000)
+# pub_curve[3] = rospy.Publisher('move_curve', Float32, queue_size=1000)
 
 
 sub = rospy.Subscriber("robot_status", Float32MultiArray, callback)
