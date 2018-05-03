@@ -103,9 +103,9 @@ def callback(msg):
         # x**2 + (y - a)**2 = a**2
         a = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
         print("a is " + str(a))
-        move_curve = a
+        print(" ")
 
-        # if  a + 0. 5 == rob_target_y:
+        # if  a  == rob_target_y:
         #     rad = math.pi / 2
         # elif rob_target_y < a:
         #     rad = math.atan2((a - rob_target_y), rob_target_x)
@@ -113,7 +113,16 @@ def callback(msg):
         # elif a < rob_target_y:
         #     rad = math.atan2((rob_target_y - a), rob_target_x)
 
-        rad = math.pi / 2
+        if 0 < rob_target_y:
+            rad = math.atan2(rob_target_x, (a - rob_target_y))
+            # rad = math.atan2((a-y)/x)
+        elif rob_target_y < 0:
+            rad = math.atan2(rob_target_x, (rob_target_y - a))
+
+
+
+        move_curve = a
+        # rad = math.pi / 2
         arc_circle = abs(2 * (move_curve) * math.pi * (math.degrees(rad)/360))
 
         print("円弧の長さ " + str(arc_circle))
