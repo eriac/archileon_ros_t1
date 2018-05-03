@@ -11,7 +11,7 @@ import time
 x = Symbol("x")
 y = Symbol("y")
 world_target_position = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
-move_speed = 0.5
+move_speed = 0.05
 
 class timer:
     def set_time(self, time):
@@ -19,15 +19,18 @@ class timer:
     def start_time(self, time):
         self.start = time
 
-set_time = 0
-start_time = 0
+# set_time = 0
+# start_time = 0
 
 def callback(msg):
     # if world_target_position is []:
     #     print("END OF POSITION")
 
     # if (timer.set is None and timer.start is None):
+    # if set_time <= time.time() - start_time:
+    print((timer.set -((time.time() - timer.start))))
     if (timer.set <= (time.time() - timer.start)):
+
         print("//////////////////////////////////////////////////////")
         print("None callback")
 
@@ -47,6 +50,10 @@ def callback(msg):
         pr_x = world_target_position[0][0] - world_rob_x
         pr_y = world_target_position[0][1] - world_rob_y
 
+        print("pr_x is " + str(pr_x))
+        print("pr_y is " + str(pr_y))
+        print(" ")
+
         print(world_target_position)
         world_target_position.pop(0)
         print(world_target_position)
@@ -54,8 +61,8 @@ def callback(msg):
         pr = np.array([pr_x, pr_y])
 
         if world_rob_theta < 0:
-            world_rob_theta = - world_rob_theta
-            print("world_rob_theta")
+            # world_rob_theta = - world_rob_theta
+            print("world_rob_theta is MINUS")
             print(world_rob_theta)
 
             cos = np.cos(world_rob_theta)
@@ -65,6 +72,7 @@ def callback(msg):
         # if 0 =< world_rob_theta =< math.pi / 2:
         if world_rob_theta >= 0:
 
+            print("world_rob_theta is PLUS")
             cos = np.cos(world_rob_theta)
             sin = np.sin(world_rob_theta)
             reverse_rotate = np.array([[cos, sin], [-sin, cos]])
@@ -118,9 +126,11 @@ def callback(msg):
 
         print("円弧の長さ " + str(arc_circle))
         move_time = arc_circle / move_speed
-        timer.set_time(move_time)
-        print("動いてほしい時間 " + str(move_time))
 
+        timer.set_time(move_time)
+        # set_time = move_time
+
+        print("動いてほしい時間 " + str(move_time))
         print("曲率" + str(1.0 / move_curve))
 
 
@@ -129,9 +139,12 @@ def callback(msg):
         rate = rospy.Rate(4)
         while not rospy.is_shutdown():
             pub_curve.publish(1.0 / move_curve)
+            if count == 0:
+                timer.start_time(time.time())
+                # start_time = time.time()
             count += 1
             if count > 4:
-                timer.start_time(time.time())
+                count =0
                 break
             rate.sleep()
 
@@ -218,8 +231,8 @@ def callback(msg):
 
 
 timer = timer()
-timer.set_time(0)
-timer.start_time(0)
+timer.set_time(0.0)
+timer.start_time(0.0)
 
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
