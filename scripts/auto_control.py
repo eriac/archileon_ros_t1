@@ -10,7 +10,7 @@ import time
 
 x = Symbol("x")
 y = Symbol("y")
-world_target_position = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5), (0, -3.0)]
+world_target_position = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
 move_speed = 0.5
 
 class timer:
@@ -109,8 +109,12 @@ def callback(msg):
 
         rad = math.pi / 2
 
-        print("角度 " +str(math.degrees(rad)))
-        arc_circle = 2 * move_curve * math.pi * (math.degrees(rad)/360)
+
+        if move_curve > 0:
+            print("角度 " +str(math.degrees(rad)))
+            arc_circle = 2 * (move_curve) * math.pi * (math.degrees(rad)/360)
+        if move_curve < 0:
+            arc_circle = 2 * (-move_curve) * math.pi * (math.degrees(rad)/360)
 
         print("円弧の長さ " + str(arc_circle))
         move_time = arc_circle / move_speed
@@ -118,7 +122,7 @@ def callback(msg):
         print("動いてほしい時間 " + str(move_time))
 
         print("曲率" + str(1.0 / move_curve))
-        timer.start_time(time.time())
+
 
 
         count = 0
@@ -127,6 +131,7 @@ def callback(msg):
             pub_curve.publish(1.0 / move_curve)
             count += 1
             if count > 4:
+                timer.start_time(time.time())
                 break
             rate.sleep()
 
