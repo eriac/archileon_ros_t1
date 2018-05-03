@@ -11,7 +11,7 @@ import time
 x = Symbol("x")
 y = Symbol("y")
 world_target_position = [(1.0, 1.0), (0, 2.0), (-1, 3.0), (0, 4.0), (1, 5.0)]
-move_speed = 0.1
+move_speed = 0.05
 
 class timer:
     def set_time(self, time):
@@ -89,7 +89,7 @@ def callback(msg):
         timer.set_time(move_time)
         print("動いてほしい時間 " + str(move_time))
 
-        print("曲率" + str(1 / move_curve))
+        print("曲率" + str(1.0 / move_curve))
         # pub_curve.publish(1 / move_curve)
         pub_curve.publish(1.0 / move_curve)
         timer.start_time(time.time())
@@ -141,7 +141,7 @@ def callback(msg):
             # x**2 + (y - a)**2 = a**2
             a = (rob_target_x**2 + rob_target_y**2)/ (2 * rob_target_y)
 
-            pub_curve.publish(1.0 / a)
+            pub_curve.publish(1 / a)
             move_curve = a
             # move_curve = 1
             print("a is " + str(a))
@@ -162,7 +162,7 @@ def callback(msg):
             timer.set_time(move_time)
             print("動いてほしい時間 " + str(move_time))
 
-            print("曲率" + str(1 / move_curve))
+            print("曲率" + str(1.0 / move_curve))
             # pub_curve.publish(1 / move_curve)
             pub_curve.publish(1.0 / move_curve)
             timer.start_time(time.time())
