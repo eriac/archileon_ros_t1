@@ -36,7 +36,7 @@ int main(int argc, char **argv){
 	ros::NodeHandle n;
 
 	//publish
-    ros::Publisher servo_pub[8];
+    ros::Publisher servo_pub[6];
     ros::Publisher motor_pub[4];
 
 
@@ -91,7 +91,7 @@ int main(int argc, char **argv){
               }
               else if(4 <= i) {
                 std_msgs::Float32 sv;
-                sv.data=atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]) + atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]) / 2;
+                sv.data=atan2(ws_pos[i - 2][0], center_y-ws_pos[i- 2][1]) + (atan2(ws_pos[i- 2][0], center_y-ws_pos[i- 2][1])) / 2;
                 servo_pub[i].publish(sv);
                 // motor_pub[i].publish(mv);
               }
@@ -113,7 +113,7 @@ int main(int argc, char **argv){
               }
               else if(4 <= i){
                 std_msgs::Float32 sv;
-                sv.data=atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]) + atan2(ws_pos[i - 1][0],center_y-ws_pos[i - 1][1]) / 2;
+                sv.data=atan2(ws_pos[i- 2][0], ws_pos[i- 2][1]-center_y) + (atan2(ws_pos[i- 2][0], ws_pos[i- 2][1]-center_y)) / 2;
                 servo_pub[i].publish(sv);
                 // motor_pub[i].publish(mv);
               }

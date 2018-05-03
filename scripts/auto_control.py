@@ -11,7 +11,7 @@ import time
 x = Symbol("x")
 y = Symbol("y")
 world_target_position = [(1.0, 1.0), (0, 2.0), (-1, 3.0), (0, 4.0), (1, 5.0)]
-move_speed = 0.05
+move_speed = 0.5
 
 class timer:
     def set_time(self, time):
