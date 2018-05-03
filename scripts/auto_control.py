@@ -53,10 +53,22 @@ def callback(msg):
 
         pr = np.array([pr_x, pr_y])
 
+        if world_rob_theta < 0:
+            world_rob_theta = - world_rob_theta
+            print("world_rob_theta")
+            print(world_rob_theta)
+
+            cos = np.cos(world_rob_theta)
+            sin = np.sin(world_rob_theta)
+
+            reverse_rotate = np.array([[cos, -sin], [sin, cos]])
         # if 0 =< world_rob_theta =< math.pi / 2:
-        cos = np.cos(world_rob_theta)
-        sin = np.sin(world_rob_theta)
-        reverse_rotate = np.array([[cos, sin], [-sin, cos]])
+        if world_rob_theta >= 0:
+
+            cos = np.cos(world_rob_theta)
+            sin = np.sin(world_rob_theta)
+            reverse_rotate = np.array([[cos, sin], [-sin, cos]])
+
 
 
 
@@ -79,13 +91,10 @@ def callback(msg):
         print(" ")
 
         # x**2 + (y - a)**2 = a**2
-        a = (rob_target_x**2 + rob_target_y**2)/ (2 * rob_target_y)
+        a = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
         print("a is " + str(a))
+        move_curve = a
 
-        if a > 0:
-            move_curve = a
-        if a < 0:
-            move_curve = -a
 
         print("a is " + str(a))
         print(" ")
