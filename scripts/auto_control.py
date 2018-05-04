@@ -19,8 +19,7 @@ class timer:
         self.start = time
 
 def callback(msg):
-
-    # print((timer.set -((time.time() - timer.start))))
+    print((timer.set -((time.time() - timer.start))))
     if (timer.set <= (time.time() - timer.start)):
         print("//////////////////////////////////////////////////////")
         print("Callback")
@@ -85,7 +84,6 @@ def callback(msg):
             rad == 0
         elif 0 < rob_target_y:
             rad = math.atan2(rob_target_x, (radius - rob_target_y))
-            # rad = math.atan2((a-y)/x)
         elif rob_target_y < 0:
             rad = math.atan2(rob_target_x, (rob_target_y - radius))
 
@@ -104,13 +102,13 @@ def callback(msg):
         rate = rospy.Rate(3)
         while not rospy.is_shutdown():
             pub_curve.publish(1.0 / move_curve)
-                # start_time = time.time()
             count += 1
             if count == 3:
-                timer.start_time(time.time() + 1)
+                timer.start_time(time.time())
                 break
             rate.sleep()
 
+        print("//////////////////////////////////////////////////////")
 
 timer = timer()
 timer.set_time(0.0)
