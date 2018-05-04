@@ -132,7 +132,8 @@ def callback(msg):
     rate = rospy.Rate(5)
     while not rospy.is_shutdown():
         pub_curve.publish(1.0 / now_move_curve.move_curve)
-        if count == 5:
+        if count >= 4:
+            print("break")
             break
         count +=1
         rate.sleep()
