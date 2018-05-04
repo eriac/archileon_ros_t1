@@ -36,8 +36,7 @@ class now_move_curve:
 
 def judge_rob_is_goal(temporal_world_rob_x, temporal_world_rob_y):
     result = False
-    if abs(temporal_world_rob_x - world_target_goal_point.x) <= 0.01 and
-    abs(temporal_world_rob_y - world_target_goal_point.y) <= 0.01:
+    if abs(temporal_world_rob_x - world_target_goal_point.x) <= 0.01 and abs(temporal_world_rob_y - world_target_goal_point.y) <= 0.01:
         result = True
     return result
 
@@ -127,17 +126,10 @@ def callback(msg):
             now_move_curve.set_move_curve(move_curve)
             world_target_goal_point.set_point(world_target_pos_list[0][0],world_target_pos_list[0][1])
             world_target_pos_list.pop(0)
-    cal_counter.set_count(1)
 
-    count = 0
-    rate = rospy.Rate(5)
-    while not rospy.is_shutdown():
-        pub_curve.publish(1.0 / now_move_curve.move_curve)
-        if count >= 4:
-            print("break")
-            break
-        count +=1
-        rate.sleep()
+    cal_counter.set_count(1)
+    pub_curve.publish(1.0 / now_move_curve.move_curve)
+    pub_speed.publish(move_speed)
 
 cal_counter = cal_counter()
 now_move_curve = now_move_curve()
@@ -150,7 +142,4 @@ rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
 sub = rospy.Subscriber("robot_status", Float32MultiArray, callback)
-rate = rospy.Rate(1)
-while not rospy.is_shutdown():
-    pub_speed.publish(move_speed)
-    rate.sleep()
+rospy.spin()
