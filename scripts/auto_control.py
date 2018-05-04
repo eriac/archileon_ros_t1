@@ -18,19 +18,12 @@ class timer:
     def start_time(self, time):
         self.start = time
 
-# set_time = 0
-# start_time = 0
-
 def callback(msg):
-    # if world_target_position is []:
-    #     print("END OF POSITION")
-
 
     # print((timer.set -((time.time() - timer.start))))
     if (timer.set <= (time.time() - timer.start)):
-
         print("//////////////////////////////////////////////////////")
-        print("None callback")
+        print("Callback")
 
         print(" ")
         world_rob_x = msg.data[0]
@@ -55,44 +48,28 @@ def callback(msg):
         print(world_target_position)
         world_target_position.pop(0)
         print(world_target_position)
+        print(" ")
 
         pr = np.array([pr_x, pr_y])
 
         if world_rob_theta < 0:
-            world_rob_theta = - world_rob_theta
             print("world_rob_theta is MINUS")
             print(world_rob_theta)
             print(" ")
-
             cos = np.cos(world_rob_theta)
             sin = np.sin(world_rob_theta)
+            rotate = np.array([[cos, -sin], [sin, cos]])
 
-            reverse_rotate = np.array([[cos, -sin], [sin, cos]])
-        # if 0 =< world_rob_theta =< math.pi / 2:
         if world_rob_theta >= 0:
-
             print("world_rob_theta is PLUS")
             print(world_rob_theta)
             print(" ")
-
             cos = np.cos(world_rob_theta)
             sin = np.sin(world_rob_theta)
-            reverse_rotate = np.array([[cos, sin], [-sin, cos]])
+            rotate = np.array([[cos, sin], [-sin, cos]])
 
 
-
-
-        # if 0 =< world_rob_theta =< math.pi / 2:
-        #     cos = np.cos(world_rob_theta)
-        #     sin = np.sin(world_rob_theta)
-        #     reverse_rotate = np.array([[cos, sin], [-sin, cos]])
-        #
-        # if (-math.pi / 2) =< world_rob_theta < 0:
-        #     cos = np.cos(world_rob_theta)
-        #     sin = np.sin(world_rob_theta)
-        #     reverse_rotate = np.array([[cos, -sin], [sin, cos]])
-
-        rob_target_position = np.dot(reverse_rotate, pr)
+        rob_target_position = np.dot(rotate, pr)
         rob_target_x = rob_target_position[0]
         rob_target_y = rob_target_position[1]
 
@@ -100,58 +77,39 @@ def callback(msg):
         print("rob_target_y  is " + str(rob_target_y))
         print(" ")
 
-        # x**2 + (y - a)**2 = a**2
-        a = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
-        print("a is " + str(a))
+        radius = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
+        print("a is " + str(radius))
         print(" ")
 
-        # if  a  == rob_target_y:
-        #     rad = math.pi / 2
-        # elif rob_target_y < a:
-        #     rad = math.atan2((a - rob_target_y), rob_target_x)
-        #     # rad = math.atan2((a-y)/x)
-        # elif a < rob_target_y:
-        #     rad = math.atan2((rob_target_y - a), rob_target_x)
-
-        if 0 < rob_target_y:
-            rad = math.atan2(rob_target_x, (a - rob_target_y))
+        if rob_target_y == 0:
+            rad == 0
+        elif 0 < rob_target_y:
+            rad = math.atan2(rob_target_x, (radius - rob_target_y))
             # rad = math.atan2((a-y)/x)
         elif rob_target_y < 0:
-            rad = math.atan2(rob_target_x, (rob_target_y - a))
+            rad = math.atan2(rob_target_x, (rob_target_y - radius))
 
-
-
-        move_curve = a
-        # rad = math.pi / 2
-        arc_circle = abs(2 * (move_curve) * math.pi * (math.degrees(rad)/360))
-
-        print("円弧の長さ " + str(arc_circle))
-        move_time = arc_circle / move_speed
-
-        timer.set_time(move_time)
-        # set_time = move_time
-
-        print("動いてほしい時間 " + str(move_time))
+        move_curve = radius
         print("曲率" + str(1.0 / move_curve))
 
+        arc_circle = abs(2 * (move_curve) * math.pi * (math.degrees(rad)/360))
+        print("円弧の長さ " + str(arc_circle))
+
+        move_time = arc_circle / move_speed
+        print("動いてほしい時間 " + str(move_time))
+
+        timer.set_time(move_time)
 
         count = 0
-        rate = rospy.Rate(4)
+        rate = rospy.Rate(3)
         while not rospy.is_shutdown():
             pub_curve.publish(1.0 / move_curve)
-            if count == 0:
-                timer.start_time(time.time())
                 # start_time = time.time()
             count += 1
-            if count > 4:
-                count =0
+            if count == 3:
+                timer.start_time(time.time() + 1)
                 break
             rate.sleep()
-
-        # rospy.spin()
-        print("START TIME " + str(timer.start))
-        print("//////////////////////////////////////////////////////")
-
 
 
 timer = timer()
@@ -160,19 +118,8 @@ timer.start_time(0.0)
 
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
-
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
-# pub_curve = [0]* 4
-# pub_curve[0] = rospy.Publisher('move_curve', Float32, queue_size=1000)
-# pub_curve[1] = rospy.Publisher('move_curve', Float32, queue_size=1000)
-# pub_curve[2] = rospy.Publisher('move_curve', Float32, queue_size=1000)
-# pub_curve[3] = rospy.Publisher('move_curve', Float32, queue_size=1000)
-
-
 sub = rospy.Subscriber("robot_status", Float32MultiArray, callback)
-
-
-
 
 
 rate = rospy.Rate(1)
