@@ -6,60 +6,60 @@ from std_msgs.msg import Float32MultiArray
 import numpy as np
 from sympy import *
 import math
-import time
 
 
-world_target_position = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
+
+world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
 move_speed = 0.1
 
-class timer:
-    def set_time(self, time):
-        self.set = time
-    def start_time(self, time):
-        self.start = time
 
-class world_target_point:
+class world_target_goal_point:
     def set_point(self, x, y):
         self.x = x
         self.y = y
 
-def
+class world_rob_start_point:
+    def set_point(self, x, y):
+        self.x =x
+        self.y =y
 
-def callback(msg):
-    # print((timer.set -((time.time() - timer.start))))
-    # if (timer.set <= (time.time() - timer.start)):
-    world_rob_x = msg.data[0]
-    world_rob_y = msg.data[1]
-    world_rob_theta = msg.data[2]
+class cal_counter:
+    def __init__(self):
+        self.num = 0
+    def set_count(self, num):
+        self.num =num
 
-    if (world_rob_x is world_target_point.x) and (world_rob_y is world_target_point.y):
-        print("//////////////////////////////////////////////////////")
-        print("Callback")
-        print(" ")
+class now_move_curve:
+    def set_move_curve(self, move_curve):
+        self.move_curve = move_curve
+    def get_move_curve(self):
+        return self.move_curve
 
-        world_rob_x = msg.data[0]
-        world_rob_y = msg.data[1]
-        world_rob_theta = msg.data[2]
+def judge_rob_is_goal(temporal_world_rob_x, temporal_world_rob_y):
+    result = False
+    if temporal_world_rob_x is world_target_goal_point.x and temporal_world_rob_y is world_target_goal_point.y:
+        result = True
+    return result
 
-
+def cal_move_curve(world_rob_x, world_rob_y, world_rob_theta):
         print("world_rob_x " + str(world_rob_x))
         print("world_rob_y " + str(world_rob_y))
         print("world_rob_theta " + str(world_rob_theta))
         print(" ")
-
-        print("world_target_position x " + str(world_target_position[0][0]))
-        print("world_target_position y " + str(world_target_position[0][1]))
+        print("world_target_pos_list x " + str(world_target_pos_list[0][0]))
+        print("world_target_pos_list y " + str(world_target_pos_list[0][1]))
         print(" ")
-        pr_x = world_target_position[0][0] - world_rob_x
-        pr_y = world_target_position[0][1] - world_rob_y
+
+        pr_x = world_target_pos_list[0][0] - world_rob_x
+        pr_y = world_target_pos_list[0][1] - world_rob_y
 
         print("pr_x is " + str(pr_x))
         print("pr_y is " + str(pr_y))
         print(" ")
 
-        print(world_target_position)
-        world_target_position.pop(0)
-        print(world_target_position)
+        print(world_target_pos_list)
+        world_target_pos_list.pop(0)
+        print(world_target_pos_list)
         print(" ")
 
         pr = np.array([pr_x, pr_y])
@@ -103,41 +103,51 @@ def callback(msg):
         move_curve = radius
         print("曲率" + str(1.0 / move_curve))
 
-        arc_circle = abs(2 * (move_curve) * math.pi * (math.degrees(rad)/360))
-        print("円弧の長さ " + str(arc_circle))
+        return move_curve
 
-        move_time = arc_circle / move_speed
-        print("動いてほしい時間 " + str(move_time))
+def callback(msg):
+    world_rob_x = msg.data[0]
+    world_rob_y = msg.data[1]
+    world_rob_theta = msg.data[2]
 
-        timer.set_time(move_time)
+    print("world_rob_x " + str(world_rob_x))
+    print("world_rob_y " + str(world_rob_y))
 
-        count = 0
-        rate = rospy.Rate(10)
-        while not rospy.is_shutdown():
-            pub_curve.publish(1.0 / move_curve)
-            if count == 0:
-                print(count)
-                timer.start_time(time.time())
-            count += 1
-            if count > 10:
-                break
-            rate.sleep()
 
-        print("//////////////////////////////////////////////////////")
+    if cal_counter.num == 0:
+        print("First move curve")
+        move_curve = cal_move_curve(world_rob_x, world_rob_y, world_rob_theta)
+        now_move_curve.set_move_curve(move_curve)
+    else:
+        print("Else")
+        if judge_rob_is_goal(world_rob_x, world_rob_y):
+            print("Next move curve")
+            move_curve = cal_move_curve(world_rob_x, world_rob_y, world_rob_theta)
+            now_move_curve.set_move_curve(move_curve)
+            world_target_goal_point.set_point(world_target_pos_list[0][0],world_target_pos_list[0][1])
+            world_target_pos_list.pop(0)
+    cal_counter.set_count(1)
 
-# timer = timer()
-# timer.set_time(0.0)
-# timer.start_time(0.0)
+    count = 0
+    rate = rospy.Rate(5)
+    while not rospy.is_shutdown():
+        pub_curve.publish(1.0 / now_move_curve.get_move_curve())
+        if count == 5:
+            break
+        count +=1
+        rate.sleep()
 
-world_target_point = target_point()
-world_target_point.set_point(world_target_position[0][0],world_target_position[0][1
+cal_counter = cal_counter()
+now_move_curve = now_move_curve()
+
+world_target_goal_point = world_target_goal_point()
+world_target_goal_point.set_point(world_target_pos_list[0][0],world_target_pos_list[0][1])
+world_target_pos_list.pop(0)
 
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
 sub = rospy.Subscriber("robot_status", Float32MultiArray, callback)
-
-
 rate = rospy.Rate(1)
 while not rospy.is_shutdown():
     pub_speed.publish(move_speed)
