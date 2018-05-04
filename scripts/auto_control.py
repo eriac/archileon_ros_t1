@@ -36,7 +36,8 @@ class now_move_curve:
 
 def judge_rob_is_goal(temporal_world_rob_x, temporal_world_rob_y):
     result = False
-    if temporal_world_rob_x is world_target_goal_point.x and temporal_world_rob_y is world_target_goal_point.y:
+    if abs(temporal_world_rob_x - world_target_goal_point.x) <= 0.01 and
+    abs(temporal_world_rob_y - world_target_goal_point.y) <= 0.01:
         result = True
     return result
 
