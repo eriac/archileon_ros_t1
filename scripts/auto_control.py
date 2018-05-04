@@ -109,16 +109,19 @@ def callback(msg):
 
     print("world_rob_x " + str(world_rob_x))
     print("world_rob_y " + str(world_rob_y))
-
+    print(" ")
 
     if cal_counter.num == 0:
         print("First move curve")
+        print(" ")
         move_curve = cal_move_curve(world_rob_x, world_rob_y, world_rob_theta)
         now_move_curve.set_move_curve(move_curve)
     else:
         print("Else")
+        print(" ")
         if judge_rob_is_goal(world_rob_x, world_rob_y):
             print("Calculate the next goal point")
+            print(" ")
             move_curve = cal_move_curve(world_rob_x, world_rob_y, world_rob_theta)
             now_move_curve.set_move_curve(move_curve)
             world_target_goal_point.set_point(world_target_pos_list[0][0],world_target_pos_list[0][1])
