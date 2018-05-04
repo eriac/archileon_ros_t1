@@ -10,7 +10,7 @@ import time
 
 
 world_target_position = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
-move_speed = 0.05
+move_speed = 0.1
 
 class timer:
     def set_time(self, time):
@@ -18,16 +18,29 @@ class timer:
     def start_time(self, time):
         self.start = time
 
+class world_target_point:
+    def set_point(self, x, y):
+        self.x = x
+        self.y = y
+
+def
+
 def callback(msg):
-    print((timer.set -((time.time() - timer.start))))
-    if (timer.set <= (time.time() - timer.start)):
+    # print((timer.set -((time.time() - timer.start))))
+    # if (timer.set <= (time.time() - timer.start)):
+    world_rob_x = msg.data[0]
+    world_rob_y = msg.data[1]
+    world_rob_theta = msg.data[2]
+
+    if (world_rob_x is world_target_point.x) and (world_rob_y is world_target_point.y):
         print("//////////////////////////////////////////////////////")
         print("Callback")
-
         print(" ")
+
         world_rob_x = msg.data[0]
         world_rob_y = msg.data[1]
         world_rob_theta = msg.data[2]
+
 
         print("world_rob_x " + str(world_rob_x))
         print("world_rob_y " + str(world_rob_y))
@@ -99,20 +112,25 @@ def callback(msg):
         timer.set_time(move_time)
 
         count = 0
-        rate = rospy.Rate(3)
+        rate = rospy.Rate(10)
         while not rospy.is_shutdown():
             pub_curve.publish(1.0 / move_curve)
-            count += 1
-            if count == 3:
+            if count == 0:
+                print(count)
                 timer.start_time(time.time())
+            count += 1
+            if count > 10:
                 break
             rate.sleep()
 
         print("//////////////////////////////////////////////////////")
 
-timer = timer()
-timer.set_time(0.0)
-timer.start_time(0.0)
+# timer = timer()
+# timer.set_time(0.0)
+# timer.start_time(0.0)
+
+world_target_point = target_point()
+world_target_point.set_point(world_target_position[0][0],world_target_position[0][1
 
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
