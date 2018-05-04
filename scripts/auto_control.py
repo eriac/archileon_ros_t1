@@ -18,6 +18,7 @@ class world_target_goal_point:
         self.x = x
         self.y = y
 
+
 class world_rob_start_point:
     def set_point(self, x, y):
         self.x =x
@@ -42,68 +43,66 @@ def judge_rob_is_goal(temporal_world_rob_x, temporal_world_rob_y):
     return result
 
 def cal_move_curve(world_rob_x, world_rob_y, world_rob_theta):
-        print("world_rob_x " + str(world_rob_x))
-        print("world_rob_y " + str(world_rob_y))
-        print("world_rob_theta " + str(world_rob_theta))
+    print("world_rob_x " + str(world_rob_x))
+    print("world_rob_y " + str(world_rob_y))
+    print("world_rob_theta " + str(world_rob_theta))
+    print(" ")
+    print("world_target_goal_point.x " + str(world_target_goal_point.x))
+    print("world_target_goal_point.y " + str(world_target_goal_point.y))
+    print(" ")
+
+    pr_x = world_target_goal_point.x - world_rob_x
+    pr_y = world_target_goal_point.y - world_rob_y
+
+    print("pr_x is " + str(pr_x))
+    print("pr_y is " + str(pr_y))
+    print(" ")
+
+    print(world_target_pos_list)
+    print(" ")
+
+    pr = np.array([pr_x, pr_y])
+
+    if world_rob_theta < 0:
+        print("world_rob_theta is MINUS")
+        print(world_rob_theta)
         print(" ")
-        print("world_target_pos_list x " + str(world_target_pos_list[0][0]))
-        print("world_target_pos_list y " + str(world_target_pos_list[0][1]))
+        cos = np.cos(world_rob_theta)
+        sin = np.sin(world_rob_theta)
+        rotate = np.array([[cos, -sin], [sin, cos]])
+
+    if world_rob_theta >= 0:
+        print("world_rob_theta is PLUS")
+        print(world_rob_theta)
         print(" ")
-
-        pr_x = world_target_pos_list[0][0] - world_rob_x
-        pr_y = world_target_pos_list[0][1] - world_rob_y
-
-        print("pr_x is " + str(pr_x))
-        print("pr_y is " + str(pr_y))
-        print(" ")
-
-        print(world_target_pos_list)
-        world_target_pos_list.pop(0)
-        print(world_target_pos_list)
-        print(" ")
-
-        pr = np.array([pr_x, pr_y])
-
-        if world_rob_theta < 0:
-            print("world_rob_theta is MINUS")
-            print(world_rob_theta)
-            print(" ")
-            cos = np.cos(world_rob_theta)
-            sin = np.sin(world_rob_theta)
-            rotate = np.array([[cos, -sin], [sin, cos]])
-
-        if world_rob_theta >= 0:
-            print("world_rob_theta is PLUS")
-            print(world_rob_theta)
-            print(" ")
-            cos = np.cos(world_rob_theta)
-            sin = np.sin(world_rob_theta)
-            rotate = np.array([[cos, sin], [-sin, cos]])
+        cos = np.cos(world_rob_theta)
+        sin = np.sin(world_rob_theta)
+        rotate = np.array([[cos, sin], [-sin, cos]])
 
 
-        rob_target_position = np.dot(rotate, pr)
-        rob_target_x = rob_target_position[0]
-        rob_target_y = rob_target_position[1]
+    rob_target_position = np.dot(rotate, pr)
+    rob_target_x = rob_target_position[0]
+    rob_target_y = rob_target_position[1]
 
-        print("rob_target_x  is " + str(rob_target_x))
-        print("rob_target_y  is " + str(rob_target_y))
-        print(" ")
+    print("rob_target_x  is " + str(rob_target_x))
+    print("rob_target_y  is " + str(rob_target_y))
+    print(" ")
 
-        radius = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
-        print("a is " + str(radius))
-        print(" ")
+    radius = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
+    print("a is " + str(radius))
+    print(" ")
 
-        if rob_target_y == 0:
-            rad == 0
-        elif 0 < rob_target_y:
-            rad = math.atan2(rob_target_x, (radius - rob_target_y))
-        elif rob_target_y < 0:
-            rad = math.atan2(rob_target_x, (rob_target_y - radius))
+    if rob_target_y == 0:
+        rad == 0
+    elif 0 < rob_target_y:
+        rad = math.atan2(rob_target_x, (radius - rob_target_y))
+    elif rob_target_y < 0:
+        rad = math.atan2(rob_target_x, (rob_target_y - radius))
 
-        move_curve = radius
-        print("曲率" + str(1.0 / move_curve))
+    move_curve = radius
+    print("曲率" + str(1.0 / move_curve))
 
-        return move_curve
+    return move_curve
 
 def callback(msg):
     world_rob_x = msg.data[0]
@@ -121,7 +120,7 @@ def callback(msg):
     else:
         print("Else")
         if judge_rob_is_goal(world_rob_x, world_rob_y):
-            print("Next move curve")
+            print("Calculate the next goal point")
             move_curve = cal_move_curve(world_rob_x, world_rob_y, world_rob_theta)
             now_move_curve.set_move_curve(move_curve)
             world_target_goal_point.set_point(world_target_pos_list[0][0],world_target_pos_list[0][1])
