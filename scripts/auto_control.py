@@ -10,7 +10,7 @@ import math
 
 
 world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
-move_speed = 0.1
+move_speed = 0.05
 
 
 class world_target_goal_point:
@@ -33,8 +33,6 @@ class cal_counter:
 class now_move_curve:
     def set_move_curve(self, move_curve):
         self.move_curve = move_curve
-    def get_move_curve(self):
-        return self.move_curve
 
 def judge_rob_is_goal(temporal_world_rob_x, temporal_world_rob_y):
     result = False
@@ -130,7 +128,7 @@ def callback(msg):
     count = 0
     rate = rospy.Rate(5)
     while not rospy.is_shutdown():
-        pub_curve.publish(1.0 / now_move_curve.get_move_curve())
+        pub_curve.publish(1.0 / now_move_curve.move_curve)
         if count == 5:
             break
         count +=1
