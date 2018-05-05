@@ -25,10 +25,10 @@ void speed_callback(const std_msgs::Float32& float_msg){
 }
 //temporal fixed
 float ws_pos[4][2]={
-	{ 0.13, 0.06},//FL
-	{ 0.13,-0.06},//FR
-	{-0.13, 0.06},//BL
-	{-0.13,-0.06} //BR
+	{ 0.13, 0.075},//FL
+	{ 0.13,-0.075},//FR
+	{-0.13, 0.075},//BL
+	{-0.13,-0.075} //BR
 };
 
 int main(int argc, char **argv){
@@ -86,6 +86,24 @@ int main(int argc, char **argv){
                 sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                 mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
                 // printf("f_val0 is over 0 %lf", sv);
+                if (i == 0 ){
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) + 0.0877*2;
+                  mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                }
+                if (i == 1 ){
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877*2;
+                  mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                }
+                if (i == 2 ){
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877;
+                  mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                }
+                if (i == 3 ){
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877 * 1/4;
+                  mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                }
+
+
                 servo_pub[i].publish(sv);
                 motor_pub[i].publish(mv);
               }
@@ -108,6 +126,24 @@ int main(int argc, char **argv){
                 sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y);
                 mv.data=-f_val1*(ws_pos[i][1]-center_y)/center_y;
                 // printf("f_val0 is under 0 %lf", sv);
+                if (i == 0 ){
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) + 0.0877*2;
+                  mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                }
+                if (i == 1 ){
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877*2;
+                  mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                }
+                if (i == 2 ){
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877;
+                  mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                }
+                if (i == 3 ){
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877 * 1/4;
+                  mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+                }
+
+
                 servo_pub[i].publish(sv);
                 motor_pub[i].publish(mv);
               }
