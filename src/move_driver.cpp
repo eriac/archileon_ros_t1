@@ -68,7 +68,6 @@ int main(int argc, char **argv){
             std_msgs::Float32 ms;
             ms.data=f_val1;
             for(int i=0;i<4;i++){
-                // printf("f_val0 is between -0.05 ~ 0.05 %lf", ss);
                 servo_pub[i].publish(ss);
                 motor_pub[i].publish(ms);
             }
@@ -90,31 +89,23 @@ int main(int argc, char **argv){
 
                 if (i == 0 ){
                   sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) + 0.0877*2;
-                  // sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                   float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                  // mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
                   mv.data=f_val1*(real_length-side_length)/real_length;
 
                 }
                 else if (i == 1 ){
                   sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877;
-                  // sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                   float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                  // mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
                   mv.data=f_val1*(side_length - real_length)/real_length;
                 }
                 else if (i == 2 ){
                   sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877;
-                  // sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                   float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                  // mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
                   mv.data=f_val1*(real_length-side_length)/real_length;
                 }
                 else if (i == 3 ){
                   sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877 * 1/4;
-                  // sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                   float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                  // mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
                   mv.data=f_val1*(side_length - real_length)/real_length;
                 }
 
@@ -128,8 +119,6 @@ int main(int argc, char **argv){
                 // motor_pub[i].publish(mv);
               }
             }
-
-
         }
         else{
             float center_y=1/f_val0;
@@ -141,30 +130,25 @@ int main(int argc, char **argv){
               if(i < 4){
                 std_msgs::Float32 sv;
                 std_msgs::Float32 mv;
-                // printf("f_val0 is under 0 %lf", sv);
                 if (i == 0 ){
-                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) + 0.0877*2;
-                  float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                  // mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
-                  mv.data=f_val1*(side_length - real_length)/real_length;
+                  sv.data=-atan2(ws_pos[i][0],center_y-ws_pos[i][1]) + 0.0877*2;
+                  float side_length = sqrt((ws_pos[i][1]-center_y)*(ws_pos[i][1]-center_y) + ws_pos[i][0] * ws_pos[i][0]);
+                  mv.data=-f_val1*(side_length - real_length)/real_length;
                 }
                 else if (i == 1 ){
-                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877*2;
-                  float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                  // mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
-                  mv.data=f_val1*(real_length - side_length)/real_length;
+                  sv.data=-atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877*2;
+                  float side_length = sqrt((ws_pos[i][1]-center_y)*(ws_pos[i][1]-center_y) + ws_pos[i][0] * ws_pos[i][0]);
+                  mv.data=-f_val1*(real_length - side_length)/real_length;
                 }
                 else if (i == 2 ){
-                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877;
-                  float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                  // mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
-                  mv.data=f_val1*(side_length - real_length)/real_length;
+                  sv.data=-atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877;
+                  float side_length = sqrt((ws_pos[i][1]-center_y)*(ws_pos[i][1]-center_y) + ws_pos[i][0] * ws_pos[i][0]);
+                  mv.data=-f_val1*(side_length - real_length)/real_length;
                 }
                 else if (i == 3 ){
-                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877 * 1/4;
-                  float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                  // mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
-                  mv.data=f_val1*(real_length - side_length)/real_length;
+                  sv.data=-atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877 * 1/4;
+                  float side_length = sqrt((ws_pos[i][1]-center_y)*(ws_pos[i][1]-center_y) + ws_pos[i][0] * ws_pos[i][0]);
+                  mv.data=-f_val1*(real_length - side_length)/real_length;
                 }
                 servo_pub[i].publish(sv);
                 motor_pub[i].publish(mv);
@@ -173,7 +157,6 @@ int main(int argc, char **argv){
                 std_msgs::Float32 sv;
                 sv.data=atan2(ws_pos[i- 2][0], ws_pos[i- 2][1]-center_y) + (atan2(ws_pos[i- 2][0], ws_pos[i- 2][1]-center_y)) / 2;
                 servo_pub[i].publish(sv);
-                // motor_pub[i].publish(mv);
               }
             }
         }

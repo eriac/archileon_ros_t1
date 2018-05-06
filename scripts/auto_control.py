@@ -8,9 +8,9 @@ from sympy import *
 import math
 
 
-world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5), (0, 3.0), (-0.5, 3.5), (0, 4.0)]
-# world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
-move_speed = 0.01
+# world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5), (0, 3.0), (-0.5, 3.5), (0, 4.0)]
+world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
+move_speed = 1
 
 class world_target_goal_point:
     def set_point(self, x, y):
@@ -31,11 +31,12 @@ def judge_rob_is_goal(temporal_world_rob_x, temporal_world_rob_y, world_goal_x, 
     result = False
     # print("judge_rob_is_goal function")
     diff_x = abs(temporal_world_rob_x - world_goal_x)
-    # print(diff_x)
     diff_y = abs(temporal_world_rob_y - world_goal_y)
+    # print(diff_x)
     # print(diff_y)
-    # print(" ")
-    if diff_x <= 0.01 and diff_y <= 0.01:
+    print(math.sqrt(diff_x**2+diff_y**2))
+    print(" ")
+    if math.sqrt(diff_x**2+diff_y**2) <= 0.058:
         print("diff_x is " + str(abs(temporal_world_rob_x - world_goal_x)))
         print("diff_y is " + str(abs(temporal_world_rob_y - world_goal_y)))
         result = True
