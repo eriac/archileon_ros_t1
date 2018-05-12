@@ -8,9 +8,9 @@ from sympy import *
 import math
 
 
-# world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5), (0, 3.0), (-0.5, 3.5), (0, 4.0)]
-world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
-move_speed = 1
+world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5), (0, 3.0), (-0.5, 3.5), (0, 4.0)]
+# world_target_pos_list = [(0.5, 0.5), (0, 1.0), (-0.5, 1.5), (0, 2.0), (0.5, 2.5)]
+move_speed = 0.1
 
 class world_target_goal_point:
     def set_point(self, x, y):
@@ -20,26 +20,26 @@ class world_target_goal_point:
 class cal_counter:
     def __init__(self):
         self.num = 0
-    def set_count(self, num):
-        self.num =num
+    def add_count(self):
+        self.num += 1
+    def reset_num(self):
+        self.num = 0
 
 class now_move_curve:
     def set_move_curve(self, move_curve):
         self.move_curve = move_curve
 
+
 def judge_rob_is_goal(temporal_world_rob_x, temporal_world_rob_y, world_goal_x, world_goal_y):
     result = False
-    # print("judge_rob_is_goal function")
-    diff_x = abs(temporal_world_rob_x - world_goal_x)
-    diff_y = abs(temporal_world_rob_y - world_goal_y)
-    # print(diff_x)
-    # print(diff_y)
-    print(math.sqrt(diff_x**2+diff_y**2))
-    print(" ")
-    if math.sqrt(diff_x**2+diff_y**2) <= 0.058:
-        print("diff_x is " + str(abs(temporal_world_rob_x - world_goal_x)))
-        print("diff_y is " + str(abs(temporal_world_rob_y - world_goal_y)))
-        result = True
+    diff_x = abs(world_goal_x - temporal_world_rob_x)
+    diff_y = abs(world_goal_y - temporal_world_rob_y)
+    if cal_counter.num %2 == 1:
+        if diff_y <= 0.005:
+            result = True
+    else:
+        if diff_x <= 0.005:
+            result = True
     return result
 
 def cal_move_curve(world_rob_x, world_rob_y, world_rob_theta):
@@ -47,7 +47,6 @@ def cal_move_curve(world_rob_x, world_rob_y, world_rob_theta):
     print(" ")
     print("world_rob_x " + str(world_rob_x))
     print("world_rob_y " + str(world_rob_y))
-    print("world_rob_theta " + str(world_rob_theta))
     print(" ")
 
     goal_x,goal_y = world_target_pos_list[0][0],world_target_pos_list[0][1]
@@ -90,7 +89,7 @@ def cal_move_curve(world_rob_x, world_rob_y, world_rob_theta):
     print(" ")
 
     radius = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
-    print("a is " + str(radius))
+    print("radius is " + str(radius))
 
     if rob_target_y == 0:
         rad == 0
@@ -109,10 +108,6 @@ def callback(msg):
     world_rob_y = msg.data[1]
     world_rob_theta = msg.data[2]
 
-    # print("world_rob_x " + str(world_rob_x))
-    # print("world_rob_y " + str(world_rob_y))
-    # print("world_rob_theta " + str(world_rob_theta))
-    # print(" ")
 
     if cal_counter.num == 0:
         print("/////////////////////////////////////////////////")
@@ -127,8 +122,11 @@ def callback(msg):
             print(" ")
             move_curve = cal_move_curve(world_rob_x, world_rob_y, world_rob_theta)
             now_move_curve.set_move_curve(move_curve)
+            cal_counter.add_count()
 
-    cal_counter.set_count(1)
+    if cal_counter.num == 0:
+        cal_counter.add_count()
+
     pub_curve.publish(1.0 / now_move_curve.move_curve)
     pub_speed.publish(move_speed)
 
