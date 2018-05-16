@@ -88,23 +88,23 @@ int main(int argc, char **argv){
                 std_msgs::Float32 mv;
 
                 if (i == 0 ){
-                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) + 0.0877*2;
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                   float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
                   mv.data=f_val1*(real_length-side_length)/real_length;
 
                 }
                 else if (i == 1 ){
-                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877;
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                   float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
                   mv.data=f_val1*(side_length - real_length)/real_length;
                 }
                 else if (i == 2 ){
-                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877;
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                   float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
                   mv.data=f_val1*(real_length-side_length)/real_length;
                 }
                 else if (i == 3 ){
-                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]) - 0.0877 * 1/4;
+                  sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
                   float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
                   mv.data=f_val1*(side_length - real_length)/real_length;
                 }
@@ -131,22 +131,22 @@ int main(int argc, char **argv){
                 std_msgs::Float32 sv;
                 std_msgs::Float32 mv;
                 if (i == 0 ){
-                  sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]- center_y) + 0.0877*2;
+                  sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]- center_y);
                   float side_length = sqrt((ws_pos[i][1]-center_y)*(ws_pos[i][1]-center_y) + ws_pos[i][0] * ws_pos[i][0]);
                   mv.data=f_val1*(side_length - real_length)/real_length;
                 }
                 else if (i == 1 ){
-                  sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y) - 0.0877*2;
+                  sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y);
                   float side_length = sqrt((ws_pos[i][1]-center_y)*(ws_pos[i][1]-center_y) + ws_pos[i][0] * ws_pos[i][0]);
                   mv.data=f_val1*(real_length - side_length)/real_length;
                 }
                 else if (i == 2 ){
-                  sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y) - 0.0877;
+                  sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y);
                   float side_length = sqrt((ws_pos[i][1]-center_y)*(ws_pos[i][1]-center_y) + ws_pos[i][0] * ws_pos[i][0]);
                   mv.data=f_val1*(side_length - real_length)/real_length;
                 }
                 else if (i == 3 ){
-                  sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y) - 0.0877 * 1/4;
+                  sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y);
                   float side_length = sqrt((ws_pos[i][1]-center_y)*(ws_pos[i][1]-center_y) + ws_pos[i][0] * ws_pos[i][0]);
                   mv.data=f_val1*(real_length - side_length)/real_length;
                 }
