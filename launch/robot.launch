@@ -109,22 +109,22 @@
 
   <node name="FL_motor" pkg="archileon_ros_t1" type="pif_motor">
     <param name="ID" value="FL"/>
-    <param name="ACC" value="-1.0"/>
+    <param name="ACC" value="-2.0"/>
     <remap from="motor" to="pif/FL/motor"/>
   </node>
   <node name="FR_motor" pkg="archileon_ros_t1" type="pif_motor">
     <param name="ID" value="FR"/>
-    <param name="ACC" value="1.0"/>
+    <param name="ACC" value="2.0"/>
     <remap from="motor" to="pif/FR/motor"/>
   </node>
   <node name="BL_motor" pkg="archileon_ros_t1" type="pif_motor">
     <param name="ID" value="BL"/>
-    <param name="ACC" value="-1.0"/>
+    <param name="ACC" value="-2.0"/>
     <remap from="motor" to="pif/BL/motor"/>
   </node>
   <node name="BR_motor" pkg="archileon_ros_t1" type="pif_motor">
     <param name="ID" value="BR"/>
-    <param name="ACC" value="1.0"/>
+    <param name="ACC" value="2.0"/>
     <remap from="motor" to="pif/BR/motor"/>
   </node>
 
