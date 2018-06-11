@@ -65,19 +65,14 @@ int main(int argc, char **argv)
 	ros::Publisher map_pub = n.advertise<std_msgs::Float32MultiArray>("map_data", 10,true);
 
 	std_msgs::Float32MultiArray map_data;
-	// for(int i=0;i<MAP_SIZE;i++){
-	// 	map_data.data.push_back(map_points[i][0]);
-	// 	map_data.data.push_back(map_points[i][1]);
-	// }
-	// map_pub.publish(map_data);
+	for(int i=0;i<MAP_SIZE;i++){
+		map_data.data.push_back(map_points[i][0]);
+		map_data.data.push_back(map_points[i][1]);
+	}
+	map_pub.publish(map_data);
 
 	ros::Rate loop_rate(10);
 	while (ros::ok()){
-		for(int i=0;i<MAP_SIZE;i++){
-			map_data.data.push_back(map_points[i][0]);
-			map_data.data.push_back(map_points[i][1]);
-		}
-		map_pub.publish(map_data);
 		ros::spinOnce();
 		loop_rate.sleep();
 	}

@@ -17,14 +17,14 @@ while line:
     point_list.append(line)
 
 new_list = []
-for i in range(1712):
+for i in range(1713):
     new_list.append(point_list[i].strip().strip(" ,"))
 
 map_points=[]
-for i in range(1712):
+for i in range(1713):
     xy_list =[]
     x = float(new_list[i][1:new_list[i].index(",")])*0.01
-    y = float(new_list[0][new_list[0].index(",")+1: new_list[0].index("]")])*0.01
+    y = float(new_list[i][new_list[i].index(",")+1: new_list[i].index("]")])*0.01
     xy_list.append(x)
     xy_list.append(y)
     map_points.append(xy_list)
@@ -35,9 +35,11 @@ rospy.init_node("map_publisher")
 map_pub = rospy.Publisher("map_data", Float32MultiArray, queue_size=10)
 rate = rospy.Rate(10)
 
+for i in range(len(map_points)):
+    map_data.data.append(map_points[i][0])
+    map_data.data.append(map_points[i][1])
+map_pub.publish(map_data)
+
 while not rospy.is_shutdown():
-    for i in range(1712):
-        map_data.data.append(map_points[i][0])
-        map_data.data.append(map_points[i][1])
     map_pub.publish(map_data)
     rate.sleep()

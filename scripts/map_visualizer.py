@@ -20,13 +20,12 @@ def map_callback(float_array):
     line_strip.color.b = 1.0
     line_strip.color.a = 1.0
 
-    for i in range(1712):
+    for i in range(int(len(map_data.data.data)/2)):
         point = Point()
         point.x = float(map_data.data.data[i*2+0])
         point.y = float(map_data.data.data[i*2+1])
         point.z = float(0.0)
         line_strip.points.append(point)
-
     marker_pub.publish(line_strip)
 
 
