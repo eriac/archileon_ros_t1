@@ -69,8 +69,12 @@
   </node>
 
 
-  <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
-  <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher" />
+  <!-- <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" /> -->
+  <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer.py" output="screen"/>
+
+  <!-- <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher" /> -->
+  <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher.py" />
+
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
@@ -130,6 +134,8 @@
 
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
   <node name="auto_control" pkg="archileon_ros_t1" type="auto_control.py" output="screen"/>
+
+
   <!-- TEST FOR TF -->
   <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
 

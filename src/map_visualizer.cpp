@@ -1,13 +1,10 @@
 #include "ros/ros.h"
-
 #include "std_msgs/Float32.h"
 #include "std_msgs/Float32MultiArray.h"
 #include "sensor_msgs/Joy.h"
 #include "sensor_msgs/JointState.h"
 #include <tf/transform_broadcaster.h>
-
 #include <visualization_msgs/Marker.h>
-
 #include "math.h"
 #include <sstream>
 #include <string>
@@ -26,11 +23,8 @@ int main(int argc, char **argv)
 
 	//publish
 	ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("map_vis", 10);
-    //subscribe
+  //subscribe
   ros::Subscriber canin_sub = n.subscribe("map_data", 10, map_callback);
-
-
-
 
 
 	ros::Rate loop_rate(100);

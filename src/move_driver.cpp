@@ -24,11 +24,13 @@ void speed_callback(const std_msgs::Float32& float_msg){
     else speed_value=float_msg.data;
 }
 //temporal fixed
-float ws_pos[4][2]={
+float ws_pos[6][2]={
 	{ 0.13, 0.075},//FL
 	{ 0.13,-0.075},//FR
 	{-0.13, 0.075},//BL
-	{-0.13,-0.075} //BR
+	{-0.13,-0.075}, //BR
+	{-0.23, 0.075}, //BL_nozuru
+	{-0.23,-0.075} //BR_nozuru
 };
 
 int main(int argc, char **argv){
