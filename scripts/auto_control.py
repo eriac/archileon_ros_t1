@@ -144,18 +144,27 @@ def position_callback(msg):
 
             if line_length > 0.01:
                 print("line_length is over 0.01")
-                move_curve = 0.3
+                world_target_x = main_points[counter.global_num][0]
+                world_target_y = main_points[counter.global_num][1]
+
+                move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
                 for i in range(3):
                     pub_curve.publish(1.0 / move_curve)
                     pub_speed.publish(move_speed)
+
                 switch.state = True
 
             elif line_length < -0.01:
                 print("line_length is over 0.01")
-                move_curve = -0.3
+                world_target_x = main_points[counter.global_num][0]
+                world_target_y = main_points[counter.global_num][1]
+
+
+                move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
                 for i in range(3):
                     pub_curve.publish(1.0 / move_curve)
                     pub_speed.publish(move_speed)
+
                 switch.state = True
 
 
