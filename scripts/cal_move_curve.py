@@ -1,5 +1,6 @@
 def cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y):
     import numpy as np
+
     pr_x = world_target_x - world_rob_x
     pr_y = world_target_y - world_rob_y
     pr = np.array([pr_x, pr_y])
@@ -26,7 +27,10 @@ def cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_
     print("rob_target_y  is " + str(rob_target_y))
     print(" ")
 
+
     radius = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
+    if radius > 1000000:
+        radius = 100000
     print("radius is " + str(radius))
 
 
