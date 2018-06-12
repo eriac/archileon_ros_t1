@@ -16,14 +16,15 @@ move_speed = 0.1
 class Counter():
     def __init__(self):
         self.num = 0
+        self.global_num = 0
+
 class Switch():
     def __init__(self):
         self.state = False
 
 main_points=[[1.0,0.0], [1.5,0.5],[1.0, 1.0],[0, 1.0], [-0.5, 0.5],[0,0]]
 
-world_target_x = None
-world_target_y = None
+
 
 def position_callback(msg):
     world_rob_x = msg.data[0]
@@ -50,10 +51,14 @@ def position_callback(msg):
                 world_target_x = main_points[0][0]
                 world_target_y = main_points[0][1]
 
+                counter.global_num = 0
+
             elif 1.0 <= map_points_x <= 1.5 and 0.0 < map_points_y <= 0.5:
                 print("Second")
                 world_target_x = main_points[1][0]
                 world_target_y = main_points[1][1]
+
+                counter.global_num = 1
 
                 if counter.num == 1:
                     print("second cal")
@@ -67,6 +72,8 @@ def position_callback(msg):
                 print("Third")
                 world_target_x = main_points[2][0]
                 world_target_y = main_points[2][1]
+
+                counter.global_num = 2
 
                 if counter.num == 2:
                     print("third cal")
@@ -82,6 +89,8 @@ def position_callback(msg):
                 world_target_x = main_points[3][0]
                 world_target_y = main_points[3][1]
 
+                counter.global_num = 3
+
                 if counter.num == 3:
                     print("fourth cal")
                     move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
@@ -95,6 +104,8 @@ def position_callback(msg):
                 world_target_x = main_points[4][0]
                 world_target_y = main_points[4][1]
 
+                counter.global_num = 4
+
                 if counter.num == 4:
                     print("fifth cal")
                     move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
@@ -107,6 +118,8 @@ def position_callback(msg):
                 print("Sixth")
                 world_target_x = main_points[5][0]
                 world_target_y = main_points[5][1]
+
+                counter.global_num = 5
 
                 if counter.num == 5:
                     print("sixth cal")
@@ -125,11 +138,13 @@ def position_callback(msg):
 
             line_length = cal_point_line.getDistance(p1_x, p1_y, p2_x, p2_y, world_rob_x, world_rob_y)
 
+            print("IF")
             print(line_length)
+
 
             if line_length > 0.01:
                 print("line_length is over 0.01")
-                move_curve = -0.3
+                move_curve = 0.3
                 for i in range(3):
                     pub_curve.publish(1.0 / move_curve)
                     pub_speed.publish(move_speed)
@@ -137,11 +152,13 @@ def position_callback(msg):
 
             elif line_length < -0.01:
                 print("line_length is over 0.01")
-                move_curve = 0.3
+                move_curve = -0.3
                 for i in range(3):
                     pub_curve.publish(1.0 / move_curve)
                     pub_speed.publish(move_speed)
                 switch.state = True
+
+
 
         else:
             base_num, next_num = search_value.getNearestPoint(map_points, world_rob_x, world_rob_y)
@@ -154,16 +171,22 @@ def position_callback(msg):
             p2_x=map_points[next_num][0]
             p2_y=map_points[next_num][1]
 
-            line_length = cal_point_line.getDistance(p1_x, p1_y, p2_x, p2_y, world_rob_x, world_rob_y)
+            line_length = abs(cal_point_line.getDistance(p1_x, p1_y, p2_x, p2_y, world_rob_x, world_rob_y))
 
+            print("Else")
             print(line_length)
-            if line_length < 0.01:
+
+            if line_length < 0.005:
+                world_target_x = main_points[counter.global_num][0]
+                world_target_y = main_points[counter.global_num][1]
+
                 move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
                 for i in range(3):
                     pub_curve.publish(1.0 / move_curve)
                     pub_speed.publish(move_speed)
 
                 switch.state = False
+
 
 
 
