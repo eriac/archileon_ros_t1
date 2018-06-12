@@ -8,5 +8,5 @@ def getDistance(point_1_x, point_1_y, point_2_x, point_2_y, world_rob_x, world_r
     y3 = world_rob_y
     u = np.array([x2 - x1, y2 - y1])
     v = np.array([x3 - x1, y3 - y1])
-    L = abs(np.cross(u, v) / np.linalg.norm(u))
+    L = np.cross(u, v) / np.linalg.norm(u)
     return L
