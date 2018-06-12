@@ -29,12 +29,13 @@ def position_callback(msg):
     if counter.num == 0:
         move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=main_points[0][0], world_target_y=main_points[1][0])
 
-        pub_curve.publish(1.0 / move_curve)
-        pub_speed.publish(move_speed)
+        for i in range(3):
+            pub_curve.publish(1.0 / move_curve)
+            pub_speed.publish(move_speed)
         counter.num += 1
     else:
-
         base_num, next_num = search_value.getNearestPoint(map_points, world_rob_x, world_rob_y)
+
         p1_x=map_points[base_num][0]
         p1_y=map_points[base_num][1]
 
@@ -45,8 +46,9 @@ def position_callback(msg):
 
         if line_length > 0.01:
             move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-            pub_curve.publish(1.0 / move_curve)
-            pub_speed.publish(move_speed)
+            for i in range(3):
+                pub_curve.publish(1.0 / move_curve)
+                pub_speed.publish(move_speed)
 
 counter = Counter()
 map_points=read_way_points.read_points()

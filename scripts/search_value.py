@@ -19,14 +19,19 @@ def getNearestPoint(map_points, world_rob_x, world_rob_y):
             base_num = i
             base_diff_xy = math.sqrt(diff_x**2 + diff_y**2)
 
-    if base_num + 1 < 1712 or base_num - 1 > 0:
-        front_diff_xy = math.sqrt((world_rob_x - map_points[base_num + 1][0])**2+world_rob_y - map_points[base_num + 1][1])
-
-        back_diff_xy = math.sqrt((world_rob_x - map_points[base_num - 1][0])**2+world_rob_y - map_points[base_num - 1][1])
-
-        if front_diff_xy < back_diff_xy:
+        if base_num == 0:
             next_num = base_num + 1
-        else:
+
+        elif base_num == 1712:
             next_num = base_num - 1
+
+        else:
+            front_diff_xy = math.sqrt((world_rob_x - map_points[base_num + 1][0])**2+world_rob_y - map_points[base_num + 1][1])
+            back_diff_xy = math.sqrt((world_rob_x - map_points[base_num - 1][0])**2+world_rob_y - map_points[base_num - 1][1])
+
+            if front_diff_xy < back_diff_xy:
+                next_num = base_num + 1
+            else:
+                next_num = base_num - 1
 
         return  base_num, next_num
