@@ -36,11 +36,10 @@ def position_callback(msg):
             pub_speed.publish(move_speed)
         counter.num += 1
     else:
-        print(world_rob_x)
-        print(world_rob_y)
 
         base_num, next_num = search_value.getNearestPoint(map_points, world_rob_x, world_rob_y)
         print(base_num)
+
         if 0 < map_points[base_num][0] < 1.0 and map_points[base_num][1] == 0:
             world_target_x = main_points[0][0]
             world_target_y = main_points[0][1]

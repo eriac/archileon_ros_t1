@@ -33,5 +33,5 @@ def getNearestPoint(map_points, world_rob_x, world_rob_y):
                 next_num = base_num + 1
             else:
                 next_num = base_num - 1
-
-        return  base_num, next_num
+    print(base_num)
+    return  base_num, next_num
