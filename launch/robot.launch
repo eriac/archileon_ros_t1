@@ -69,8 +69,8 @@
   </node>
 
 
-  <!-- <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" /> -->
-  <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer.py" output="screen"/>
+  <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
+  <!-- <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer.py" output="screen"/> -->
 
   <!-- <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher" /> -->
   <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher.py" />
