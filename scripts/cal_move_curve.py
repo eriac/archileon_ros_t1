@@ -31,10 +31,7 @@ def cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_
     radius = ((rob_target_x**2) + (rob_target_y**2) ) / (2 * rob_target_y)
     if radius > 1000000:
         radius = 100000
+
     print("radius is " + str(radius))
-
-
-    move_curve = radius
-    print("曲率" + str(1.0 / move_curve))
     print("/////////////////////////////////////////////////")
-    return move_curve
+    return radius
