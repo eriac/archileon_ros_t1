@@ -13,7 +13,7 @@ rospy.init_node("map_publisher")
 map_pub = rospy.Publisher("map_data", Float32MultiArray, queue_size=10)
 rate = rospy.Rate(10)
 
-map_points = read_way_points.read_points()
+map_points = read_way_points.read()
 
 for i in range(len(map_points)):
     map_data.data.append(map_points[i][0])

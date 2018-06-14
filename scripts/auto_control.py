@@ -8,201 +8,77 @@ import math
 import read_way_points
 import cal_move_curve
 import cal_rob_target
-import search_value
-import cal_point_line
+import getNearestPoint
+import getDist_rob_points
+import tooCloseTargetPoint
+import nextTarget
 
-move_speed = 0.01
+move_speed = 0.1
+way_points = read_way_points.read()
 
 class Counter():
     def __init__(self):
         self.num = 0
         self.global_num = 0
-
 class Switch():
     def __init__(self):
-        self.state = False
+        self.if_cal_move_curve_from_one_point_to_the_next_point = False
 
-main_points=[[1.0,0.0], [1.5,0.5],[1.0, 1.0],[0, 1.0], [-0.5, 0.5],[0,0]]
-
+class AreaMap():
+    def __init__(self):
+        self.now_target_num = 0
+        self.main_points = [[1.0,0.0], [1.5,0.5],[1.0, 1.0],[0, 1.0], [-0.5, 0.5],[0,0]]
+        self.target_point = self.main_points[self.now_target_num]
 
 
 def position_callback(msg):
     world_rob_x = msg.data[0]
     world_rob_y = msg.data[1]
     world_rob_theta = msg.data[2]
+    world_bl_nozzle_x = msg.data[0] - 0.23
+    world_bl_nozzle_y = msg.data[1] - 0.075
+    world_br_nozzle_x = msg.data[0] - 0.23
+    world_br_nozzle_y = msg.data[1] + 0.075
 
-    if counter.num == 0:
-        move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=main_points[0][0], world_target_y=main_points[0][1])
+    base_point_num, adjacent_point_num = getNearestPoint.search_value(way_points, world_rob_x, world_rob_y)
 
+    base_point_x = way_points[base_point_num][0]
+    base_point_y = way_points[base_point_num][1]
+    adjacent_point_x = way_points[adjacent_point_num][0]
+    adjacent_point_y = way_points[adjacent_point_num][1]
+
+
+    dist_points_to_rob = abs(getDist_rob_points.cal(point_1_x=base_point_x, point_1_y=base_point_y, point_2_x=adjacent_point_x, point_2_y=adjacent_point_y, world_rob_x=world_rob_x, world_rob_y=world_rob_y))
+
+    if nextTarget.judge(world_rob_x, world_rob_y, now_target_num=area_map.now_target_num) is True:
+        area_map.now_target_num += 1
+        switch.if_cal_move_curve_from_one_point_to_the_next_point = False
+
+
+    if dist_points_to_rob > 0.005:
+        print("Error is over 0.005")
+        # もし今のロボの場所がゴールまでとても近すぎた場合
+        if tooCloseTargetPoint.judge(world_rob_x, world_rob_y, world_rob_theta, target_point=area_map.target_point) == True:
+            area_map.now_target_num += 1
+            print(area_map.now_target_num)
+        switch.if_cal_move_curve_from_one_point_to_the_next_point = False
+
+    if switch.if_cal_move_curve_from_one_point_to_the_next_point == False:
+        print(area_map.now_target_num)
+        print(area_map.target_point)
+        move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.target_point[0], world_target_y=area_map.target_point[1])
         for i in range(3):
             pub_curve.publish(1.0 / move_curve)
             pub_speed.publish(move_speed)
-        counter.num += 1
 
-    else:
-        if switch.state == False:
-            base_num, next_num = search_value.getNearestPoint(map_points, world_rob_x, world_rob_y)
-            map_points_x = map_points[base_num][0]
-            map_points_y = map_points[base_num][1]
-
-
-            if 0 < map_points_x < 1.0 and map_points_y == 0.0:
-                print("First")
-                world_target_x = main_points[0][0]
-                world_target_y = main_points[0][1]
-
-                counter.global_num = 0
-
-            elif 1.0 <= map_points_x <= 1.5 and 0.0 < map_points_y <= 0.5:
-                print("Second")
-                world_target_x = main_points[1][0]
-                world_target_y = main_points[1][1]
-
-                counter.global_num = 1
-
-                if counter.num == 1:
-                    print("second cal")
-                    move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-                    for i in range(3):
-                        pub_curve.publish(1.0 / move_curve)
-                        pub_speed.publish(move_speed)
-                        counter.num += 1
-
-            elif 1.0 <= map_points_x <= 1.5 and 0.5 < map_points_y <= 1.0:
-                print("Third")
-                world_target_x = main_points[2][0]
-                world_target_y = main_points[2][1]
-
-                counter.global_num = 2
-
-                if counter.num == 2:
-                    print("third cal")
-                    move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-                    for i in range(3):
-                        pub_curve.publish(1.0 / move_curve)
-                        pub_speed.publish(move_speed)
-                        counter.num += 1
-
-
-            elif 0 <= map_points_x <= 1.0 and map_points_y == 1.0:
-                print("Fourth")
-                world_target_x = main_points[3][0]
-                world_target_y = main_points[3][1]
-
-                counter.global_num = 3
-
-                if counter.num == 3:
-                    print("fourth cal")
-                    move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-                    for i in range(3):
-                        pub_curve.publish(1.0 / move_curve)
-                        pub_speed.publish(move_speed)
-                        counter.num += 1
-
-            elif -0.5 <= map_points_x < 0 and 0.5 < map_points_y < 1.0:
-                print("Fifth")
-                world_target_x = main_points[4][0]
-                world_target_y = main_points[4][1]
-
-                counter.global_num = 4
-
-                if counter.num == 4:
-                    print("fifth cal")
-                    move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-                    for i in range(3):
-                        pub_curve.publish(1.0 / move_curve)
-                        pub_speed.publish(move_speed)
-                        counter.num += 1
-
-            elif -0.5 <= map_points_x <= 0 and 0 < map_points_y <= 0.5:
-                print("Sixth")
-                world_target_x = main_points[5][0]
-                world_target_y = main_points[5][1]
-
-                counter.global_num = 5
-
-                if counter.num == 5:
-                    print("sixth cal")
-                    move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-                    for i in range(3):
-                        pub_curve.publish(1.0 / move_curve)
-                        pub_speed.publish(move_speed)
-                        counter.num += 1
-
-
-            p1_x=map_points[base_num][0]
-            p1_y=map_points[base_num][1]
-
-            p2_x=map_points[next_num][0]
-            p2_y=map_points[next_num][1]
-
-            line_length = cal_point_line.getDistance(p1_x, p1_y, p2_x, p2_y, world_rob_x, world_rob_y)
-
-            print("IF")
-            print(line_length)
-
-
-            if line_length > 0.01:
-                print("line_length is over 0.01")
-                world_target_x = main_points[counter.global_num][0]
-                world_target_y = main_points[counter.global_num][1]
-
-                move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-                for i in range(3):
-                    pub_curve.publish(1.0 / move_curve)
-                    pub_speed.publish(move_speed)
-
-                switch.state = True
-
-            elif line_length < -0.01:
-                print("line_length is over 0.01")
-                world_target_x = main_points[counter.global_num][0]
-                world_target_y = main_points[counter.global_num][1]
-
-
-                move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-                for i in range(3):
-                    pub_curve.publish(1.0 / move_curve)
-                    pub_speed.publish(move_speed)
-
-                switch.state = True
-
-
-
-        else:
-            base_num, next_num = search_value.getNearestPoint(map_points, world_rob_x, world_rob_y)
-            map_points_x = map_points[base_num][0]
-            map_points_y = map_points[base_num][1]
-
-            p1_x=map_points[base_num][0]
-            p1_y=map_points[base_num][1]
-
-            p2_x=map_points[next_num][0]
-            p2_y=map_points[next_num][1]
-
-            line_length = abs(cal_point_line.getDistance(p1_x, p1_y, p2_x, p2_y, world_rob_x, world_rob_y))
-
-            print("Else")
-            print(line_length)
-
-            if line_length < 0.005:
-                world_target_x = main_points[counter.global_num][0]
-                world_target_y = main_points[counter.global_num][1]
-
-                move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y)
-                for i in range(3):
-                    pub_curve.publish(1.0 / move_curve)
-                    pub_speed.publish(move_speed)
-
-                switch.state = False
+        switch.if_cal_move_curve_from_one_point_to_the_next_point = True
 
 
 
 
+area_map = AreaMap()
 counter = Counter()
 switch = Switch()
-map_points=read_way_points.read_points()
-
 
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
