@@ -11,7 +11,7 @@ import cal_rob_target
 import search_value
 import cal_point_line
 
-move_speed = 0.1
+move_speed = 0.01
 
 class Counter():
     def __init__(self):
