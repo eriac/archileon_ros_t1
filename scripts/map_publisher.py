@@ -18,7 +18,8 @@ map_points = read_way_points.read()
 for i in range(len(map_points)):
     map_data.data.append(map_points[i][0])
     map_data.data.append(map_points[i][1])
-map_pub.publish(map_data)
+
+
 
 while not rospy.is_shutdown():
     map_pub.publish(map_data)

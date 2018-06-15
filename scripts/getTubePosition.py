@@ -46,6 +46,5 @@ def cal(world_rob_x, world_rob_y, world_rob_theta):
     print(rob_bl_tube_position)
     print(rob_br_tube_position)
 
-
     print("/////////////////////////////////////////////////")
-    # return rob_bl_tube_position, rob_br_tube_position
+    return rob_bl_tube_position, rob_br_tube_position
