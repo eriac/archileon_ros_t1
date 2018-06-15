@@ -32,6 +32,7 @@ float target_width[2]={0.12,0.12};
 float WHEEL_BASE =0.26;
 float target_steer[4]={0,0,0,0};
 float target_motor[4]={0,0,0,0};
+
 void width0_callback(const std_msgs::Float32& float_msg){
 	target_width[0]=float_msg.data;
 }
@@ -73,17 +74,17 @@ void set_robot(float *position, float *direction){
 	tf::Quaternion q;
 	q.setRPY(direction[0], direction[1], direction[2]);
 	transform.setRotation(q);
-	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "base_link"));	
+	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "base_link"));
 }
 void move_robot(float dt){
 	static float pos_x=0;
 	static float pos_y=0;
 	static float rot_z=0;
-		
+
 	float acc_x=0;
 	float acc_y=0;
 	float str_z=0;
-		
+
 
 	for(int i=0;i<4;i++){
 		acc_x+=target_motor[i]*cos(target_steer[i]);
@@ -96,7 +97,7 @@ void move_robot(float dt){
 	pos_x+=(acc_x*cos(rot_z)-acc_y*sin(rot_z))/4*dt;
 	pos_y+=(acc_y*cos(rot_z)+acc_x*sin(rot_z))/4*dt;
 	rot_z+=str_z*dt;
-	
+
 	float pos_xyz[3]={0,0,0};
 	float pos_rpy[3]={0,0,0};
 	pos_xyz[0]=pos_x;
@@ -111,29 +112,28 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
 	pn.getParam("WHEEL_BASE", WHEEL_BASE);
-	
+
 	//publish
 	joint_pub = n.advertise<sensor_msgs::JointState>("/joint_states", 1000);
 
 	//subscribe
-	ros::Subscriber width0_sub   = n.subscribe("width0", 10, width0_callback); 
-	ros::Subscriber width1_sub   = n.subscribe("width1", 10, width1_callback); 
-	ros::Subscriber steer0_sub   = n.subscribe("steer0", 10, steer0_callback); 
-	ros::Subscriber steer1_sub   = n.subscribe("steer1", 10, steer1_callback); 
-	ros::Subscriber steer2_sub   = n.subscribe("steer2", 10, steer2_callback); 
-	ros::Subscriber steer3_sub   = n.subscribe("steer3", 10, steer3_callback); 
-	ros::Subscriber motor0_sub   = n.subscribe("motor0", 10, motor0_callback); 
-	ros::Subscriber motor1_sub   = n.subscribe("motor1", 10, motor1_callback); 
-	ros::Subscriber motor2_sub   = n.subscribe("motor2", 10, motor2_callback); 
-	ros::Subscriber motor3_sub   = n.subscribe("motor3", 10, motor3_callback); 
-			
+	ros::Subscriber width0_sub   = n.subscribe("width0", 10, width0_callback);
+	ros::Subscriber width1_sub   = n.subscribe("width1", 10, width1_callback);
+	ros::Subscriber steer0_sub   = n.subscribe("steer0", 10, steer0_callback);
+	ros::Subscriber steer1_sub   = n.subscribe("steer1", 10, steer1_callback);
+	ros::Subscriber steer2_sub   = n.subscribe("steer2", 10, steer2_callback);
+	ros::Subscriber steer3_sub   = n.subscribe("steer3", 10, steer3_callback);
+	ros::Subscriber motor0_sub   = n.subscribe("motor0", 10, motor0_callback);
+	ros::Subscriber motor1_sub   = n.subscribe("motor1", 10, motor1_callback);
+	ros::Subscriber motor2_sub   = n.subscribe("motor2", 10, motor2_callback);
+	ros::Subscriber motor3_sub   = n.subscribe("motor3", 10, motor3_callback);
+
 	float dt=1.0/20;
-	ros::Rate loop_rate(20); 
+	ros::Rate loop_rate(20);
 	while (ros::ok()){
 		move_robot(dt);
 		ros::spinOnce();
 		loop_rate.sleep();
-	} 
+	}
  	return 0;
 }
-

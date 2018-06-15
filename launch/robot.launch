@@ -10,29 +10,16 @@
   <node name="joy_node" pkg="joy" type="joy_node" >
     <param name="coalesce_interval" value="0.1"/>
   </node>
-<!--
-  <node name="joy_control" pkg="archileon_ros_t1" type="joy_control">
-    <remap from="servo0" to="pif/FL/servo1"/>
-    <remap from="servo1" to="pif/FR/servo1"/>
-    <remap from="servo2" to="pif/BL/servo1"/>
-    <remap from="servo3" to="pif/BR/servo1"/>
-    <remap from="servo4" to="pif/BL/servo2"/>
-    <remap from="servo5" to="pif/BR/servo2"/>
-    <remap from="motor0" to="pif/FL/motor"/>
-    <remap from="motor1" to="pif/FR/motor"/>
-    <remap from="motor2" to="pif/BL/motor"/>
-    <remap from="motor3" to="pif/BR/motor"/>
-  </node>
--->
-  <!-- <node name="joy_s_c" pkg="archileon_ros_t1" type="joy_s_c" /> -->
 
   <node name="move_driver" pkg="archileon_ros_t1" type="move_driver">
     <remap from="servo0" to="pif/FL/servo1"/>
     <remap from="servo1" to="pif/FR/servo1"/>
     <remap from="servo2" to="pif/BL/servo1"/>
     <remap from="servo3" to="pif/BR/servo1"/>
+
     <remap from="servo4" to="pif/BL/servo2"/>
     <remap from="servo5" to="pif/BR/servo2"/>
+
     <remap from="motor0" to="pif/FL/motor"/>
     <remap from="motor1" to="pif/FR/motor"/>
     <remap from="motor2" to="pif/BL/motor"/>
@@ -70,9 +57,6 @@
 
 
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
-  <!-- <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer.py" output="screen"/> -->
-
-  <!-- <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher" /> -->
   <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher.py" />
 
 

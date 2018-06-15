@@ -65,7 +65,7 @@ int main(int argc, char **argv){
 	//subscriibe
 	ros::Subscriber speed_sub   = n.subscribe("move_speed", 10, speed_callback);
 	ros::Subscriber curve_sub   = n.subscribe("move_curve", 10, curve_callback);
-	ros::Subscriber speed_sub   = n.subscribe("nozzle_angle", 10, nozzle_callback);
+	ros::Subscriber nozzle_angle_sub   = n.subscribe("nozzle_angle", 10, nozzle_callback);
 
 
 	ros::Rate loop_rate(20);

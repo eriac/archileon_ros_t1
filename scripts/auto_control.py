@@ -6,14 +6,16 @@ from std_msgs.msg import Float32MultiArray
 from sympy import *
 import math
 import read_way_points
-import cal_move_curve
+import getMoveCurve
 import cal_rob_target
 import getNearestPoint
 import getDist_rob_points
 import tooCloseTargetPoint
 import nextTarget
+import getTubePosition
 
 move_speed = 0.1
+min_curve = 0.3
 way_points = read_way_points.read()
 
 class Counter():
@@ -35,10 +37,6 @@ def position_callback(msg):
     world_rob_x = msg.data[0]
     world_rob_y = msg.data[1]
     world_rob_theta = msg.data[2]
-    world_bl_nozzle_x = msg.data[0] - 0.23
-    world_bl_nozzle_y = msg.data[1] - 0.075
-    world_br_nozzle_x = msg.data[0] - 0.23
-    world_br_nozzle_y = msg.data[1] + 0.075
 
     base_point_num, adjacent_point_num = getNearestPoint.search_value(way_points, world_rob_x, world_rob_y)
 
@@ -48,30 +46,43 @@ def position_callback(msg):
     adjacent_point_y = way_points[adjacent_point_num][1]
 
 
-    dist_points_to_rob = abs(getDist_rob_points.cal(point_1_x=base_point_x, point_1_y=base_point_y, point_2_x=adjacent_point_x, point_2_y=adjacent_point_y, world_rob_x=world_rob_x, world_rob_y=world_rob_y))
 
-    if nextTarget.judge(world_rob_x, world_rob_y, now_target_num=area_map.now_target_num) is True:
-        area_map.now_target_num += 1
-        switch.if_cal_move_curve_from_one_point_to_the_next_point = False
-
-
-    if dist_points_to_rob > 0.005:
-        print("Error is over 0.005")
-        # もし今のロボの場所がゴールまでとても近すぎた場合
-        if tooCloseTargetPoint.judge(world_rob_x, world_rob_y, world_rob_theta, target_point=area_map.target_point) == True:
-            area_map.now_target_num += 1
-            print(area_map.now_target_num)
-        switch.if_cal_move_curve_from_one_point_to_the_next_point = False
-
-    if switch.if_cal_move_curve_from_one_point_to_the_next_point == False:
-        print(area_map.now_target_num)
-        print(area_map.target_point)
-        move_curve = cal_move_curve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.target_point[0], world_target_y=area_map.target_point[1])
+    # do whileがないのでこう書く
+    #一番始めだけどこに向かっていくかをこう書かないと計算できない
+    if counter.num == 0:
+        move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.target_point[0], world_target_y=area_map.target_point[1])
+        getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
+        counter.num +=1
         for i in range(3):
             pub_curve.publish(1.0 / move_curve)
             pub_speed.publish(move_speed)
 
-        switch.if_cal_move_curve_from_one_point_to_the_next_point = True
+    else:
+        getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
+        pass
+        # move_curve_pub(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.target_point[0], world_target_y=area_map.target_point[1])
+        # getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
+        # counter.num +=1
+        #
+        #
+        # # ロボットが経路からどれだけ離れたかを計算
+        # L_rob_points = abs(getDist_rob_points.cal(point_1_x=base_point_x, point_1_y=base_point_y, point_2_x=adjacent_point_x, point_2_y=adjacent_point_y, world_rob_x=world_rob_x, world_rob_y=world_rob_y))
+        #
+        #
+        # if L_rob_points > 0.005:
+        #     print("Error is over 0.005")
+        #     move_curve = getMoveCurve.cal()
+        #     if move_curve < min_curve:
+        #         area_map.target_point +=1
+        #         move_curve_pub()
+
+
+
+
+
+
+
+
 
 
 
