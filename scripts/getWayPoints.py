@@ -1,9 +1,10 @@
 def read_rob():
+    point_list=[]
+    line_length = 1714
     f = open("/mnt/hgfs/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/way_points.txt", "r")
     line = f.readline()
+    point_list.append(line)
 
-    line_length = 1713
-    point_list=[]
     while line:
         line = f.readline()
         point_list.append(line)
@@ -24,11 +25,12 @@ def read_rob():
     return way_points
 
 def read_bl_tube_points():
+    point_list=[]
+    line_length = 170
     f = open("/mnt/hgfs/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/bl_tube_points.txt", "r")
     line = f.readline()
+    point_list.append(line)
 
-    line_length = 168
-    point_list=[]
     while line:
         line = f.readline()
         point_list.append(line)
@@ -49,11 +51,12 @@ def read_bl_tube_points():
     return way_points
 
 def read_br_tube_points():
+    line_length = 170
+    point_list=[]
     f = open("/mnt/hgfs/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/br_tube_points.txt", "r")
     line = f.readline()
-
-    line_length = 169
-    point_list=[]
+    point_list.append(line)
+    
     while line:
         line = f.readline()
         point_list.append(line)
