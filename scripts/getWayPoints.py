@@ -24,10 +24,10 @@ def read_rob():
     return way_points
 
 def read_bl_tube_points():
-    f = open("/mnt/hgfs/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/bl_tube_way_points.txt", "r")
+    f = open("/mnt/hgfs/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/bl_tube_points.txt", "r")
     line = f.readline()
 
-    line_length = 1713
+    line_length = 168
     point_list=[]
     while line:
         line = f.readline()
@@ -49,10 +49,10 @@ def read_bl_tube_points():
     return way_points
 
 def read_br_tube_points():
-    f = open("/mnt/hgfs/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/br_tube_way_points.txt", "r")
+    f = open("/mnt/hgfs/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/br_tube_points.txt", "r")
     line = f.readline()
 
-    line_length = 1713
+    line_length = 169
     point_list=[]
     while line:
         line = f.readline()

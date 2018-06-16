@@ -13,6 +13,7 @@ import getDist_rob_points
 import tooCloseTargetPoint
 import nextTarget
 import getTubePosition
+import nowArea
 
 move_speed = 0.1
 min_curve = 0.3
@@ -30,8 +31,8 @@ class Switch():
 
 class AreaMap():
     def __init__(self):
-        self.now_target_num = 0
         self.main_points = [[1.0,0.0], [1.5,0.5],[1.0, 1.0],[0, 1.0], [-0.5, 0.5],[0,0]]
+        self.now_target_num = 0
         self.target_point = self.main_points[self.now_target_num]
 
 
@@ -40,12 +41,12 @@ def position_callback(msg):
     world_rob_y = msg.data[1]
     world_rob_theta = msg.data[2]
 
-    base_point_num, adjacent_point_num = getNearestPoint.search_value(rob_way_points, world_rob_x, world_rob_y)
+    rob_base_point_num, rob_adj_point_num = getNearestPoint.search_value(rob_way_points, world_rob_x, world_rob_y)
 
-    base_point_x = rob_way_points[base_point_num][0]
-    base_point_y = rob_way_points[base_point_num][1]
-    adjacent_point_x = rob_way_points[adjacent_point_num][0]
-    adjacent_point_y = rob_way_points[adjacent_point_num][1]
+    rob_base_point_x = rob_way_points[rob_base_point_num][0]
+    rob_base_point_y = rob_way_points[rob_base_point_num][1]
+    rob_adj_point_x = rob_way_points[rob_adj_point_num][0]
+    rob_adj_point_y = rob_way_points[rob_adj_point_num][1]
 
 
 
@@ -58,31 +59,37 @@ def position_callback(msg):
             pub_curve.publish(1.0 / move_curve)
             pub_speed.publish(move_speed)
         counter.num +=1
+
+        rob_bl_tube_position, rob_br_tube_position = getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
+
     else:
-
-        move_curve_pub(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.target_point[0], world_target_y=area_map.target_point[1])
-        getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
-        counter.num +=1
-
+        if nowArea.judge(world_rob_x, world_rob_y, now_target_num==area_map.now_target_num):
+            move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.target_point[0], world_target_y=area_map.target_point[1])
+            for i in range(3):
+                pub_curve.publish(1.0 / move_curve)
+                pub_speed.publish(move_speed)
+            area_map.now_target_num +=1
 
         # ロボットが経路からどれだけ離れたかを計算
-        L_rob_points = abs(getDist_rob_points.cal(point_1_x=base_point_x, point_1_y=base_point_y, point_2_x=adjacent_point_x, point_2_y=adjacent_point_y, world_rob_x=world_rob_x, world_rob_y=world_rob_y))
+        L_rob_points = abs(getDist_rob_points.cal(point_1_x=rob_base_point_x, point_1_y=rob_base_point_y, point_2_x=rob_adj_point_x, point_2_y=rob_adj_point_y, world_rob_x=world_rob_x, world_rob_y=world_rob_y))
+
+        if L_rob_points > 0.010:
+            move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.target_point[0], world_target_y=area_map.target_point[1])
+            if move_curve > min_curve:
+                for i in range(3):
+                    pub_curve.publish(1.0 / move_curve)
+                    pub_speed.publish(move_speed)
 
 
-        if L_rob_points > 0.005:
-            print("Error is over 0.005")
-            move_curve = getMoveCurve.cal()
-            if move_curve < min_curve:
-                area_map.target_point +=1
-                move_curve_pub()
+            else:
+                area_map.now_target_num +=1
+                move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.target_point[0], world_target_y=area_map.target_point[1])
+                for i in range(3):
+                    pub_curve.publish(1.0 / move_curve)
+                    pub_speed.publish(move_speed)
 
 
-
-
-
-
-
-
+        rob_bl_tube_position, rob_br_tube_position = getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
 
 
 
