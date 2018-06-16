@@ -25,9 +25,9 @@ void speed_callback(const std_msgs::Float32& float_msg){
 }
 
 void nozzle_callback(const std_msgs::Float32MultiArray& float_array){
-  for(int i = 4; i < 6; i++){
+  for(int i = 0; i < 2; i++){
     std_msgs::Float32 sv;
-    sv.data=float_array.data[i - 4]
+    sv.data=float_array.data[i]
     servo_pub[i].publish(sv);
   }
 }
@@ -65,7 +65,7 @@ int main(int argc, char **argv){
 	//subscriibe
 	ros::Subscriber speed_sub   = n.subscribe("move_speed", 10, speed_callback);
 	ros::Subscriber curve_sub   = n.subscribe("move_curve", 10, curve_callback);
-	ros::Subscriber nozzle_angle_sub   = n.subscribe("nozzle_angle", 10, nozzle_callback);
+	ros::Subscriber nozzle_angle_sub   = n.subscribe("tube_axis_angle", 10, nozzle_callback);
 
 
 	ros::Rate loop_rate(20);

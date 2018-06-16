@@ -7,6 +7,7 @@ def search_value(way_points, world_rob_x, world_rob_y):
     diff_y = world_rob_y - tmp_points_y
     base_diff_xy = math.sqrt(diff_x**2 + diff_y**2)
     base_num = 0
+    list_max_num = len(way_points)
 
     for i in range(len(way_points)):
         tmp_points_x = way_points[i][0]
@@ -22,7 +23,7 @@ def search_value(way_points, world_rob_x, world_rob_y):
         if base_num == 0:
             next_num = base_num + 1
 
-        elif base_num == 1712:
+        elif base_num == list_max_num:
             next_num = base_num - 1
 
         else:
