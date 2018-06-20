@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "std_msgs/Float32.h"
+#include "std_msgs/Float32MultiArray.h"
 #include "std_msgs/String.h"
 #include "sensor_msgs/Joy.h"
 #include <math.h>
@@ -25,10 +26,16 @@ void speed_callback(const std_msgs::Float32& float_msg){
 }
 
 void nozzle_callback(const std_msgs::Float32MultiArray& float_array){
+  ros::NodeHandle n;
+  ros::Publisher tube_servo_pub[2];
+  tube_servo_pub[0] = n.advertise<std_msgs::Float32>("servo4", 1000);
+  tube_servo_pub[1] = n.advertise<std_msgs::Float32>("servo5", 1000);
   for(int i = 0; i < 2; i++){
     std_msgs::Float32 sv;
-    sv.data=float_array.data[i]
-    servo_pub[i].publish(sv);
+    sv.data=float_array.data[i];
+    for(int j = 0; j < 5; j++){
+      tube_servo_pub[i].publish(sv);
+    }
   }
 }
 
@@ -55,8 +62,8 @@ int main(int argc, char **argv){
 	servo_pub[1] = n.advertise<std_msgs::Float32>("servo1", 1000);
 	servo_pub[2] = n.advertise<std_msgs::Float32>("servo2", 1000);
 	servo_pub[3] = n.advertise<std_msgs::Float32>("servo3", 1000);
-  servo_pub[4] = n.advertise<std_msgs::Float32>("servo4", 1000);
-	servo_pub[5] = n.advertise<std_msgs::Float32>("servo5", 1000);
+  // servo_pub[4] = n.advertise<std_msgs::Float32>("servo4", 1000);
+	// servo_pub[5] = n.advertise<std_msgs::Float32>("servo5", 1000);
 	motor_pub[0] = n.advertise<std_msgs::Float32>("motor0", 1000);
 	motor_pub[1] = n.advertise<std_msgs::Float32>("motor1", 1000);
 	motor_pub[2] = n.advertise<std_msgs::Float32>("motor2", 1000);
@@ -89,7 +96,6 @@ int main(int argc, char **argv){
             float hypotense = center_y * center_y + back_center_x * back_center_x;
             float real_length = sqrt(hypotense);
 
-
             for(int i=0;i<4;i++){
               std_msgs::Float32 sv;
               std_msgs::Float32 mv;
@@ -105,8 +111,9 @@ int main(int argc, char **argv){
               }
               servo_pub[i].publish(sv);
               motor_pub[i].publish(mv);
-              }
+            }
         }
+
         else{
             float center_y=1/f_val0;
             float back_center_x = ws_pos[2][0];
@@ -128,11 +135,11 @@ int main(int argc, char **argv){
               }
               servo_pub[i].publish(sv);
               motor_pub[i].publish(mv);
-              }
+            }
         }
 
-		ros::spinOnce();
-		loop_rate.sleep();
-	}
+        ros::spinOnce();
+        loop_rate.sleep();
+    }
  	return 0;
 }

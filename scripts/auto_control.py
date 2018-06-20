@@ -16,9 +16,10 @@ import nowArea
 import getTubeAngle
 import getTubeTipInterSection
 
-move_speed = 0.1
+move_speed = 0
 min_curve = 0.3
 tube_radius = 0.105
+error_threshold = 0.005
 rob_way_points = getWayPoints.read_rob()
 bl_tube_tip_way_points = getWayPoints.read_bl_tube_points()
 br_tube_tip_way_points = getWayPoints.read_br_tube_points()
@@ -33,11 +34,11 @@ class Counter():
         self.global_num = 0
 class Switch():
     def __init__(self):
-        self.if_cal_move_curve_from_one_point_to_the_next_point = False
+        self.L_rob_points_is_over_001 = False
 
 class AreaMap():
     def __init__(self):
-        self.main_points = [[1.0,0.0], [1.5,0.5],[1.0, 1.0],[0, 1.0], [-0.5, 0.5],[0,0]]
+        self.main_points = [[0.5, 0.0], [1.0,0.0], [1.5,0.5],[1.0, 1.0], [0.5, 1.0], [0, 1.0], [-0.5, 0.5],[0,0]]
         self.now_target_num = 0
 
 
@@ -48,18 +49,22 @@ def position_callback(msg):
     world_rob_theta = msg.data[2]
 
 
-    # ロボの位置から相対的にノズルの位置を取ってくる
-    rob_bl_tube_rot_axis_position, rob_bl_tube_tip_position,rob_br_tube_rot_axis_position,rob_br_tube_tip_position = getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
 
-    # ノズルの回転の軸のworld座標系
-    bl_tube_rot_axis_position_x = rob_bl_tube_rot_axis_position[0]
-    bl_tube_rot_axis_position_y = rob_bl_tube_rot_axis_position[1]
-    # ノズル本体のworld座標系
-    bl_tube_tip_position_x = rob_bl_tube_tip_position[0]
-    bl_tube_tip_position_y = rob_bl_tube_tip_position[1]
+    # ロボの位置から相対的にノズルの位置を取ってくる
+    world_rob_bl_tube_rot_axis_position, world_rob_bl_tube_tip_position,rob_br_tube_rot_axis_position,rob_br_tube_tip_position = getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
+
+    # world座標系のノズルの回転の軸の座標
+    # ここを中心として円を描く
+    bl_tube_rot_axis_position_x = world_rob_bl_tube_rot_axis_position[0]
+    bl_tube_rot_axis_position_y = world_rob_bl_tube_rot_axis_position[1]
+
+    # world座標系のノズルの本体の座標
+    # ノズルの本体の位置から近くの点を探すため
+    bl_tube_tip_position_x = world_rob_bl_tube_tip_position[0]
+    bl_tube_tip_position_y = world_rob_bl_tube_tip_position[1]
 
     #今のノズル本体の位置から、経路に対して最も近い点のインデックス２つを取ってくる
-    bl_tube_base_point_num, bl_tube_adj_point_num = getNearestPoint.search_value(bl_tube_tip_way_points, bl_tube_tip_position_x, bl_tube_tip_position_y)
+    bl_tube_base_point_num, bl_tube_adj_point_num = getNearestPoint.search_value_tube(bl_tube_tip_way_points, bl_tube_tip_position_x, bl_tube_tip_position_y)
 
     #今のノズル本体の位置から、経路に対して最も近い２の点を取ってくる
     bl_tube_tip_base_point_x = bl_tube_tip_way_points[bl_tube_base_point_num][0]
@@ -67,46 +72,28 @@ def position_callback(msg):
     bl_tube_adj_point_x = bl_tube_tip_way_points[bl_tube_adj_point_num][0]
     bl_tube_adj_point_y = bl_tube_tip_way_points[bl_tube_adj_point_num][1]
 
-    ans_1, ans_2=getTubeTipInterSection.cal(bl_tube_rot_axis_position_x, bl_tube_rot_axis_position_y, tube_radius, bl_tube_tip_base_point_x, bl_tube_tip_base_point_y, bl_tube_adj_point_x, bl_tube_adj_point_y)
-    world_inter_section_x=ans_1[0][0]
-    world_inter_section_y=ans_1[0][1]
+    print(bl_tube_rot_axis_position_x)
+    print(bl_tube_rot_axis_position_x)
+    print(tube_radius)
+    print(bl_tube_tip_base_point_x)
+    print(bl_tube_tip_base_point_y)
+    print(bl_tube_adj_point_x)
+    print(bl_tube_adj_point_y)
 
-    tube_axis_angle_radian=getTubeAngle.cal(bl_tube_rot_axis_position_x, bl_tube_rot_axis_position_y, bl_tube_tip_position_x, bl_tube_tip_position_y, world_inter_section_x, world_inter_section_y)
+    result = getTubeTipInterSection.cal(center_x=bl_tube_rot_axis_position_x, center_y=bl_tube_rot_axis_position_y, radius=tube_radius, p1_x=bl_tube_tip_base_point_x, p1_y=bl_tube_tip_base_point_y, p2_x=bl_tube_adj_point_x, p2_y=bl_tube_adj_point_y)
+    print(result)
+
+    # inter_section_x = result[0].x
+    # inter_section_y = result[0].y
+
+    tube_radian = getTubeAngle(origin_x=world_rob_bl_tube_rot_axis_position_x,origin_y=world_rob_bl_tube_rot_axis_position_y, p1_x=world_rob_bl_tube_tip_position_x, p1_y=world_rob_bl_tube_tip_position_y, p2_x=inter_section_x, p2_y=inter_section_y)
 
     print("tube_radian")
-    print(math.degrees(tube_axis_angle_radian))
+    print(math.degrees(tube_radian))
 
-    # tube_axis_angle_radian_array.data.append(tube_axis_angle_radian)
 
-    # # ノズルの回転の軸のworld座標系
-    # br_tube_rot_axis_position_x = rob_br_tube_rot_axis_position[0]
-    # br_tube_rot_axis_position_y = rob_br_tube_rot_axis_position[1]
-    # # ノズル本体のworld座標系
-    # br_tube_tip_position_x = rob_br_tube_tip_position[0]
-    # br_tube_tip_position_y = rob_br_tube_tip_position[1]
-    #
-    # #今のノズル本体の位置から、経路に対して最も近い点のインデックス２つを取ってくる
-    # br_tube_base_point_num, br_tube_adj_point_num = getNearestPoint.search_value(br_tube_tip_way_points, br_tube_tip_position_x, br_tube_tip_position_y)
-    #
-    # #今のノズル本体の位置から、経路に対して最も近い２の点を取ってくる
-    # br_tube_tip_base_point_x = br_tube_tip_way_points[br_tube_base_point_num][0]
-    # br_tube_tip_base_point_y = br_tube_tip_way_points[br_tube_base_point_num][1]
-    # br_tube_adj_point_x = br_tube_tip_way_points[br_tube_adj_point_num][0]
-    # br_tube_adj_point_y = br_tube_tip_way_points[br_tube_adj_point_num][1]
-    #
-    # ans_1, ans_2=getTubeTipInterSection.cal(br_tube_rot_axis_position_x, br_tube_rot_axis_position_y, tube_radius, br_tube_tip_base_point_x, br_tube_tip_base_point_y, br_tube_adj_point_x, br_tube_adj_point_y)
-    # world_inter_section_x=ans_1[0][0]
-    # world_inter_section_y=ans_1[0][1]
-    #
-    # tube_axis_angle_radian=getTubeAngle.cal(br_tube_rot_axis_position_x, br_tube_rot_axis_position_y, br_tube_tip_position_x, br_tube_tip_position_y, world_inter_section_x, world_inter_section_y)
-    #
-    # tube_axis_angle_radian_array.data.append(tube_axis_angle_radian)
-    #
-    # for num in range(3):
-    #     pub_tube_axis_angle.publish(tube_axis_angle_radian_array)
-    #
 
-    #今のロボの位置から、経路に対して最も近い点を２つ取ってくる
+    # 今のロボの位置から、経路に対して最も近い点を２つ取ってくる
     rob_base_point_num, rob_adj_point_num = getNearestPoint.search_value(rob_way_points, world_rob_x, world_rob_y)
 
     rob_base_point_x = rob_way_points[rob_base_point_num][0]
@@ -124,9 +111,13 @@ def position_callback(msg):
             pub_speed.publish(move_speed)
         counter.num +=1
 
-
     else:
-        # pass
+
+        # ロボットが経路からどれだけ離れたかを計算
+        L_rob_points = abs(getDist_rob_points.cal(point_1_x=rob_base_point_x,point_1_y=rob_base_point_y, point_2_x=rob_adj_point_x,point_2_y=rob_adj_point_y, world_rob_x=world_rob_x,world_rob_y=world_rob_y))
+
+        print(L_rob_points)
+        # ロボの位置から今のエリアを判断して、新しいエリアに入ったら曲率半径を計算する
         if nowArea.judge(world_rob_x, world_rob_y, now_target_num=area_map.now_target_num, way_points=rob_way_points) is True:
             area_map.now_target_num +=1
             print("ELSE")
@@ -137,29 +128,27 @@ def position_callback(msg):
                 pub_speed.publish(move_speed)
 
 
-
-        # ロボットが経路からどれだけ離れたかを計算
-        L_rob_points = abs(getDist_rob_points.cal(point_1_x=rob_base_point_x, point_1_y=rob_base_point_y, point_2_x=rob_adj_point_x, point_2_y=rob_adj_point_y, world_rob_x=world_rob_x, world_rob_y=world_rob_y))
-
-        print(L_rob_points)
-        if L_rob_points > 0.010:
-            move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.main_points[area_map.now_target_num][0], world_target_y=area_map.main_points[area_map.now_target_num][1])
-            if move_curve > min_curve:
-                for i in range(3):
-                    pub_curve.publish(1.0 / move_curve)
-                    pub_speed.publish(move_speed)
-
-            else:
-                area_map.now_target_num +=1
+        if switch.L_rob_points_is_over_001 is False:
+            # 経路からロボが1cm以上離れたら再度曲率半径を計算する
+            if L_rob_points > 0.0050:
                 move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.main_points[area_map.now_target_num][0], world_target_y=area_map.main_points[area_map.now_target_num][1])
+                if move_curve > min_curve:
+                    for i in range(3):
+                        pub_curve.publish(1.0 / move_curve)
+                        pub_speed.publish(move_speed)
+                # 計算し直した結果、曲率半径があまりにも小さすぎる=ゴールに近すぎる場合は
+                # 次のゴールを新しいゴールに設定する
+                else:
+                    area_map.now_target_num +=1
+                    move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x=area_map.main_points[area_map.now_target_num][0], world_target_y=area_map.main_points[area_map.now_target_num][1])
 
-                for i in range(3):
-                    pub_curve.publish(1.0 / move_curve)
-                    pub_speed.publish(move_speed)
-
-
-
-
+                    for i in range(3):
+                        pub_curve.publish(1.0 / move_curve)
+                        pub_speed.publish(move_speed)
+                switch.L_rob_points_is_over_001 = True
+        if switch.L_rob_points_is_over_001 is True:
+            if L_rob_points < error_threshold:
+                switch.L_rob_points_is_over_001 = False
 
 
 

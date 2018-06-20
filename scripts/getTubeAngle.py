@@ -1,27 +1,19 @@
-def cal(tube_rot_axis_position_x, tube_rot_axis_position_y, tube_tip_position_x, tube_tip_position_y, world_inter_section_x, world_inter_section_y):
+def cal(origin_x, origin_y, p1_x, p1_y, p2_x, p2_y,):
     import numpy as np
     import math
-    tube_rot_axis_position_x = tube_rot_axis_position_x
-    tube_rot_axis_position_y = tube_rot_axis_position_y
 
-    tube_tip_position_x = tube_tip_position_x
-    tube_tip_position_y = tube_tip_position_y
+    op1_x =p1_x-origin_x
+    op1_y =p1_y-origin_y
 
-    inter_section_point_x = world_inter_section_x
-    inter_section_point_y = world_inter_section_y
+    op2_x =p2_x-origin_x
+    op2_y =p2_y-origin_y
 
-    rob_rotaxis_to_tip_x = tube_tip_position_x - tube_rot_axis_position_x
-    rob_rotaxis_to_tip_y = tube_tip_position_y - tube_rot_axis_position_y
+    op1_vector = np.array([op1_x, op1_y])
+    norm_op1_vector = np.linalg.norm(op1_vector)
 
-    rob_rotaxis_tip = np.array([rob_rotaxis_to_tip_x, rob_rotaxis_to_tip_y])
-    norm_rob_rotaxis_tip = np.linalg.norm(rob_rotaxis_tip)
+    op2_vector = np.array([op2_x, op2_y])
+    norm_op2_vector = np.linalg.norm(op2_vector)
 
-    rob_rotaxis_to_tip_x = inter_section_point_x - tube_rot_axis_position_x
-    rob_rotaxis_to_tip_y = inter_section_point_y - tube_rot_axis_position_y
-
-    rob_rotaxis_inter = np.array([rob_rotaxis_to_tip_x, rob_rotaxis_to_tip_y])
-    norm_rob_rotaxis_inter = np.linalg.norm(rob_rotaxis_inter)
-
-    cos_theta = np.dot(rob_rotaxis_tip, rob_rotaxis_inter) / (norm_rob_rotaxis_tip * norm_rob_rotaxis_inter)
+    cos_theta = np.dot(op1_vector, op2_vector) / (norm_op1_vector * norm_op2_vector)
     radian = math.acos(cos_theta)
     return radian
