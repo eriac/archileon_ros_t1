@@ -16,7 +16,7 @@ import nowArea
 import getTubeAngle
 import getTubeTipInterSection
 
-move_speed = 0
+move_speed = 0.01
 min_curve = 0.3
 tube_radius = 0.105
 error_threshold = 0.005
@@ -47,7 +47,6 @@ def position_callback(msg):
     world_rob_x = msg.data[0]
     world_rob_y = msg.data[1]
     world_rob_theta = msg.data[2]
-
 
 
     # ロボの位置から相対的にノズルの位置を取ってくる
@@ -101,6 +100,7 @@ def position_callback(msg):
 
         print("tube_angle")
         print(math.degrees(tube_angle))
+        pub_bl_tube_axis_angle.publish(tube_angle)
 
     except:
         print("失敗")
@@ -165,9 +165,6 @@ def position_callback(msg):
                 switch.L_rob_points_is_over_001 = False
 
 
-    for num in range(3):
-        pub_bl_tube_axis_angle.publish(0.22222)
-        pub_br_tube_axis_angle.publish(0.88888)
 
 area_map = AreaMap()
 counter = Counter()
