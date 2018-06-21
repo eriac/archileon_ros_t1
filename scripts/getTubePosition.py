@@ -1,16 +1,11 @@
 def cal(world_rob_x, world_rob_y, world_rob_theta):
     import numpy as np
 
-    print("/////////////////////////////////////////////////")
-    print("world_rob_x  is " + str(world_rob_x))
-    print("world_rob_y  is " + str(world_rob_y))
-
     # 原点からロボまでの距離のベクトル
     ox_rx = world_rob_x - 0.0
     oy_ry = world_rob_y - 0.0
 
     world_rob_position = np.array([ox_rx, oy_ry])
-
     cos = np.cos(world_rob_theta)
     sin = np.sin(world_rob_theta)
 
@@ -22,9 +17,6 @@ def cal(world_rob_x, world_rob_y, world_rob_theta):
     rob_rob_position = np.dot(rotate, world_rob_position)
     rob_rob_x = rob_rob_position[0]
     rob_rob_y = rob_rob_position[1]
-
-    print("rob_rob_x  is " + str(rob_rob_x))
-    print("rob_rob_y  is " + str(rob_rob_y))
 
     # 回転の軸はBLのタイヤから125.8mm後ろ
     rob_bl_tube_rot_axis_position_x = rob_rob_x - 0.1258
@@ -40,7 +32,6 @@ def cal(world_rob_x, world_rob_y, world_rob_theta):
 
     rob_bl_tube_rot_axis = np.array([rob_bl_tube_rot_axis_position_x, rob_bl_tube_rot_axis_position_y])
     rob_bl_tube_tip = np.array([rob_bl_tube_tip_position_x, rob_bl_tube_tip_position_y])
-
     rob_br_tube_rot_axis = np.array([rob_br_tube_rot_axis_position_x, rob_br_tube_rot_axis_position_y])
     rob_br_tube_tip = np.array([rob_br_tube_tip_position_x, rob_br_tube_tip_position_y])
 
@@ -52,17 +43,7 @@ def cal(world_rob_x, world_rob_y, world_rob_theta):
 
     world_rob_bl_tube_rot_axis_position = np.dot(reverse_rotate, rob_bl_tube_rot_axis)
     world_rob_bl_tube_tip_position = np.dot(reverse_rotate, rob_bl_tube_tip)
-
-    print(world_rob_bl_tube_rot_axis_position)
-    print(world_rob_bl_tube_tip_position)
-
     world_br_tube_rot_axis_position = np.dot(reverse_rotate, rob_br_tube_rot_axis)
     world_br_tube_tip_position = np.dot(reverse_rotate, rob_br_tube_tip)
 
-    print(world_br_tube_rot_axis_position)
-    print(world_br_tube_tip_position)
-
-
-
-    print("/////////////////////////////////////////////////")
     return world_rob_bl_tube_rot_axis_position, world_rob_bl_tube_tip_position,world_br_tube_rot_axis_position,world_br_tube_tip_position
