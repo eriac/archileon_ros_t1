@@ -25,28 +25,38 @@ void speed_callback(const std_msgs::Float32& float_msg){
     else speed_value=float_msg.data;
 }
 
-void nozzle_callback(const std_msgs::Float32MultiArray& float_array){
+void bl_nozzle_callback(const std_msgs::Float32& float_msg){
   ros::NodeHandle n;
-  ros::Publisher tube_servo_pub[2];
-  tube_servo_pub[0] = n.advertise<std_msgs::Float32>("servo4", 1000);
-  tube_servo_pub[1] = n.advertise<std_msgs::Float32>("servo5", 1000);
-  for(int i = 0; i < 2; i++){
-    std_msgs::Float32 sv;
-    sv.data=float_array.data[i];
+  ros::Publisher bl_tube_servo_pub;
+  bl_tube_servo_pub = n.advertise<std_msgs::Float32>("servo4", 1000);
+
+  std_msgs::Float32 sv;
+  sv.data=float_msg.data;
     for(int j = 0; j < 5; j++){
-      tube_servo_pub[i].publish(sv);
+      bl_tube_servo_pub.publish(sv);
     }
-  }
+}
+
+void br_nozzle_callback(const std_msgs::Float32& float_msg){
+  ros::NodeHandle n;
+  ros::Publisher br_tube_servo_pub;
+  br_tube_servo_pub = n.advertise<std_msgs::Float32>("servo5", 1000);
+
+  std_msgs::Float32 sv;
+  sv.data=float_msg.data;
+    for(int j = 0; j < 5; j++){
+      br_tube_servo_pub.publish(sv);
+    }
 }
 
 //temporal fixed
 float ws_pos[6][2]={
 	{ 0.13, 0.075},//FL
-	{ 0.13,-0.075},//FR
+	{ 0.13, -0.075},//FR
 	{-0.13, 0.075},//BL
-	{-0.13,-0.075}, //BR
-	{-0.23, 0.075}, //BL_nozuru
-	{-0.23,-0.075} //BR_nozuru
+	{-0.13, -0.075}, //BR
+	{-0.235, 0.075}, //BL_nozuru
+	{-0.235, -0.075} //BR_nozuru
 };
 
 int main(int argc, char **argv){
@@ -72,8 +82,8 @@ int main(int argc, char **argv){
 	//subscriibe
 	ros::Subscriber speed_sub   = n.subscribe("move_speed", 10, speed_callback);
 	ros::Subscriber curve_sub   = n.subscribe("move_curve", 10, curve_callback);
-	ros::Subscriber nozzle_angle_sub   = n.subscribe("tube_axis_angle", 10, nozzle_callback);
-
+	ros::Subscriber bl_nozzle_angle_sub   = n.subscribe("bl_tube_axis_angle", 10, bl_nozzle_callback);
+	ros::Subscriber br_nozzle_angle_sub   = n.subscribe("br_tube_axis_angle", 10, br_nozzle_callback);
 
 	ros::Rate loop_rate(20);
 	while (ros::ok()){

@@ -51,45 +51,59 @@ def position_callback(msg):
 
 
     # ロボの位置から相対的にノズルの位置を取ってくる
-    world_rob_bl_tube_rot_axis_position, world_rob_bl_tube_tip_position,rob_br_tube_rot_axis_position,rob_br_tube_tip_position = getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
+    world_rob_bl_tube_rot_axis_position, world_rob_bl_tube_tip_position,world_br_tube_rot_axis_position,world_br_tube_tip_position = getTubePosition.cal(world_rob_x, world_rob_y, world_rob_theta)
+
 
     # world座標系のノズルの回転の軸の座標
     # ここを中心として円を描く
-    bl_tube_rot_axis_position_x = world_rob_bl_tube_rot_axis_position[0]
-    bl_tube_rot_axis_position_y = world_rob_bl_tube_rot_axis_position[1]
+    world_rob_bl_tube_rot_axis_position_x = world_rob_bl_tube_rot_axis_position[0]
+    world_rob_bl_tube_rot_axis_position_y = world_rob_bl_tube_rot_axis_position[1]
 
     # world座標系のノズルの本体の座標
     # ノズルの本体の位置から近くの点を探すため
-    bl_tube_tip_position_x = world_rob_bl_tube_tip_position[0]
-    bl_tube_tip_position_y = world_rob_bl_tube_tip_position[1]
+    world_rob_bl_tube_tip_position_x = world_rob_bl_tube_tip_position[0]
+    world_rob_bl_tube_tip_position_y = world_rob_bl_tube_tip_position[1]
 
     #今のノズル本体の位置から、経路に対して最も近い点のインデックス２つを取ってくる
-    bl_tube_base_point_num, bl_tube_adj_point_num = getNearestPoint.search_value_tube(bl_tube_tip_way_points, bl_tube_tip_position_x, bl_tube_tip_position_y)
+    bl_tube_tip_base_point_num, bl_tube_tip_adj_point_num = getNearestPoint.search_value(bl_tube_tip_way_points, world_rob_bl_tube_tip_position_x, world_rob_bl_tube_tip_position_y)
 
     #今のノズル本体の位置から、経路に対して最も近い２の点を取ってくる
-    bl_tube_tip_base_point_x = bl_tube_tip_way_points[bl_tube_base_point_num][0]
-    bl_tube_tip_base_point_y = bl_tube_tip_way_points[bl_tube_base_point_num][1]
-    bl_tube_adj_point_x = bl_tube_tip_way_points[bl_tube_adj_point_num][0]
-    bl_tube_adj_point_y = bl_tube_tip_way_points[bl_tube_adj_point_num][1]
+    # 何故かy座標にマイナスが必要
+    world_bl_tube_tip_base_point_x = bl_tube_tip_way_points[bl_tube_tip_base_point_num][0]
+    world_bl_tube_tip_base_point_y = -bl_tube_tip_way_points[bl_tube_tip_base_point_num][1]
+    world_bl_tube_adj_point_x = bl_tube_tip_way_points[bl_tube_tip_adj_point_num][0]
+    world_bl_tube_adj_point_y = -bl_tube_tip_way_points[bl_tube_tip_adj_point_num][1]
 
-    print(bl_tube_rot_axis_position_x)
-    print(bl_tube_rot_axis_position_x)
+    print("world_rob_bl_tube_rot_axis_position")
+    print(world_rob_bl_tube_rot_axis_position_x)
+    print(world_rob_bl_tube_rot_axis_position_y)
+    print()
+    print("tube_radius")
     print(tube_radius)
-    print(bl_tube_tip_base_point_x)
-    print(bl_tube_tip_base_point_y)
-    print(bl_tube_adj_point_x)
-    print(bl_tube_adj_point_y)
+    print()
+    print("world_bl_tube_tip_base_point")
+    print(world_bl_tube_tip_base_point_x)
+    print(world_bl_tube_tip_base_point_y)
+    print()
+    print("world_bl_tube_adj_point")
+    print(world_bl_tube_adj_point_x)
+    print(world_bl_tube_adj_point_y)
 
-    result = getTubeTipInterSection.cal(center_x=bl_tube_rot_axis_position_x, center_y=bl_tube_rot_axis_position_y, radius=tube_radius, p1_x=bl_tube_tip_base_point_x, p1_y=bl_tube_tip_base_point_y, p2_x=bl_tube_adj_point_x, p2_y=bl_tube_adj_point_y)
-    print(result)
+    try:
+        result = getTubeTipInterSection.cal(center_x=world_rob_bl_tube_rot_axis_position_x, center_y=world_rob_bl_tube_rot_axis_position_y, radius=tube_radius, p1_x=world_bl_tube_tip_base_point_x, p1_y=world_bl_tube_tip_base_point_y, p2_x=world_bl_tube_adj_point_x, p2_y=world_bl_tube_adj_point_y)
+        print(result)
 
-    # inter_section_x = result[0].x
-    # inter_section_y = result[0].y
+        if result != []:
+            inter_section_x = result[0].x
+            inter_section_y = result[0].y
 
-    tube_radian = getTubeAngle(origin_x=world_rob_bl_tube_rot_axis_position_x,origin_y=world_rob_bl_tube_rot_axis_position_y, p1_x=world_rob_bl_tube_tip_position_x, p1_y=world_rob_bl_tube_tip_position_y, p2_x=inter_section_x, p2_y=inter_section_y)
+        tube_angle = getTubeAngle.cal(origin_x=world_rob_bl_tube_rot_axis_position_x,origin_y=world_rob_bl_tube_rot_axis_position_y, p1_x=world_rob_bl_tube_tip_position_x, p1_y=world_rob_bl_tube_tip_position_y, p2_x=inter_section_x, p2_y=inter_section_y)
 
-    print("tube_radian")
-    print(math.degrees(tube_radian))
+        print("tube_angle")
+        print(math.degrees(tube_angle))
+
+    except:
+        print("失敗")
 
 
 
@@ -151,6 +165,9 @@ def position_callback(msg):
                 switch.L_rob_points_is_over_001 = False
 
 
+    for num in range(3):
+        pub_bl_tube_axis_angle.publish(0.22222)
+        pub_br_tube_axis_angle.publish(0.88888)
 
 area_map = AreaMap()
 counter = Counter()
@@ -159,6 +176,7 @@ switch = Switch()
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
-pub_tube_axis_angle = rospy.Publisher('tube_axis_angle', Float32, queue_size=1000)
+pub_bl_tube_axis_angle = rospy.Publisher('bl_tube_axis_angle', Float32, queue_size=1000)
+pub_br_tube_axis_angle = rospy.Publisher('br_tube_axis_angle', Float32, queue_size=1000)
 sub = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
 rospy.spin()
