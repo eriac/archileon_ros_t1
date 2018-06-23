@@ -55,6 +55,18 @@
     <remap from="tube1"  to="pif/BR/servo2"/>
   </node>
 
+  <group ns="vive">
+     <!--node pkg="tf" type="static_transform_publisher" name="map" args="0.0 0.0 0.0 0.0 0.0 0.0 world map 100" /-->
+     <!--node pkg="tf" type="static_transform_publisher" name="vive_world_orientation" args="0.0 0.0 0.0 3.14159 0.0 1.5707 map vive_world_orientation 100" /-->
+     <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation2" args="0.0 0.0 0.0 3.14159 0.0 1.5707 map vive_world_orientation2 100" />
+     <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation" args="0.0 0.0 0.0 0.0 -0.987 0.0 vive_world_orientation2 vive_world_orientation 100" />
+     <!--node pkg="tf" type="static_transform_publisher" name="vive_world" args="0.0 0.0 0.0 0.0 0.0 0.0 map vive_world 100" /-->
+
+     <node pkg="vive_tracker" name="vive_world" type="vive_world.py" output="screen"/>
+     <node pkg="vive_tracker" name="vive_tracker" type="vive_tracker.py" output="screen"/>
+  </group>
+
+
 
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
   <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher.py" />
