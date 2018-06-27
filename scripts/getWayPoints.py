@@ -1,7 +1,7 @@
 def read_rob():
     point_list=[]
     line_length = 1714
-    f = open("/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/way_points.txt", "r")
+    f = open("/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/way_points.txt", "r")
     line = f.readline()
     point_list.append(line)
 
@@ -27,7 +27,7 @@ def read_rob():
 def read_bl_tube_points():
     point_list=[]
     line_length = 170
-    f = open("/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/bl_tube_points_0075.txt", "r")
+    f = open("/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/bl_tube_points_0075.txt", "r")
     line = f.readline()
     point_list.append(line)
 
@@ -53,7 +53,7 @@ def read_bl_tube_points():
 def read_br_tube_points():
     line_length = 170
     point_list=[]
-    f = open("/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/br_tube_points_0075.txt", "r")
+    f = open("/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/br_tube_points_0075.txt", "r")
     line = f.readline()
     point_list.append(line)
 
