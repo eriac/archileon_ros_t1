@@ -120,7 +120,7 @@ pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
 pub_bl_tube_axis_angle = rospy.Publisher('bl_tube_axis_angle', Float32, queue_size=1000)
 pub_br_tube_axis_angle = rospy.Publisher('br_tube_axis_angle', Float32, queue_size=1000)
-sub = rospy.Subscriber("robot_status1", Float32MultiArray, position_callback)
+sub = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
 sub = rospy.Subscriber("/vive/LHR_1CDCEA0B", Float32MultiArray, position_callback)
 
 rospy.spin()

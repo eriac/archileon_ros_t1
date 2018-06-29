@@ -38,9 +38,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "test_tf_listen");
 	ros::NodeHandle n;
 
-  ros::Publisher status_pub1 = n.advertise<std_msgs::Float32MultiArray>("robot_status1", 10,true);
-  ros::Publisher status_pub2 = n.advertise<std_msgs::Float32MultiArray>("robot_status2", 10,true);
-
+  ros::Publisher status_pub = n.advertise<std_msgs::Float32MultiArray>("robot_status", 10,true);
 
 	ros::Rate loop_rate(100);
 	while (ros::ok()){
@@ -51,9 +49,7 @@ int main(int argc, char **argv)
             s0.data.push_back(v0);
             s0.data.push_back(v1);
             s0.data.push_back(v2);
-            status_pub1.publish(s0);
-            status_pub2.publish(s0);
-		}
+            status_pub.publish(s0);		}
 		catch(...){
 			printf("error\n");
 		}
