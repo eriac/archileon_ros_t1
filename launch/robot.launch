@@ -67,9 +67,13 @@
   </group>
 
 
-
+<!-- Visualizer -->
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
   <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher.py" />
+
+  <node name="map_rob_visualizer" pkg="archileon_ros_t1" type="map_rob_visualizer" />
+  <node name="map_rob_publisher" pkg="archileon_ros_t1" type="map_rob_publisher.py" />
+
 
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />

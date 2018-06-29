@@ -39,7 +39,7 @@ int main(int argc, char **argv)
         line_strip.id=1;
         line_strip.type = visualization_msgs::Marker::LINE_STRIP;
         line_strip.scale.x = 0.01;
-        line_strip.color.b = 1.0;
+        line_strip.color.g = 1.0;
         line_strip.color.a = 1.0;
         //ここpにデータを突っ込むと、Rviz上にその点がマップされる使用
         for(int i=0;i<(int)map_data.data.size()/2;i++){
