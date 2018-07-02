@@ -9,7 +9,6 @@ import getWayPoints
 import getMoveCurve
 import getNearestPoint
 import getDist_rob_points
-
 import getTubePosition
 import nowArea
 import getTubeAngle
@@ -37,50 +36,37 @@ class Switch():
 class AreaMap():
     def __init__(self):
         self.main_points = getWayPoints.read_rob()
-        self.now_target_num = 1
+        self.now_target_num = 9
 
 class func_parameter():
-    move_speed = 0.05
+    move_speed = 0.1
     move_curve = 0
+
+class func_world_rob_pos():
+    x = 0 
+    y = 0
+    theta = 0       
+
 
 
 def position_callback(msg):
-    world_rob_x = msg.data[0]
-    world_rob_y = msg.data[1]
-    world_rob_theta = msg.data[2]
+    func_world_rob_pos.x = msg.data[0]
+    func_world_rob_pos.y = msg.data[1]
+    func_world_rob_pos.theta = msg.data[2]
 
-    print("Machine world_rob_x " + str(world_rob_x))
-    print("Machine world_rob_y " + str(world_rob_y))
-    # print("Machine world_rob_theta " + str(world_rob_theta))
-    
-    # # 今のロボの位置から、経路に対して最も近い点を２つ取ってくる
-    # world_rob_base_point, world_rob_adj_point = getNearestPoint.search_value(rob_way_points, world_rob_x, world_rob_y)
-    
-    # world_rob_base_point_x = world_rob_base_point[0]
-    # world_rob_base_point_y = world_rob_base_point[1]
-    # world_rob_adj_point_x = world_rob_adj_point[0]
-    # world_rob_adj_point_y = world_rob_adj_point[1]
-    
-    
-    # do whileがないのでこう書く
-    #一番始めだけどこに向かっていくかをこう書かないと計算できない
+    diff_target_rob = math.sqrt((area_map.main_points[area_map.now_target_num][0] - func_world_rob_pos.x)**2 + 
+    (area_map.main_points[area_map.now_target_num][1] - func_world_rob_pos.y)**2)
+    print("diff    " + str(diff_target_rob))
+    print("target  " + "[" +str(area_map.main_points[area_map.now_target_num][0]) 
+    + ",    " +str(area_map.main_points[area_map.now_target_num][1]) + "]")
+    print("machine " +   "[" + str(func_world_rob_pos.x) + ", " + str(func_world_rob_pos.y) + "]")
+    print("theta   " + str(func_world_rob_pos.theta))
+    print("move_curve   " + str(func_parameter.move_curve) +"\n")
 
-    diff_target_rob = math.sqrt((area_map.main_points[area_map.now_target_num][0] - world_rob_x)**2 + 
-    (area_map.main_points[area_map.now_target_num][1] - world_rob_y)**2)
-    print("diff_target_rob " + str(diff_target_rob))
 
-    if diff_target_rob < 0.005:
-        move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, 
-        world_target_x=area_map.main_points[area_map.now_target_num][0], 
-        world_target_y=area_map.main_points[area_map.now_target_num][1])
-        func_parameter.move_curve = move_curve
-
+    if diff_target_rob < 0.09:
         area_map.now_target_num +=1
 
-        # move_curve = getMoveCurve.cal(world_rob_x, world_rob_y, world_rob_theta, 
-        # world_target_x=area_map.main_points[area_map.now_target_num][0], 
-        # world_target_y=area_map.main_points[area_map.now_target_num][1])
-        # func_parameter.move_curve =move_curve
 
 
 area_map = AreaMap()
@@ -94,7 +80,7 @@ pub_bl_tube_axis_angle = rospy.Publisher('bl_tube_axis_angle', Float32, queue_si
 pub_br_tube_axis_angle = rospy.Publisher('br_tube_axis_angle', Float32, queue_size=1000)
 sub = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
 sub = rospy.Subscriber("/vive/LHR_1CDCEA0B", Float32MultiArray, position_callback)
-rate = rospy.Rate(100)
+rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
     if counter.num == 0:
@@ -107,9 +93,10 @@ while not rospy.is_shutdown():
             pub_speed.publish(func_parameter.move_speed)
         counter.num +=1
     else:
+        move_curve = getMoveCurve.cal(func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta, 
+        world_target_x=area_map.main_points[area_map.now_target_num][0], 
+        world_target_y=area_map.main_points[area_map.now_target_num][1])
+        func_parameter.move_curve = move_curve
         pub_curve.publish(1.0 / func_parameter.move_curve)
         pub_speed.publish(func_parameter.move_speed)
-        print("move_curve " + str(func_parameter.move_curve))
-        print("now target " +str(area_map.main_points[area_map.now_target_num]))
-
     rate.sleep()

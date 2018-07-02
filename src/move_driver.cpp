@@ -112,9 +112,12 @@ int main(int argc, char **argv){
               if (i % 2 == 0){
                 sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
 
-                float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + 
-                ws_pos[i][0] * ws_pos[i][0]);
-                mv.data=f_val1*(real_length-side_length)/real_length*1/2;
+                mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
+
+          
+                // float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + 
+                // ws_pos[i][0] * ws_pos[i][0]);
+                // mv.data=f_val1*(real_length-side_length)/real_length*1/2;
 
                 // float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) 
                 // - ws_pos[i][0] * ws_pos[i][0]);
@@ -123,9 +126,11 @@ int main(int argc, char **argv){
               else{
                 sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
 
-                float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + 
-                ws_pos[i][0] * ws_pos[i][0]);
-                mv.data=f_val1*(side_length - real_length)/real_length*1/2;
+                mv.data=-f_val1*(ws_pos[i][1]-center_y)/center_y;
+
+                // float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + 
+                // ws_pos[i][0] * ws_pos[i][0]);
+                // mv.data=f_val1*(side_length - real_length)/real_length*1/2;
 
                 // float side_length = sqrt((center_y + ws_pos[i][1])*(center_y + ws_pos[i][1]) 
                 // - ws_pos[i][0] * ws_pos[i][0]);
