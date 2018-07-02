@@ -27,13 +27,13 @@ for i in range(len(rob_way_points)):
     map_data.data.append(rob_way_points[i][0])
     map_data.data.append(rob_way_points[i][1])
 
-for i in range(len(bl_tube_points)):
-    map_data.data.append(bl_tube_points[i][0])
-    map_data.data.append(bl_tube_points[i][1])
+# for i in range(len(bl_tube_points)):
+#     map_data.data.append(bl_tube_points[i][0])
+#     map_data.data.append(bl_tube_points[i][1])
 
-for i in range(len(br_tube_points)):
-    map_data.data.append(br_tube_points[i][0])
-    map_data.data.append(br_tube_points[i][1])
+# for i in range(len(br_tube_points)):
+#     map_data.data.append(br_tube_points[i][0])
+#     map_data.data.append(br_tube_points[i][1])
 
 
 

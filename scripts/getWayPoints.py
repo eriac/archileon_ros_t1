@@ -2,9 +2,11 @@
 def read_rob():
     import os
     point_list=[]
-    line_length = 1714
+    line_length = 514
 
-    data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/way_points.txt"
+    data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/robot_1cm.txt"
+    # data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/way_points.txt"
+
     f = open(data_path, "r")
 
     line = f.readline()
@@ -21,7 +23,7 @@ def read_rob():
     way_points=[]
     for i in range(line_length):
         xy_list =[]
-        x = float(new_list[i][1:new_list[i].index(",")])*0.001 - 0.5
+        x = float(new_list[i][1:new_list[i].index(",")])*0.001
         y = float(new_list[i][new_list[i].index(",")+1: new_list[i].index("]")])*0.001
         xy_list.append(x)
         xy_list.append(y)
