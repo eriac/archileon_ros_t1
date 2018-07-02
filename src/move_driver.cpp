@@ -51,12 +51,12 @@ void br_nozzle_callback(const std_msgs::Float32& float_msg){
 
 //temporal fixed
 float ws_pos[6][2]={
-	{ 0.13, 0.075},//FL
-	{ 0.13, -0.075},//FR
-	{-0.13, 0.075},//BL
-	{-0.13, -0.075}, //BR
-	{-0.235, 0.075}, //BL_nozuru
-	{-0.235, -0.075} //BR_nozuru
+	{ 0.13, 0.08},//FL
+	{ 0.13, -0.08},//FR
+	{-0.13, 0.08},//BL
+	{-0.13, -0.08}, //BR
+	{-0.235, 0.08}, //BL_nozuru
+	{-0.235, -0.08} //BR_nozuru
 };
 
 int main(int argc, char **argv){
@@ -102,22 +102,21 @@ int main(int argc, char **argv){
         }
         else if(f_val0>0){//curve
             float center_y=1/f_val0;
-            float back_center_x = ws_pos[2][0];
-            float hypotense = center_y * center_y + back_center_x * back_center_x;
-            float real_length = sqrt(hypotense);
 
             for(int i=0;i<4;i++){
               std_msgs::Float32 sv;
               std_msgs::Float32 mv;
               if (i % 2 == 0){
                 sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
-                float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                mv.data=f_val1*(real_length-side_length)/real_length*1/2;
+                float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) 
+                - ws_pos[i][0] * ws_pos[i][0]);
+                mv.data=f_val1*(side_length/center_y);
               }
               else{
                 sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
-                float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + ws_pos[i][0] * ws_pos[i][0]);
-                mv.data=f_val1*(side_length - real_length)/real_length*1/2;
+                float side_length = sqrt((center_y + ws_pos[i][1])*(center_y + ws_pos[i][1]) 
+                - ws_pos[i][0] * ws_pos[i][0]);
+                mv.data=f_val1*(side_length/center_y);
               }
               servo_pub[i].publish(sv);
               motor_pub[i].publish(mv);
