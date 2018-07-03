@@ -238,3 +238,4 @@ target_link_libraries(joy_s_c ${catkin_LIBRARIES})
 
 add_executable(map_rob_visualizer src/map_rob_visualizer.cpp)
 target_link_libraries(map_rob_visualizer ${catkin_LIBRARIES})
+

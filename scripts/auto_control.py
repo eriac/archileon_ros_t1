@@ -23,6 +23,7 @@ rob_way_points = getWayPoints.read_rob()
 
 array = []
 tube_axis_angle_radian_array = Float32MultiArray(data=array)
+map_target = Float32MultiArray(data=array)
 
 
 class Counter():
@@ -39,7 +40,7 @@ class AreaMap():
         self.now_target_num = 10
 
 class func_parameter():
-    move_speed = 0.05
+    move_speed = 0.01
     move_curve = 0
 
 class func_world_rob_pos():
@@ -78,10 +79,11 @@ switch = Switch()
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
-# pub_bl_tube_axis_angle = rospy.Publisher('bl_tube_axis_angle', Float32, queue_size=1000)
-# pub_br_tube_axis_angle = rospy.Publisher('br_tube_axis_angle', Float32, queue_size=1000)
-sub = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
-sub = rospy.Subscriber("/vive/LHR_1CDCEA0B", Float32MultiArray, position_callback)
+pub_target = rospy.Publisher('now_target_array', Float32MultiArray, queue_size=1000)
+
+sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
+# sub_rob_statussub = rospy.Subscriber("/vive/LHR_1CDCEA0B", Float32MultiArray, position_callback)
+
 rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
@@ -115,8 +117,14 @@ while not rospy.is_shutdown():
         #     move_curve = getMoveCurve.cal(func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta, 
         #     world_target_x=area_map.main_points[area_map.now_target_num][0], 
         #     world_target_y=area_map.main_points[area_map.now_target_num][1])
-
         func_parameter.move_curve = move_curve
         pub_curve.publish(1.0 / func_parameter.move_curve)
         pub_speed.publish(func_parameter.move_speed)
+
+
+        map_target.data.append(area_map.main_points[area_map.now_target_num][0])
+        map_target.data.append(area_map.main_points[area_map.now_target_num][1])
+        pub_target.publish(map_target)
+        del map_target.data[:]
+
     rate.sleep()
