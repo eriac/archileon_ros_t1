@@ -20,8 +20,8 @@ map_pub = rospy.Publisher("map_data", Float32MultiArray, queue_size=10)
 rate = rospy.Rate(10)
 
 rob_way_points = getWayPoints.read_rob()
-bl_tube_points = getWayPoints.read_bl_tube_points()
-br_tube_points = getWayPoints.read_br_tube_points()
+# bl_tube_points = getWayPoints.read_bl_tube_points()
+# br_tube_points = getWayPoints.read_br_tube_points()
 
 for i in range(len(rob_way_points)):
     map_data.data.append(rob_way_points[i][0])

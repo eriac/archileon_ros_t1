@@ -4,7 +4,7 @@ def read_rob():
     point_list=[]
     line_length = 1028
 
-    data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/robot_1cm.txt"
+    data_path = "/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/robot_1cm.txt"
     # data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/way_points.txt"
 
     f = open(data_path, "r")
