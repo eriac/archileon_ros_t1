@@ -10,7 +10,6 @@ import getMoveCurve
 import getNearestPoint
 import getDist_rob_points
 import getTubePosition
-import nowArea
 import getTubeAngle
 import getTubeTipInterSection
 import getDistRobTarget

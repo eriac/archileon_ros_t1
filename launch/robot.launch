@@ -62,8 +62,8 @@
      <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation" args="0.0 0.0 0.0 0.0 -0.987 0.0 vive_world_orientation2 vive_world_orientation 100" />
      <!--node pkg="tf" type="static_transform_publisher" name="vive_world" args="0.0 0.0 0.0 0.0 0.0 0.0 map vive_world 100" /-->
 
-     <node pkg="vive_tracker" name="vive_world" type="vive_world.py" output="screen"/>
-     <node pkg="vive_tracker" name="vive_tracker" type="vive_tracker.py" output="screen"/>
+     <node pkg="archileon_ros_t1" name="vive_world" type="vive_world.py" output="screen"/>
+     <node pkg="archileon_ros_t1" name="vive_tracker" type="vive_tracker.py" output="screen"/>
   </group>
 
 
@@ -141,5 +141,6 @@
   <!-- TEST FOR TF -->
   <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
 
+  <node name="getErrorRobWaypoints" pkg="archileon_ros_t1" type="getErrorRobWaypoints.py" />
 
 </launch>
