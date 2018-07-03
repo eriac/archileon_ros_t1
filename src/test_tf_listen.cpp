@@ -49,7 +49,8 @@ int main(int argc, char **argv)
             s0.data.push_back(v0);
             s0.data.push_back(v1);
             s0.data.push_back(v2);
-            status_pub.publish(s0);		}
+            status_pub.publish(s0);		
+            }
 		catch(...){
 			printf("error\n");
 		}
