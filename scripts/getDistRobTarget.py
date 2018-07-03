@@ -1,7 +1,8 @@
 def cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y):
     import numpy as np
     import math
-
+    from decimal import Decimal
+    
     w_rob_x_target_x = world_target_x - world_rob_x
     w_rob_y_target_y = world_target_y - world_rob_y
     vector_rob_target = np.array([w_rob_x_target_x, w_rob_y_target_y])
@@ -38,32 +39,27 @@ def cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_
         vector_u = np.array([center_x_rob_x, center_y_rob_y])
         norm_vector_u = float(np.linalg.norm(vector_u))
 
-
-        print("center_x_rob_x " +str(center_x_rob_x))
-        print("center_y_rob_y " +str(center_y_rob_y))
-
-
         center_x_target_x = rob_target_x - center_x
         center_y_target_y = rob_target_y - center_y
         vector_v = np.array([center_x_target_x, center_y_target_y])
         norm_vector_v = float(np.linalg.norm(vector_v))
 
-        print("center_x_target_x " +str(center_x_target_x))
-        print("center_y_target_y " +str(center_y_target_y))
 
 
         u_dot_v = float(np.dot(vector_u, vector_v))
-        cos = float((norm_vector_u * norm_vector_v) / u_dot_v)
-        if cos > 1.0:
-            cos = 1.0
-        theta = np.arccos(cos)
+        # cos = float((norm_vector_u * norm_vector_v) / u_dot_v)
+
+
+        theta = np.arccos(float(np.linalg.norm(vector_u) * np.linalg.norm(vector_v)) /
+        float(np.dot(vector_u, vector_v)))
+
         dist_rob_target = radius * theta
         print("Bdist_rob_target " +str(dist_rob_target))
         print("u_dot_v " +str(u_dot_v))
         print("norm_vector_u " +str(norm_vector_u))
         print("norm_vector_v " +str(norm_vector_v))
                 
-        print("cos " +str(cos))
+
         print("theta " +str(theta))
 
 

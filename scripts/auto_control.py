@@ -40,7 +40,7 @@ class AreaMap():
         self.now_target_num = 10
 
 class func_parameter():
-    move_speed = 0.01
+    move_speed = 0.5
     move_curve = 0
 
 class func_world_rob_pos():
@@ -54,17 +54,22 @@ def position_callback(msg):
     func_world_rob_pos.y = msg.data[1]
     func_world_rob_pos.theta = msg.data[2]
 
-    diff_rob_target = abs(getDistRobTarget.cal(
-        func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta,
-        world_target_x=area_map.main_points[area_map.now_target_num][0], 
-        world_target_y=area_map.main_points[area_map.now_target_num][1]
-    ))
+    # diff_rob_target = abs(getDistRobTarget.cal(
+    #     func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta,
+    #     world_target_x=area_map.main_points[area_map.now_target_num][0], 
+    #     world_target_y=area_map.main_points[area_map.now_target_num][1]
+    # ))
 
-    print("target " +  str(area_map.now_target_num) + " [" +str(area_map.main_points[area_map.now_target_num][0]) 
-    + ",    " +str(area_map.main_points[area_map.now_target_num][1]) + "]")
-    print("machine " +   "[" + str(func_world_rob_pos.x) + ", " + str(func_world_rob_pos.y) + "]")
-    print("theta   " + str(func_world_rob_pos.theta))
-    print("move_curve " + str(func_parameter.move_curve) +"\n")
+    diff_rob_target = (
+        (area_map.main_points[area_map.now_target_num][0] - func_world_rob_pos.x )**2 +
+        (area_map.main_points[area_map.now_target_num][1] - func_world_rob_pos.y )**2
+    )
+
+    # print("target " +  str(area_map.now_target_num) + " [" +str(area_map.main_points[area_map.now_target_num][0]) 
+    # + ",    " +str(area_map.main_points[area_map.now_target_num][1]) + "]")
+    # print("machine " +   "[" + str(func_world_rob_pos.x) + ", " + str(func_world_rob_pos.y) + "]")
+    # print("theta   " + str(func_world_rob_pos.theta))
+    # print("move_curve " + str(func_parameter.move_curve) +"\n")
 
 
     if diff_rob_target < 0.10:

@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# https://www.robotech-note.com/entry/2018/04/15/221524
+
 import rospy
 from visualization_msgs.msg import Marker
 from std_msgs.msg import Float32MultiArray
@@ -7,10 +9,7 @@ from geometry_msgs.msg import Point
 
 
 
-
-
 def position_callback(float_array):
-
     marker_data = Marker()
     marker_data.header.frame_id = "world"
     marker_data.header.stamp = rospy.Time.now()
