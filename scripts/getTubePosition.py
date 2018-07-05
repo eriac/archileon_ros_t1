@@ -2,10 +2,13 @@
 def cal(w_rob_x, w_rob_y, w_rob_theta):
     import numpy as np
 
-    # 原点からロボまでの距離のベクトル
-    originx_robx = w_rob_x - 0.0
-    originy_roby = w_rob_y - 0.0
+    origin_x = 0.0 
+    origin_y = 0.0 
 
+    # 原点からロボまでの距離のベクトル
+    originx_robx = w_rob_x - origin_x 
+    originy_roby = w_rob_y - origin_y
+    #ベクトル化
     w_rob_pos = np.array([originx_robx, originy_roby])
     cos = np.cos(w_rob_theta)
     sin = np.sin(w_rob_theta)

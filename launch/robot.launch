@@ -141,6 +141,6 @@
   <!-- TEST FOR TF -->
   <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
 
-  <node name="getErrorRobWaypoints" pkg="archileon_ros_t1" type="getErrorRobWaypoints.py" />
+  <node name="getShowRobWaypoints" pkg="archileon_ros_t1" type="getShowRobWaypoints.py" />
 
 </launch>

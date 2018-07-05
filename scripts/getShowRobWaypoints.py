@@ -6,13 +6,8 @@ from std_msgs.msg import Float32MultiArray
 from sympy import *
 import math
 import getWayPoints
-import getMoveCurve
 import getNearestPoint
 import getDist_rob_points
-import getTubePosition
-import getTubeAngle
-import getTubeTipInterSection
-import getDistRobTarget
 
 
 class AreaMap():

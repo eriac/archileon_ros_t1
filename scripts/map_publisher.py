@@ -17,7 +17,7 @@ map_pub = rospy.Publisher("map_data", Float32MultiArray, queue_size=10)
 # bl_tube_pub = rospy.Publisher("bl_tube_data", Float32MultiArray, queue_size=10)
 # br_tube_pub = rospy.Publisher("br_tube_data", Float32MultiArray, queue_size=10)
 
-rate = rospy.Rate(10)
+rate = rospy.Rate(100)
 
 rob_way_points = getWayPoints.read_rob()
 # bl_tube_points = getWayPoints.read_bl_tube_points()

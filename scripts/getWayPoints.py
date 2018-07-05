@@ -4,8 +4,8 @@ def read_rob():
     point_list=[]
     line_length = 1028
 
-    data_path = "/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/robot_1cm.txt"
-    # data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/way_points.txt"
+    # data_path = "/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/robot_1cm.txt"
+    data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/robot_1cm.txt"
 
     f = open(data_path, "r")
 
@@ -23,8 +23,8 @@ def read_rob():
     way_points=[]
     for i in range(line_length):
         xy_list =[]
-        x = float(new_list[i][1:new_list[i].index(",")])*0.005 
-        y = float(new_list[i][new_list[i].index(",")+1: new_list[i].index("]")])*0.005
+        x = float(new_list[i][1:new_list[i].index(",")])*0.001
+        y = float(new_list[i][new_list[i].index(",")+1: new_list[i].index("]")])*0.001 
         xy_list.append(x)
         xy_list.append(y)
         way_points.append(xy_list)
@@ -34,9 +34,10 @@ def read_rob():
 def read_bl_tube_points():
     import os
     point_list=[]
-    line_length = 170
+    line_length = 1028
 
-    data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/bl_tube_points_0075.txt"
+    # data_path = "/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/nozzle_in_1cm.txt"
+    data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/nozzle_in_1cm.txt"
     f = open(data_path, "r")
     line = f.readline()
     point_list.append(line)
@@ -52,7 +53,7 @@ def read_bl_tube_points():
     way_points=[]
     for i in range(line_length):
         xy_list =[]
-        x = float(new_list[i][1:new_list[i].index(",")])*0.001 - 0.5
+        x = float(new_list[i][1:new_list[i].index(",")])*0.001 
         y = float(new_list[i][new_list[i].index(",")+1: new_list[i].index("]")])*0.001
         xy_list.append(x)
         xy_list.append(y)
@@ -62,10 +63,11 @@ def read_bl_tube_points():
 
 def read_br_tube_points():
     import os
-    line_length = 170
+    line_length = 1028
     point_list=[]
 
-    data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/br_tube_points_0075.txt"
+    # data_path = "/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/nozzle_out_1cm.txt"
+    data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/nozzle_out_1cm.txt"
     f = open(data_path, "r")
     line = f.readline()
     point_list.append(line)
@@ -81,7 +83,7 @@ def read_br_tube_points():
     way_points=[]
     for i in range(line_length):
         xy_list =[]
-        x = float(new_list[i][1:new_list[i].index(",")])*0.001 - 0.5
+        x = float(new_list[i][1:new_list[i].index(",")])*0.001 
         y = float(new_list[i][new_list[i].index(",")+1: new_list[i].index("]")])*0.001
         xy_list.append(x)
         xy_list.append(y)

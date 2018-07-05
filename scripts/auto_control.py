@@ -39,7 +39,7 @@ class AreaMap():
         self.now_target_num = 10
 
 class func_parameter():
-    move_speed = 0.01
+    move_speed = 0.5
     move_curve = 0
 
 class func_world_rob_pos():
