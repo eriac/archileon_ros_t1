@@ -12,12 +12,10 @@ def cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_
     rob_target_position = np.dot(rotate, vector_rob_target)
     rob_target_x = rob_target_position[0]
     rob_target_y = rob_target_position[1]
-    print("world_rob_theta " +str(world_rob_theta))
-
     radius = ((rob_target_x**2) + (rob_target_y**2)) / (2 * rob_target_y)
+
     if radius > 100:
         radius = 100
     elif radius < -100:
         radius = -100
-    print("radius " +str(radius))
     return radius

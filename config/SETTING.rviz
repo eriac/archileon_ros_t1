@@ -257,8 +257,6 @@ Visualization Manager:
           Value: true
         body_link:
           Value: false
-        map:
-          Value: true
         slider0_link:
           Value: false
         slider1_link:
@@ -272,10 +270,6 @@ Visualization Manager:
         tubeR_link1:
           Value: false
         vive_tracker_link:
-          Value: true
-        vive_world_orientation:
-          Value: true
-        vive_world_orientation2:
           Value: true
         wheelset0_holder1_link:
           Value: false
@@ -393,25 +387,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.4296036
+      Distance: 11.1562595
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.3842783
-        Y: 2.02870798
-        Z: -0.216536537
+        X: 0.906010151
+        Y: 0.732039154
+        Z: -6.24568367
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.56979632
+      Pitch: 1.53479648
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.54540098
+      Yaw: 1.34040105
     Saved: ~
 Window Geometry:
   Displays:

@@ -21,7 +21,6 @@ error_threshold = 0.005
 rob_way_points = getWayPoints.read_rob()
 
 array = []
-tube_axis_angle_radian_array = Float32MultiArray(data=array)
 map_target = Float32MultiArray(data=array)
 
 
@@ -32,10 +31,10 @@ class Counter():
 class AreaMap():
     def __init__(self):
         self.main_points = getWayPoints.read_rob()
-        self.now_target_num = 10
+        self.now_target_num = 3
 
 class func_parameter():
-    move_speed = 0.01
+    move_speed = 0.05
     move_curve = 0
 
 class func_world_rob_pos():
@@ -66,8 +65,7 @@ def position_callback(msg):
     # print("theta   " + str(func_world_rob_pos.theta))
     # print("move_curve " + str(func_parameter.move_curve) +"\n")
 
-
-    if diff_rob_target < 0.10:
+    if diff_rob_target < 0.03:
         area_map.now_target_num +=1
 
 
@@ -79,9 +77,7 @@ rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
 pub_target = rospy.Publisher('now_target_array', Float32MultiArray, queue_size=1000)
-
 sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
-# sub_rob_statussub = rospy.Subscriber("/vive/LHR_1CDCEA0B", Float32MultiArray, position_callback)
 
 rate = rospy.Rate(10)
 

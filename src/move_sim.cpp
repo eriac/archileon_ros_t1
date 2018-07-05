@@ -28,7 +28,7 @@
 #define PS3_square   15
 #define PS3_PS    16
 
-float target_width[2]={0.12,0.12};
+float target_width[2]={0.13,0.13};
 float WHEEL_BASE =0.26;
 float target_steer[4]={0,0,0,0};
 float target_motor[4]={0,0,0,0};

@@ -54,7 +54,7 @@ def read_bl_tube_points():
     for i in range(line_length):
         xy_list =[]
         x = float(new_list[i][1:new_list[i].index(",")])*0.001 
-        y = float(new_list[i][new_list[i].index(",")+1: new_list[i].index("]")])*0.001
+        y = float(new_list[i][new_list[i].index(",")+1: new_list[i].index("]")])*0.001 
         xy_list.append(x)
         xy_list.append(y)
         way_points.append(xy_list)

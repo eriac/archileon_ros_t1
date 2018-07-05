@@ -1,17 +1,18 @@
-def cal(origin_x, origin_y, p1_x, p1_y, p2_x, p2_y):
+def cal(origin_x, origin_y, u_x, u_y, v_x, v_y):
     import numpy as np
     import math
 
-    op1_x =p1_x-origin_x
-    op1_y =p1_y-origin_y
-    op2_x =p2_x-origin_x
-    op2_y =p2_y-origin_y
+    element_u_x =u_x - origin_x
+    element_u_y =u_y - origin_y
+    element_v_x =v_x - origin_x
+    element_v_y =v_y - origin_y
 
-    op1_vector = np.array([op1_x, op1_y], dtype= np.float32)
-    norm_op1_vector = np.linalg.norm(op1_vector)
-    op2_vector = np.array([op2_x, op2_y], dtype= np.float32)
-    norm_op2_vector = np.linalg.norm(op2_vector)
+    vector_u = np.array([element_u_x, element_u_y], dtype= np.float32)
+    norm_vector_u = np.linalg.norm(vector_u)
+    vector_v = np.array([element_v_x, element_v_y], dtype= np.float32)
+    norm_vector_v = np.linalg.norm(vector_v)
 
-    cos_theta = np.dot(op1_vector, op2_vector) / (norm_op1_vector * norm_op2_vector)
+
+    cos_theta = np.dot(vector_u, vector_v) / (norm_vector_u * norm_vector_v)
     radian = math.acos(cos_theta)
     return radian
