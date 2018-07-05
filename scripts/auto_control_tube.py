@@ -38,7 +38,7 @@ def position_callback(msg):
     func_world_rob_pos.y = msg.data[1]
     func_world_rob_pos.theta = msg.data[2]
 
-    w_bl_rot_pos, w_bl_pos = getTubePosition.cal( 
+    w_bl_rot_pos, w_bl_pos, w_br_rot_pos, w_br_pos = getTubePosition.cal( 
     func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta
     ) 
     func_world_bl_rot_pos.x = w_bl_rot_pos[0]
@@ -49,10 +49,17 @@ def position_callback(msg):
     for num in range(3):
         array = []
         bl_tube_pos = Float32MultiArray(data=array)
-
         bl_tube_pos.data.append(w_bl_pos[0])
         bl_tube_pos.data.append(w_bl_pos[1])
         pub_bl_tube_status.publish(bl_tube_pos)
+
+    for num in range(3):
+        array = []
+        br_tube_pos = Float32MultiArray(data=array)
+        br_tube_pos.data.append(w_br_pos[0])
+        br_tube_pos.data.append(w_br_pos[1])
+        pub_br_tube_status.publish(br_tube_pos)
+
 
 
 area_map = AreaMap()
@@ -60,8 +67,10 @@ rospy.init_node("auto_control")
 pub_bl_tube_angle = rospy.Publisher('bl_rot_tube_angle', Float32, queue_size=1000)
 
 pub_bl_tube_status = rospy.Publisher('bl_tube_status', Float32MultiArray, queue_size=1000)
+pub_br_tube_status = rospy.Publisher('br_tube_status', Float32MultiArray, queue_size=1000)
 
-# pub_br_tube_angle = rospy.Publisher('br_tube_angle', Float32MultiArray, queue_size=1000)
+
+
 sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
 
 rate = rospy.Rate(10)
