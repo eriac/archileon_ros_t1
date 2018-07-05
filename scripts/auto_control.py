@@ -28,10 +28,7 @@ map_target = Float32MultiArray(data=array)
 class Counter():
     def __init__(self):
         self.num = 0
-        self.global_num = 0
-class Switch():
-    def __init__(self):
-        self.L_rob_points_is_over_001 = False
+
 
 class AreaMap():
     def __init__(self):
@@ -39,7 +36,7 @@ class AreaMap():
         self.now_target_num = 10
 
 class func_parameter():
-    move_speed = 0.5
+    move_speed = 0.01
     move_curve = 0
 
 class func_world_rob_pos():
@@ -78,7 +75,6 @@ def position_callback(msg):
 
 area_map = AreaMap()
 counter = Counter()
-switch = Switch()
 
 rospy.init_node("auto_control")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)

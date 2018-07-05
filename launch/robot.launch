@@ -26,9 +26,6 @@
     <remap from="motor3" to="pif/BR/motor"/>
   </node>
 
-  <group if="$(arg vive)">
-    <node name="udp_reciever" pkg="archileon_ros_t1" type="udp_reciever" />
-  </group>
   <group unless="$(arg vive)">
     <node name="move_sim" pkg="archileon_ros_t1" type="move_sim">
       <remap from="steer0" to="pif/FL/servo1"/>
@@ -55,16 +52,19 @@
     <remap from="tube1"  to="pif/BR/servo2"/>
   </node>
 
-  <group ns="vive">
-     <!--node pkg="tf" type="static_transform_publisher" name="map" args="0.0 0.0 0.0 0.0 0.0 0.0 world map 100" /-->
-     <!--node pkg="tf" type="static_transform_publisher" name="vive_world_orientation" args="0.0 0.0 0.0 3.14159 0.0 1.5707 map vive_world_orientation 100" /-->
-     <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation2" args="0.0 0.0 0.0 3.14159 0.0 1.5707 map vive_world_orientation2 100" />
-     <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation" args="0.0 0.0 0.0 0.0 -0.987 0.0 vive_world_orientation2 vive_world_orientation 100" />
-     <!--node pkg="tf" type="static_transform_publisher" name="vive_world" args="0.0 0.0 0.0 0.0 0.0 0.0 map vive_world 100" /-->
+  <!-- <group ns="vive" unless="$(arg vive)">  -->
+  <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
+  <!-- </group> -->
 
-     <node name="vive_world" pkg="archileon_ros_t1" type="vive_world.py" output="screen"/>
-     <node name="vive_tracker" pkg="archileon_ros_t1" type="vive_tracker.py" output="screen"/>
+  <group ns="vive" if="$(arg vive)"> 
+    <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation2" args="0.0 0.0 1.55 0 0.0 0 world map 100" />
+    <node name="vive_world" pkg="archileon_ros_t1" type="vive_world.py" output="screen"/>
+    <node name="vive_tracker" pkg="archileon_ros_t1" type="vive_tracker.py" output="screen"/>
+    <!-- connect vive to robot--> 
+    <!-- Be careful about the used vive tracker' serial number for the used frame like LHR_!!!!!!-->
+    <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_1CDCEA0B base_link 100" /> 
   </group>
+
 
 
 <!-- Visualizer -->
@@ -137,10 +137,8 @@
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
   <node name="auto_control" pkg="archileon_ros_t1" type="auto_control.py" output="screen"/>
   <!-- <node name="auto_control_tube" pkg="archileon_ros_t1" type="auto_control_tube.py" output="screen"/> -->
-
-  <!-- TEST FOR TF -->
-  <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
-
   <node name="getShowRobWaypoints" pkg="archileon_ros_t1" type="getShowRobWaypoints.py" />
+
+
 
 </launch>
