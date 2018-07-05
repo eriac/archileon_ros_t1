@@ -11,7 +11,6 @@ import getNearestPoint
 import getDist_rob_points
 import getTubePosition
 import getTubeAngle
-import getTubeTipInterSection
 import getDistRobTarget
 
 
@@ -34,7 +33,7 @@ class AreaMap():
         self.now_target_num = 3
 
 class func_parameter():
-    move_speed = 0.05
+    move_speed = 0.1
     move_curve = 0
 
 class func_world_rob_pos():

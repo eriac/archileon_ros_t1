@@ -137,7 +137,7 @@
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
   <node name="auto_control" pkg="archileon_ros_t1" type="auto_control.py" output="screen"/>
   <node name="auto_control_tube" pkg="archileon_ros_t1" type="auto_control_tube.py" output="screen"/>
-  <node name="getShowRobWaypoints" pkg="archileon_ros_t1" type="getShowRobWaypoints.py" />
+  <node name="showRobWaypoints" pkg="archileon_ros_t1" type="showRobWaypoints.py" />
 
 
 

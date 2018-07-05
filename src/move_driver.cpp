@@ -14,6 +14,10 @@ float max_speed=0.5;//really 0.05
 
 float curve_value=0.0;
 float speed_value=0.0;
+
+float bl_servo_angle = 0.0;
+
+
 void curve_callback(const std_msgs::Float32& float_msg){
     if     (float_msg.data<-(1.0/min_radius))curve_value=-(1.0/min_radius);
     else if(float_msg.data>+(1.0/min_radius))curve_value=+(1.0/min_radius);
@@ -26,28 +30,12 @@ void speed_callback(const std_msgs::Float32& float_msg){
 }
 
 void bl_nozzle_callback(const std_msgs::Float32& float_msg){
-  ros::NodeHandle n;
-  ros::Publisher bl_tube_servo_pub;
-  bl_tube_servo_pub = n.advertise<std_msgs::Float32>("servo4", 1000);
-
-  std_msgs::Float32 sv;
-  sv.data=float_msg.data;
-    for(int j = 0; j < 5; j++){
-      bl_tube_servo_pub.publish(sv);
-    }
+  bl_servo_angle = float_msg.data ;
 }
 
-void br_nozzle_callback(const std_msgs::Float32& float_msg){
-  ros::NodeHandle n;
-  ros::Publisher br_tube_servo_pub;
-  br_tube_servo_pub = n.advertise<std_msgs::Float32>("servo5", 1000);
-
-  std_msgs::Float32 sv;
-  sv.data=float_msg.data;
-    for(int j = 0; j < 5; j++){
-      br_tube_servo_pub.publish(sv);
-    }
-}
+// void br_nozzle_callback(const std_msgs::Float32& float_msg){
+//   servo_pub[5] = float_msg.data ;
+// }
 
 //temporal fixed
 float ws_pos[6][2]={
@@ -72,8 +60,8 @@ int main(int argc, char **argv){
 	servo_pub[1] = n.advertise<std_msgs::Float32>("servo1", 1000);
 	servo_pub[2] = n.advertise<std_msgs::Float32>("servo2", 1000);
 	servo_pub[3] = n.advertise<std_msgs::Float32>("servo3", 1000);
-  // servo_pub[4] = n.advertise<std_msgs::Float32>("servo4", 1000);
-	// servo_pub[5] = n.advertise<std_msgs::Float32>("servo5", 1000);
+  servo_pub[4] = n.advertise<std_msgs::Float32>("servo4", 1000);
+	servo_pub[5] = n.advertise<std_msgs::Float32>("servo5", 1000);
 	motor_pub[0] = n.advertise<std_msgs::Float32>("motor0", 1000);
 	motor_pub[1] = n.advertise<std_msgs::Float32>("motor1", 1000);
 	motor_pub[2] = n.advertise<std_msgs::Float32>("motor2", 1000);
@@ -82,8 +70,8 @@ int main(int argc, char **argv){
 	//subscriibe
 	ros::Subscriber speed_sub   = n.subscribe("move_speed", 10, speed_callback);
 	ros::Subscriber curve_sub   = n.subscribe("move_curve", 10, curve_callback);
-	ros::Subscriber bl_nozzle_angle_sub   = n.subscribe("bl_tube_axis_angle", 10, bl_nozzle_callback);
-	ros::Subscriber br_nozzle_angle_sub   = n.subscribe("br_tube_axis_angle", 10, br_nozzle_callback);
+	ros::Subscriber bl_nozzle_angle_sub   = n.subscribe("bl_rot_tube_angle", 10, bl_nozzle_callback);
+	// ros::Subscriber br_nozzle_angle_sub   = n.subscribe("br_tube_axis_angle", 10, br_nozzle_callback);
 
 	ros::Rate loop_rate(20);
 	while (ros::ok()){
@@ -109,12 +97,10 @@ int main(int argc, char **argv){
             for(int i=0;i<4;i++){
               std_msgs::Float32 sv;
               std_msgs::Float32 mv;
-              if (i % 2 == 0){
+              if (i == 0 or i == 2){
                 sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
-
                 mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
 
-          
                 // float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + 
                 // ws_pos[i][0] * ws_pos[i][0]);
                 // mv.data=f_val1*(real_length-side_length)/real_length*1/2;
@@ -123,7 +109,7 @@ int main(int argc, char **argv){
                 // - ws_pos[i][0] * ws_pos[i][0]);
                 // mv.data=f_val1*(side_length/center_y);
               }
-              else{
+              else if(i == 1 or i == 3){
                 sv.data=atan2(ws_pos[i][0],center_y-ws_pos[i][1]);
 
                 mv.data=-f_val1*(ws_pos[i][1]-center_y)/center_y;
@@ -140,7 +126,6 @@ int main(int argc, char **argv){
               motor_pub[i].publish(mv);
             }
         }
-
         else{
             float center_y=1/f_val0;
             float back_center_x = ws_pos[2][0];
@@ -150,11 +135,9 @@ int main(int argc, char **argv){
             for(int i=0;i<4;i++){
               std_msgs::Float32 sv;
               std_msgs::Float32 mv;
-              if (i % 2 == 0){
+              if (i == 0 or i == 2){
                 sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]- center_y);
-
                 mv.data=f_val1*(center_y-ws_pos[i][1])/center_y;
-
 
                 // float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + 
                 // ws_pos[i][0] * ws_pos[i][0]);
@@ -164,9 +147,8 @@ int main(int argc, char **argv){
                 // - ws_pos[i][0] * ws_pos[i][0]);
                 // mv.data=f_val1*(side_length/center_y);
               }
-              else{
+              else if(i == 1 or i == 3){
                 sv.data=-atan2(ws_pos[i][0],ws_pos[i][1]-center_y);
-
                 mv.data=-f_val1*(ws_pos[i][1]-center_y)/center_y;
 
                 // float side_length = sqrt((center_y - ws_pos[i][1])*(center_y - ws_pos[i][1]) + 
@@ -181,7 +163,14 @@ int main(int argc, char **argv){
               motor_pub[i].publish(mv);
             }
         }
-
+        
+        for(int i=4;i<5;i++){
+          std_msgs::Float32 sv;
+          if(i == 4){
+            sv.data = bl_servo_angle;
+          }
+          servo_pub[i].publish(sv);
+        }
         ros::spinOnce();
         loop_rate.sleep();
     }
