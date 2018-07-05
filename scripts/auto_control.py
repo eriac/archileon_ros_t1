@@ -29,7 +29,6 @@ class Counter():
     def __init__(self):
         self.num = 0
 
-
 class AreaMap():
     def __init__(self):
         self.main_points = getWayPoints.read_rob()
@@ -100,23 +99,6 @@ while not rospy.is_shutdown():
         move_curve = getMoveCurve.cal(func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta, 
         world_target_x=area_map.main_points[area_map.now_target_num][0], 
         world_target_y=area_map.main_points[area_map.now_target_num][1])
-        # if abs(move_curve) < min_curve:
-        #     print("move_curve is under 0.3\n")
-        #     while True:
-        #         area_map.now_target_num +=1
-        #         move_curve = getMoveCurve.cal(func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta, 
-        #         world_target_x=area_map.main_points[area_map.now_target_num][0], 
-        #         world_target_y=area_map.main_points[area_map.now_target_num][1])
-        #         if abs(move_curve) > min_curve:
-        #             break;
-        # diff_target_rob = math.sqrt((area_map.main_points[area_map.now_target_num][0] - func_world_rob_pos.x)**2 + 
-        # (area_map.main_points[area_map.now_target_num][1] - func_world_rob_pos.y)**2)
-
-        # if func_parameter.move_curve < 0.5 and diff_target_rob > 0.11:
-        #     area_map.now_target_num = 0
-        #     move_curve = getMoveCurve.cal(func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta, 
-        #     world_target_x=area_map.main_points[area_map.now_target_num][0], 
-        #     world_target_y=area_map.main_points[area_map.now_target_num][1])
         func_parameter.move_curve = move_curve
         pub_curve.publish(1.0 / func_parameter.move_curve)
         pub_speed.publish(func_parameter.move_speed)
