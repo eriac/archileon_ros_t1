@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 	ros::NodeHandle pn("~");
 
 	//publish
-	ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 10);
+	ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("map_visualizer", 10);
   //subscribe
     ros::Subscriber canin_sub = n.subscribe("map_data", 10, map_callback);
 
@@ -33,7 +33,6 @@ int main(int argc, char **argv)
         visualization_msgs::Marker line_strip;
         line_strip.header.frame_id="world";
         line_strip.header.stamp=ros::Time::now();
-        line_strip.ns="map_visualizer";
         line_strip.action=visualization_msgs::Marker::ADD;
         line_strip.pose.orientation.w=1.0;
         line_strip.id=1;
