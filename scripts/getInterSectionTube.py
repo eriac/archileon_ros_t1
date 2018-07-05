@@ -32,16 +32,16 @@ def cal(tube_rot_axis_x, tube_rot_axis_y, tube_x, tube_y):
     if 0 <= tube_x <= 1.0 and tube_y <=0.50:
         result = calLine(
             center_x=tube_rot_axis_x, center_y=tube_rot_axis_y, 
-            p1_x=0.0, p1_y=0.050, 
-            p2_x = 1.0, p2_y=0.050,
+            p1_x=0.0, p1_y=0.0750, 
+            p2_x = 1.0, p2_y=0.0750,
         )
         print("AAAA")
 
     elif 0 <= tube_x <= 1.0 and tube_y >0.50:
         result = calLine(
             center_x=tube_rot_axis_x, center_y=tube_rot_axis_y, 
-            p1_x=0.0, p1_y=0.950, 
-            p2_x = 1.0, p2_y=0.950,
+            p1_x=0.0, p1_y=0.9250, 
+            p2_x = 1.0, p2_y=0.9250,
         )
         print("BBBB")
 

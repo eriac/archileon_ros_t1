@@ -11,18 +11,29 @@ class func_world_rob_pos:
     y = 0
 
 class func_param:
-    way_points =[]
+    rob_way_points =[]
+    bl_tube_way_points =[]
 
-def position_callback(float_array):
+def rob_position_callback(float_array):
     point = []
     point.append(float_array.data[0])
     point.append(float_array.data[1])
+    func_param.rob_way_points.append(point)
 
-    func_param.way_points.append(point)    
+def bl_tube_position_callback(float_array):
+    point = []
+    point.append(float_array.data[0])
+    point.append(float_array.data[1])
+    func_param.bl_tube_way_points.append(point)    
+    
 
 rospy.init_node("map_rob_visualizer")
 pub_map_rob = rospy.Publisher("map_rob", Marker, queue_size = 10)
-sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
+
+sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, rob_position_callback)
+sub_bl_tube_status = rospy.Subscriber("bl_tube_status", Float32MultiArray, bl_tube_position_callback)
+
+
 rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
@@ -34,17 +45,27 @@ while not rospy.is_shutdown():
     marker_data.pose.orientation.w=1.0
     marker_data.type = Marker.POINTS
     marker_data.color.r = 1.0
-    marker_data.color.b = -1.0
     marker_data.color.a = 1.0
+    marker_data.color.g = 1.0
+
     marker_data.scale.x = 0.03
     marker_data.scale.y = 0.03
-    marker_data.lifetime = rospy.Duration(0)
+    marker_data.lifetime = rospy.Duration(3)
 
-    for point in func_param.way_points:        
+    for point in func_param.rob_way_points:
+   
         p = Point()
         p.x = point[0]
         p.y = point[1]
         marker_data.points.append(p)
+
+    for point in func_param.bl_tube_way_points:        
+
+        p = Point()
+        p.x = point[0]
+        p.y = point[1]
+        marker_data.points.append(p)
+
 
     pub_map_rob.publish(marker_data)
 
