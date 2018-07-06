@@ -79,7 +79,6 @@ while not rospy.is_shutdown():
         marker_data.points.append(p)
 
 
-
     pub_map_rob.publish(marker_data)
 
     rate.sleep()

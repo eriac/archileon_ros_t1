@@ -32,6 +32,10 @@
       <remap from="steer1" to="pif/FR/servo1"/>
       <remap from="steer2" to="pif/BL/servo1"/>
       <remap from="steer3" to="pif/BR/servo1"/>
+
+      <remap from="steer4" to="pif/BL/servo2"/>
+      <remap from="steer5" to="pif/BR/servo2"/>
+
       <remap from="motor0" to="pif/FL/motor"/>
       <remap from="motor1" to="pif/FR/motor"/>
       <remap from="motor2" to="pif/BL/motor"/>
@@ -71,11 +75,9 @@
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
   <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher.py" />
 
-  <node name="map_rob_visualizer" pkg="archileon_ros_t1" type="map_rob_visualizer.py" />
-  
+  <!-- <node name="map_rob_visualizer" pkg="archileon_ros_t1" type="map_rob_visualizer.py" /> -->
   <node name="map_target_visualizer" pkg="archileon_ros_t1" type="map_target_visualizer.py"/>
-
-
+  
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />

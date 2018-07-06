@@ -352,7 +352,7 @@ Visualization Manager:
       Marker Topic: map_visualizer
       Name: Marker
       Namespaces:
-        map_visualizer: true
+        "": true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -360,7 +360,7 @@ Visualization Manager:
       Marker Topic: /map_rob
       Name: Marker
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -396,7 +396,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.21970153
+      Distance: 3.62559986
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -411,10 +411,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: -1.51979637
+      Pitch: -1.56979632
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.56039441
+      Yaw: 1.56539357
     Saved: ~
 Window Geometry:
   Displays:
