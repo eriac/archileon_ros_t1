@@ -6,12 +6,9 @@ from std_msgs.msg import Float32MultiArray
 from sympy import *
 import math
 import getWayPoints
-import getNearestPoint
-import getDist_rob_points
 import getTubePosition
 import getTubeAngle
 import getInterSectionTube
-import getDistRobTarget
 
 
 class AreaMap():
@@ -64,7 +61,7 @@ def position_callback(msg):
 
 
 area_map = AreaMap()
-rospy.init_node("auto_control_tube")
+rospy.init_node("tube_operation")
 pub_bl_tube_angle = rospy.Publisher('bl_rot_tube_angle', Float32, queue_size=1000)
 pub_br_tube_angle = rospy.Publisher('br_rot_tube_angle', Float32, queue_size=1000)
 

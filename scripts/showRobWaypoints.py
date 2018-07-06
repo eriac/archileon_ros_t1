@@ -7,7 +7,7 @@ from sympy import *
 import math
 import getWayPoints
 import getNearestPoint
-import getDist_rob_points
+import getErrorDist
 
 
 class AreaMap():
@@ -39,7 +39,7 @@ while not rospy.is_shutdown():
         world_rob_x=func_world_rob_pos.x,
         world_rob_y=func_world_rob_pos.y,
     )
-    L_rob_points = abs(getDist_rob_points.cal(
+    L_rob_points = abs(getErrorDist.cal(
         point_1_x=base_point[0],point_1_y=base_point[1], 
         point_2_x=forward_point[0],point_2_y=forward_point[1], 
         world_rob_x=func_world_rob_pos.x, world_rob_y=func_world_rob_pos.y)

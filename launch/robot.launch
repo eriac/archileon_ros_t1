@@ -136,8 +136,8 @@
   </node>
 
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
-  <node name="auto_control" pkg="archileon_ros_t1" type="auto_control.py" output="screen"/>
-  <node name="auto_control_tube" pkg="archileon_ros_t1" type="auto_control_tube.py" output="screen"/>
+  <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
+  <node name="tube_operation" pkg="archileon_ros_t1" type="tube_operation.py" output="screen"/>
   <node name="showRobWaypoints" pkg="archileon_ros_t1" type="showRobWaypoints.py" />
 
 

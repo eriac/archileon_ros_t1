@@ -1,7 +1,6 @@
 def cal(world_rob_x, world_rob_y, world_rob_theta, world_target_x, world_target_y):
     import numpy as np
     import math
-    from decimal import Decimal
     
     w_rob_x_target_x = world_target_x - world_rob_x
     w_rob_y_target_y = world_target_y - world_rob_y

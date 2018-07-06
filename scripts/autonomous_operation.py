@@ -68,7 +68,7 @@ def position_callback(msg):
 area_map = AreaMap()
 counter = Counter()
 
-rospy.init_node("auto_control")
+rospy.init_node("autonomous_operation")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
 pub_target = rospy.Publisher('now_target_array', Float32MultiArray, queue_size=1000)
