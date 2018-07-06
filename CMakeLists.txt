@@ -224,8 +224,8 @@ target_link_libraries(udp_reciever ${catkin_LIBRARIES})
 add_executable(pif_to_joint src/pif_to_joint.cpp)
 target_link_libraries(pif_to_joint ${catkin_LIBRARIES})
 
-add_executable(map_visualizer src/map_visualizer.cpp)
-target_link_libraries(map_visualizer ${catkin_LIBRARIES})
+add_executable(map_way_points_visualizer src/map_way_points_visualizer.cpp)
+target_link_libraries(map_way_points_visualizer ${catkin_LIBRARIES})
 
 add_executable(move_driver src/move_driver.cpp)
 target_link_libraries(move_driver ${catkin_LIBRARIES})
@@ -236,6 +236,4 @@ target_link_libraries(test_tf_listen ${catkin_LIBRARIES})
 add_executable(joy_s_c src/joy_s_c.cpp)
 target_link_libraries(joy_s_c ${catkin_LIBRARIES})
 
-add_executable(map_rob_visualizer src/map_rob_visualizer.cpp)
-target_link_libraries(map_rob_visualizer ${catkin_LIBRARIES})
 

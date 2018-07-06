@@ -73,9 +73,9 @@
 
 <!-- Visualizer -->
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
-  <node name="map_publisher" pkg="archileon_ros_t1" type="map_publisher.py" />
+  <node name="map_way_points_publisher" pkg="archileon_ros_t1" type="map_way_points_publisher.py" />
 
-  <!-- <node name="map_rob_visualizer" pkg="archileon_ros_t1" type="map_rob_visualizer.py" /> -->
+  <!-- <node name="map_trajectory_visualizer" pkg="archileon_ros_t1" type="map_trajectory_visualizer.py" /> -->
   <node name="map_target_visualizer" pkg="archileon_ros_t1" type="map_target_visualizer.py"/>
   
 

@@ -12,7 +12,7 @@ bl_tube_data = Float32MultiArray(data=array)
 br_tube_data = Float32MultiArray(data=array)
 
 
-rospy.init_node("map_publisher")
+rospy.init_node("map_way_points_publisher")
 map_pub = rospy.Publisher("map_data", Float32MultiArray, queue_size=10)
 bl_tube_pub = rospy.Publisher("bl_tube_data", Float32MultiArray, queue_size=10)
 br_tube_pub = rospy.Publisher("br_tube_data", Float32MultiArray, queue_size=10)

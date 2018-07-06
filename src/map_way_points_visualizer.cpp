@@ -17,12 +17,12 @@ void map_callback(const std_msgs::Float32MultiArray& float_array){
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "map_visualizer");
+	ros::init(argc, argv, "map_way_points_visualizer");
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
 
 	//publish
-	ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("map_visualizer", 10);
+	ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("map_way_points_visualizer", 10);
   //subscribe
     ros::Subscriber canin_sub = n.subscribe("map_data", 10, map_callback);
 

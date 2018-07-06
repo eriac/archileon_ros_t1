@@ -8,7 +8,6 @@ Panels:
         - /Status1
         - /Marker1
         - /Marker2
-        - /Marker3
       Splitter Ratio: 0.491666675
     Tree Height: 298
   - Class: rviz/Selection
@@ -350,14 +349,6 @@ Visualization Manager:
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: map_visualizer
-      Name: Marker
-      Namespaces:
-        "": true
-      Queue Size: 100
-      Value: true
-    - Class: rviz/Marker
-      Enabled: true
-      Marker Topic: /map_rob
       Name: Marker
       Namespaces:
         "": true

@@ -19,7 +19,7 @@ void map_callback(const std_msgs::Float32MultiArray& float_array){
 
 
 int main(int argc, char **argv){
-  ros::init(argc, argv, "map_rob_visualizer");
+  ros::init(argc, argv, "test_map");
   ros::NodeHandle n;
   ros::NodeHandle pn("~");
  
@@ -36,7 +36,7 @@ int main(int argc, char **argv){
         visualization_msgs::Marker points;
         points.header.frame_id="world";
         points.header.stamp=ros::Time::now();
-        points.ns="map_rob_visualizer";
+        points.ns="test_map";
         points.action=visualization_msgs::Marker::ADD;
         points.pose.orientation.w=1.0;
         points.id=0;
@@ -45,16 +45,7 @@ int main(int argc, char **argv){
         points.scale.y = 0.1;
         points.color.r = 1.0;
         points.color.a = 1.0;
- 
-        // float map_points[5][2]={
-        //     {0.1, 0.1},
-        //     {0.2, 0.2},
-        //     {0.3, 0.3},
-        //     {0.4, 0.4},
-        //     {0.5, 0.5},
 
-        // };
- 
   
         for (uint32_t i = 0; i < 100; ++i){
             float y = 5 * sin(f + i / 100.0f * 2 * M_PI);

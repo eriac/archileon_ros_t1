@@ -34,7 +34,7 @@ def br_tube_position_callback(float_array):
     func_param.br_tube_way_points.append(point)    
 
 
-rospy.init_node("map_rob_visualizer")
+rospy.init_node("map_trajectory_visualizer")
 pub_map_rob = rospy.Publisher("map_rob", Marker, queue_size = 10)
 
 sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, rob_position_callback)
