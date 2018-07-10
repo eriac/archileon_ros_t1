@@ -41,6 +41,8 @@ def position_callback(msg):
     func_world_bl_rot_pos.x = w_bl_rot_pos[0]
     func_world_bl_rot_pos.y = w_bl_rot_pos[1]
 
+    print(func_world_bl_rot_pos.x, func_world_bl_rot_pos.y)
+    
     func_world_bl_tube_pos.x = w_bl_pos[0]
     func_world_bl_tube_pos.y = w_bl_pos[1]
 

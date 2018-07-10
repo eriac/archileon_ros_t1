@@ -10,10 +10,8 @@ import getMoveCurve
 import getDistRobTarget
 
 
-min_curve = 0.3
-tube_radius = 0.105
-error_threshold = 0.005
-rob_way_points = getWayPoints.read_rob()
+
+
 
 array = []
 map_target = Float32MultiArray(data=array)
@@ -29,7 +27,7 @@ class AreaMap():
         self.now_target_num = 3
 
 class func_parameter():
-    move_speed = 0.08
+    move_speed = 0.000
     move_curve = 0
 
 class func_world_rob_pos():

@@ -154,10 +154,11 @@
       <material name="gray" />
     </visual>
   </link>
+
   <joint name="tubeL_joint0" type="revolute">
     <parent link="base_link"/>
     <child link="tubeL_link0"/>
-    <origin rpy="0 0 0" xyz="-0.13 0.09 0.1"/>
+    <origin rpy="0 0 0" xyz="-0.12580 0.0750 0.1"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1" upper="1" effort="1.0" velocity="1.0"/>
   </joint>
@@ -171,6 +172,7 @@
       <material name="red" />
     </visual>
   </link>
+
   <joint name="tubeL_joint1" type="fixed">
     <parent link="tubeL_link0"/>
     <child link="tubeL_link1"/>
@@ -186,10 +188,11 @@
       <material name="gray" />
     </visual>
   </link>
+
   <joint name="tubeR_joint0" type="revolute">
     <parent link="base_link"/>
     <child link="tubeR_link0"/>
-    <origin rpy="0 0 0" xyz="-0.13 -0.09 0.1"/>
+    <origin rpy="0 0 0" xyz="-0.12580 -0.0750 0.1"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1" upper="1" effort="1.0" velocity="1.0"/>
   </joint>
@@ -203,6 +206,7 @@
       <material name="red" />
     </visual>
   </link>
+  
   <joint name="tubeR_joint1" type="fixed">
     <parent link="tubeR_link0"/>
     <child link="tubeR_link1"/>
