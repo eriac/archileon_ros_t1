@@ -6,9 +6,12 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /RobotModel1
+        - /RobotModel1/Links1
         - /TF1
         - /TF1/Frames1
-      Splitter Ratio: 0.491666675
+        - /Marker3
+      Splitter Ratio: 0.775216162
     Tree Height: 571
   - Class: rviz/Selection
     Name: Selection
@@ -53,18 +56,126 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: false
+      Enabled: true
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        body_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        slider0_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        slider1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tubeL_link0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tubeL_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tubeR_link0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tubeR_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vive_tracker_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset0_holder1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset0_holder2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset0_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset1_holder1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset1_holder2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset1_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset2_holder1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset2_holder2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset2_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset3_holder1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset3_holder2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelset3_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: false
+      Value: true
       Visual Enabled: true
     - Class: jsk_rviz_plugin/OverlayDiagnostic
       Enabled: true
@@ -254,6 +365,14 @@ Visualization Manager:
         "": true
       Queue Size: 100
       Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /map_intersec
+      Name: Marker
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -279,25 +398,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.53331327
+      Distance: 3.02028203
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0320136175
-        Y: 0.140058696
-        Z: 0.209584132
+        X: 0.370542914
+        Y: 0.267634898
+        Z: 0.209462628
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.0102031752
+      Pitch: -1.56979632
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.67039394
+      Yaw: 4.70539522
     Saved: ~
 Window Geometry:
   Displays:

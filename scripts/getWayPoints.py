@@ -18,7 +18,7 @@ def read_rob():
     way_points=[]
     for i in range(line_length):
         xy_list =[]
-        x = float(point_list[i][1:point_list[i].index(",")])
+        x = float(point_list[i][1:point_list[i].index(",")]) - 0.5
         y = float(point_list[i][point_list[i].index(",")+1: point_list[i].index("]")])
         xy_list.append(x)
         xy_list.append(y)
@@ -45,7 +45,7 @@ def read_bl_tube_points():
     way_points=[]
     for i in range(line_length):
         xy_list =[]
-        x = float(point_list[i][1:point_list[i].index(",")])
+        x = float(point_list[i][1:point_list[i].index(",")]) - 0.5
         y = float(point_list[i][point_list[i].index(",")+1: point_list[i].index("]")])
         xy_list.append(x)
         xy_list.append(y)
@@ -72,7 +72,7 @@ def read_br_tube_points():
     way_points=[]
     for i in range(line_length):
         xy_list =[]
-        x = float(point_list[i][1:point_list[i].index(",")])
+        x = float(point_list[i][1:point_list[i].index(",")]) - 0.5
         y = float(point_list[i][point_list[i].index(",")+1: point_list[i].index("]")])
         xy_list.append(x)
         xy_list.append(y)

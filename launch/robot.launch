@@ -59,7 +59,10 @@
   <!-- <group ns="vive" unless="$(arg vive)">  -->
   <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
   <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
+  <node name="tf_bl_pos_listen" pkg="archileon_ros_t1" type="tf_bl_pos_listen" />
+
   <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
+  <node name="tf_br_pos_listen" pkg="archileon_ros_t1" type="tf_br_pos_listen" />
 
   <!-- </group> -->
 
@@ -80,6 +83,7 @@
 
   <!-- <node name="map_trajectory_visualizer" pkg="archileon_ros_t1" type="map_trajectory_visualizer.py" /> -->
   <node name="map_target_visualizer" pkg="archileon_ros_t1" type="map_target_visualizer.py"/>
+  <node name="map_intersec_visualizer" pkg="archileon_ros_t1" type="map_intersec_visualizer.py" />
   
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />

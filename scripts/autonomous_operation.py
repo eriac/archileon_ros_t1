@@ -24,10 +24,10 @@ class Counter():
 class AreaMap():
     def __init__(self):
         self.main_points = getWayPoints.read_rob()
-        self.now_target_num = 3
+        self.now_target_num = 55
 
 class func_parameter():
-    move_speed = 0.000
+    move_speed = 0.00
     move_curve = 0
 
 class func_world_rob_pos():
@@ -36,10 +36,10 @@ class func_world_rob_pos():
     theta = 0       
 
 
-def position_callback(msg):
-    func_world_rob_pos.x = msg.data[0]
-    func_world_rob_pos.y = msg.data[1]
-    func_world_rob_pos.theta = msg.data[2]
+def position_callback(float_msg):
+    func_world_rob_pos.x = float_msg.data[0]
+    func_world_rob_pos.y = float_msg.data[1]
+    func_world_rob_pos.theta = float_msg.data[2]
 
     # diff_rob_target = abs(getDistRobTarget.cal(
     #     func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta,

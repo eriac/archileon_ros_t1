@@ -239,5 +239,11 @@ target_link_libraries(joy_s_c ${catkin_LIBRARIES})
 add_executable(tf_bl_rot_listen src/tf_bl_rot_listen.cpp)
 target_link_libraries(tf_bl_rot_listen ${catkin_LIBRARIES})
 
+add_executable(tf_bl_pos_listen src/tf_bl_pos_listen.cpp)
+target_link_libraries(tf_bl_pos_listen ${catkin_LIBRARIES})
+
 add_executable(tf_br_rot_listen src/tf_br_rot_listen.cpp)
 target_link_libraries(tf_br_rot_listen ${catkin_LIBRARIES})
+
+add_executable(tf_br_pos_listen src/tf_br_pos_listen.cpp)
+target_link_libraries(tf_br_pos_listen ${catkin_LIBRARIES})

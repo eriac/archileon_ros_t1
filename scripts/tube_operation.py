@@ -9,99 +9,140 @@ import getWayPoints
 import getTubePosition
 import getTubeAngle
 import getInterSectionTube
+import getNearestPoint
+import getInterSectionPoint
+import rotate_world_to_rob
 
 
-class AreaMap():
-    bl_points = getWayPoints.read_bl_tube_points()
-    # br_points = getWayPoints.read_br_tube_points()
+r_bl_rot_point_x = -0.1258
+r_bl_rot_point_y = 0.075
 
-class func_world_rob_pos():
-    x = 0 
-    y = 0
-    theta = 0
+
+def bl_rot_position_callback(float_msg):
+    func_world_bl_rot_pos.x = float_msg.data[0]
+    func_world_bl_rot_pos.y = float_msg.data[1]
+    func_world_bl_rot_pos.theta = float_msg.data[2]
+
+def bl_pos_position_callback(float_msg):
+    func_world_bl_tube_pos.x = float_msg.data[0]
+    func_world_bl_tube_pos.y = float_msg.data[1]
+    func_world_bl_tube_pos.theta = float_msg.data[2]
+
+def rob_position_callback(float_msg):
+    func_world_rob_pos.x = float_msg.data[0]
+    func_world_rob_pos.y = float_msg.data[1]
+    func_world_rob_pos.theta = float_msg.data[2]
+
 
 class func_world_bl_rot_pos():
     x = 0 
     y = 0
+    theta = 0
     
 class func_world_bl_tube_pos():
     x = 0 
     y = 0
 
+class func_world_rob_pos():
+    x = 0 
+    y = 0
+    theta = 0       
 
 
-def position_callback(msg):
-    func_world_rob_pos.x = msg.data[0]
-    func_world_rob_pos.y = msg.data[1]
-    func_world_rob_pos.theta = msg.data[2]
-
-    w_bl_rot_pos, w_bl_pos, w_br_rot_pos, w_br_pos = getTubePosition.cal( 
-    func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta
-    ) 
-    func_world_bl_rot_pos.x = w_bl_rot_pos[0]
-    func_world_bl_rot_pos.y = w_bl_rot_pos[1]
-
-    print(func_world_bl_rot_pos.x, func_world_bl_rot_pos.y)
-    
-    func_world_bl_tube_pos.x = w_bl_pos[0]
-    func_world_bl_tube_pos.y = w_bl_pos[1]
-
-    for num in range(3):
-        array = []
-        bl_tube_pos = Float32MultiArray(data=array)
-        bl_tube_pos.data.append(w_bl_pos[0])
-        bl_tube_pos.data.append(w_bl_pos[1])
-        pub_bl_tube_status.publish(bl_tube_pos)
-
-    for num in range(3):
-        array = []
-        br_tube_pos = Float32MultiArray(data=array)
-        br_tube_pos.data.append(w_br_pos[0])
-        br_tube_pos.data.append(w_br_pos[1])
-        pub_br_tube_status.publish(br_tube_pos)
+class func_param():
+    bl_way_points = getWayPoints.read_bl_tube_points()
+    counter =0
 
 
-
-area_map = AreaMap()
 rospy.init_node("tube_operation")
+
+sub_rob_status = rospy.Subscriber("bl_rot_status", Float32MultiArray, bl_rot_position_callback)
+sub_rob_status = rospy.Subscriber("bl_pos_status", Float32MultiArray, bl_pos_position_callback)
+sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, rob_position_callback)
+
+
 pub_bl_tube_angle = rospy.Publisher('bl_rot_tube_angle', Float32, queue_size=1000)
-pub_br_tube_angle = rospy.Publisher('br_rot_tube_angle', Float32, queue_size=1000)
+
+pub_intersec_pos = rospy.Publisher('intersec_status', Float32MultiArray, queue_size=1000)
 
 
-pub_bl_tube_status = rospy.Publisher('bl_tube_status', Float32MultiArray, queue_size=1000)
-pub_br_tube_status = rospy.Publisher('br_tube_status', Float32MultiArray, queue_size=1000)
-
-
-
-sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
 
 rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
-    w_rob_bl_rot_x = func_world_bl_rot_pos.x
-    w_rob_bl_rot_y = func_world_bl_rot_pos.y
-    w_bl_tube_x = func_world_bl_tube_pos.x
-    w_bl_tube_y = func_world_bl_tube_pos.y
+    if func_param.counter ==0:
+        pass
+    else:
+        w_rob_bl_rot_x = float(func_world_bl_rot_pos.x)
+        w_rob_bl_rot_y = float(func_world_bl_rot_pos.y)
+        
+        w_bl_tube_x = float(func_world_bl_tube_pos.x)
+        w_bl_tube_y = float(func_world_bl_tube_pos.y)
 
-    result = getInterSectionTube.cal( 
-        tube_rot_axis_x = w_rob_bl_rot_x,
-        tube_rot_axis_y = w_rob_bl_rot_y,
-        tube_x = w_bl_tube_x,
-        tube_y = w_bl_tube_y,
-    )
-    
-    if result:
-        for num in range(len(result)):
-            radian=getTubeAngle.cal(
-                origin_x=w_rob_bl_rot_x, origin_y=w_rob_bl_rot_y,
-                u_x=w_bl_tube_x, u_y=w_bl_tube_y,
-                v_x=float(result[num].x), v_y=float(result[num].y)
+        w_rob_pos_x = float(func_world_rob_pos.x)
+        w_rob_pos_y = float(func_world_rob_pos.y)
+        w_rob_theta = float(func_world_rob_pos.theta)
+
+
+        base_num = getNearestPoint.search_value_tube(
+            func_param.bl_way_points, 
+            w_bl_tube_x, 
+            w_bl_tube_y
             )
-            if abs(radian) < math.pi /2:
-                print("degree " + str(math.degrees(radian)))
+        for num in range(base_num-2, base_num+2):
 
-                pub_bl_tube_angle.publish(radian) 
-                pub_br_tube_angle.publish(radian) 
+            r_base_target = rotate_world_to_rob.cal(
+                world_rob_x = w_rob_pos_x, 
+                world_rob_y = w_rob_pos_y, 
+                world_rob_theta = w_rob_theta, 
+                world_target_x = func_param.bl_way_points[num][0], 
+                world_target_y = func_param.bl_way_points[num][1]
+            )
+
+            r_near_target = rotate_world_to_rob.cal(
+                world_rob_x = w_rob_pos_x, 
+                world_rob_y = w_rob_pos_y, 
+                world_rob_theta = w_rob_theta, 
+                world_target_x = func_param.bl_way_points[num + 1][0], 
+                world_target_y = func_param.bl_way_points[num + 1][1]
+            )
+
+            print("base_num " +str(base_num))
+            print("r_bl_rot_to_target " +str(r_base_target))
+            print("r_bl_rot_to_bl_tube " +str(r_near_target) +"\n")
+
+            result=getInterSectionPoint.calLine(
+                center_x=w_rob_bl_rot_x, 
+                center_y=w_rob_bl_rot_y,
+                p1_x = r_base_target[0],
+                p1_y = r_base_target[1],
+                p2_x = r_near_target[0],
+                p2_y = r_near_target[1]
+            )
+
+            if result:
+                print("result " +str(result))
+                float(result[0].x)
+                float(result[0].y)
+
+        # result = getInterSectionTube.cal( 
+        #     tube_rot_axis_x = w_rob_bl_rot_x,
+        #     tube_rot_axis_y = w_rob_bl_rot_y,
+        #     tube_x = w_bl_tube_x,
+        #     tube_y = w_bl_tube_y,
+        # )
+
+        # if result:
+        #     array = []
+        #     map_intersec = Float32MultiArray(data=array)
+        #     counter = 0
+
+        #     print("publish " + str(math.degrees(radian)) + "\n")
+
+        #     pub_intersec_pos.publish(map_intersec)
+
+        pub_bl_tube_angle.publish(0.0) 
+        #     # pub_br_tube_angle.publish(radian) 
                 
-
+    func_param.counter +=1
     rate.sleep()
