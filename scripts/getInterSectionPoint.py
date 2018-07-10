@@ -12,5 +12,3 @@ def calLine(center_x, center_y, p1_x, p1_y, p2_x, p2_y):
     result = sg.intersection(circle, line)
 
     return result
- 
- 

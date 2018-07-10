@@ -27,7 +27,7 @@ class AreaMap():
         self.now_target_num = 55
 
 class func_parameter():
-    move_speed = 0.00
+    move_speed = 0.05
     move_curve = 0
 
 class func_world_rob_pos():
@@ -91,8 +91,6 @@ while not rospy.is_shutdown():
         func_parameter.move_curve = move_curve
         pub_curve.publish(1.0 / func_parameter.move_curve)
         pub_speed.publish(func_parameter.move_speed)
-
-
         map_target.data.append(area_map.main_points[area_map.now_target_num][0])
         map_target.data.append(area_map.main_points[area_map.now_target_num][1])
         pub_target.publish(map_target)

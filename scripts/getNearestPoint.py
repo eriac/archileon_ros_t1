@@ -26,12 +26,12 @@ def search_value_tube(way_points, world_rob_x, world_rob_y):
     import math
 
     base_num = 0
+    list_max_num = len(way_points) - 1
     tmp_points_x = way_points[0][0]
     tmp_points_y = way_points[0][1]
     diff_x = world_rob_x - tmp_points_x
     diff_y = world_rob_y - tmp_points_y
     base_diff_xy = math.sqrt(diff_x**2 + diff_y**2)
-    list_max_num = len(way_points) - 1
 
     for i in range(list_max_num):
         tmp_points_x = way_points[i][0]
