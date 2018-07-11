@@ -49,6 +49,7 @@ class func_world_bl_rot_pos():
 class func_world_bl_tube_pos():
     x = 0
     y = 0
+    theta = 0
 
 
 class func_world_rob_pos():
@@ -84,9 +85,11 @@ rate = rospy.Rate(100)
 while not rospy.is_shutdown():
     w_bl_rot_x = float(func_world_bl_rot_pos.x)
     w_bl_rot_y = float(func_world_bl_rot_pos.y)
+    # w_bl_rot_theta = float(func_world_bl_rot_pos.theta)
 
     w_bl_tube_x = float(func_world_bl_tube_pos.x)
     w_bl_tube_y = float(func_world_bl_tube_pos.y)
+    # w_bl_tube_theta = float(func_world_bl_tube_pos.theta)
 
     w_rob_pos_x = float(func_world_rob_pos.x)
     w_rob_pos_y = float(func_world_rob_pos.y)
@@ -171,10 +174,10 @@ while not rospy.is_shutdown():
         print("radian " + str(radian))
         pub_bl_tube_angle.publish(radian)
 
-        map_intersec.data.append(w_intersec_x)
-        map_intersec.data.append(w_intersec_y)
-        print("map_intersec.data "+str(map_intersec.data) + "\n")
-        pub_intersec_pos.publish(map_intersec)
-        del map_intersec.data[:]
+        # map_intersec.data.append(w_intersec_x)
+        # map_intersec.data.append(w_intersec_y)
+        # print("map_intersec.data "+str(map_intersec.data) + "\n")
+        # pub_intersec_pos.publish(map_intersec)
+        # del map_intersec.data[:]
 
     rate.sleep()

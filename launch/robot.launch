@@ -7,7 +7,7 @@
   <arg name="rvizconfig" default="$(find archileon_ros_t1)/config/SETTING.rviz" />
   <arg name="vive" default="false"/>
 
-  <node name="joy_node" pkg="joy" type="joy_node" >
+  <node name="joy_node" pkg="joy" type="joy_node">
     <param name="coalesce_interval" value="0.1"/>
   </node>
 
@@ -52,8 +52,8 @@
     <remap from="motor1" to="pif/FR/motor"/>
     <remap from="motor2" to="pif/BL/motor"/>
     <remap from="motor3" to="pif/BR/motor"/>
-    <remap from="tube0"  to="pif/BL/servo2"/>
-    <remap from="tube1"  to="pif/BR/servo2"/>
+    <remap from="tube0" to="pif/BL/servo2"/>
+    <remap from="tube1" to="pif/BR/servo2"/>
   </node>
 
   <!-- <group ns="vive" unless="$(arg vive)">  -->
@@ -66,25 +66,26 @@
 
   <!-- </group> -->
 
-  <group ns="vive" if="$(arg vive)"> 
+  <group ns="vive" if="$(arg vive)">
     <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation2" args="0.0 0.0 1.55 0 0.0 0 world map 100" />
     <node name="vive_world" pkg="archileon_ros_t1" type="vive_world.py" output="screen"/>
     <node name="vive_tracker" pkg="archileon_ros_t1" type="vive_tracker.py" output="screen"/>
-    <!-- connect vive to robot--> 
+    <!-- connect vive to robot-->
     <!-- Be careful about the used vive tracker' serial number for the used frame like LHR_!!!!!!-->
-    <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_1CDCEA0B base_link 100" /> 
+    <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_1CDCEA0B base_link 100" />
   </group>
 
 
 
-<!-- Visualizer -->
+  <!-- Visualizer -->
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
   <node name="map_way_points_publisher" pkg="archileon_ros_t1" type="map_way_points_publisher.py" />
 
-  <!-- <node name="map_trajectory_visualizer" pkg="archileon_ros_t1" type="map_trajectory_visualizer.py" /> -->
+  <node name="map_trajectory_visualizer" pkg="archileon_ros_t1" type="map_trajectory_visualizer.py" />
+
   <node name="map_target_visualizer" pkg="archileon_ros_t1" type="map_target_visualizer.py"/>
   <node name="map_intersec_visualizer" pkg="archileon_ros_t1" type="map_intersec_visualizer.py" />
-  
+
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />

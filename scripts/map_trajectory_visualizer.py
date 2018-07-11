@@ -39,14 +39,14 @@ def br_tube_position_callback(float_array):
 
 
 rospy.init_node("map_trajectory_visualizer")
-pub_map_rob = rospy.Publisher("map_rob", Marker, queue_size=10)
+pub_map_rob = rospy.Publisher("map_rob_trajectory", Marker, queue_size=10)
 
 sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
 sub_bl_tube_status = rospy.Subscriber(
-    "bl_tube_status", Float32MultiArray, bl_tube_position_callback)
+    "bl_pos_status", Float32MultiArray, bl_tube_position_callback)
 sub_br_tube_status = rospy.Subscriber(
-    "br_tube_status", Float32MultiArray, br_tube_position_callback)
+    "br_pos_status", Float32MultiArray, br_tube_position_callback)
 
 
 rate = rospy.Rate(10)
@@ -61,16 +61,16 @@ while not rospy.is_shutdown():
     marker_data.type = Marker.POINTS
     marker_data.color.r = 1.0
     marker_data.color.a = 1.0
-    marker_data.color.g = 1.0
+    marker_data.color.g = 0.5
 
-    marker_data.scale.x = 0.03
-    marker_data.scale.y = 0.03
+    marker_data.scale.x = 0.02
+    marker_data.scale.y = 0.02
 
-    for point in func_param.rob_way_points:
-        p = Point()
-        p.x = point[0]
-        p.y = point[1]
-        marker_data.points.append(p)
+    # for point in func_param.rob_way_points:
+    #     p = Point()
+    #     p.x = point[0]
+    #     p.y = point[1]
+    #     marker_data.points.append(p)
 
     for point in func_param.bl_tube_way_points:
         p = Point()
@@ -78,11 +78,11 @@ while not rospy.is_shutdown():
         p.y = point[1]
         marker_data.points.append(p)
 
-    for point in func_param.br_tube_way_points:
-        p = Point()
-        p.x = point[0]
-        p.y = point[1]
-        marker_data.points.append(p)
+    # for point in func_param.br_tube_way_points:
+    #     p = Point()
+    #     p.x = point[0]
+    #     p.y = point[1]
+    #     marker_data.points.append(p)
 
     pub_map_rob.publish(marker_data)
 
