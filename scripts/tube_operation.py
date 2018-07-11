@@ -120,11 +120,6 @@ while not rospy.is_shutdown():
     )
 
     if w_result:
-        print("result1 " +
-              str(float(w_result[0].x)) + ", " + str(float(w_result[0].y)))
-        print("result2 " +
-              str(float(w_result[1].x)) + ", " + str(float(w_result[1].y)))
-
         diff_x = w_bl_tube_x - float(w_result[0].x)
         diff_y = w_bl_tube_y - float(w_result[0].y)
         diff1_xy = math.sqrt(diff_x**2 + diff_y**2)
@@ -143,15 +138,11 @@ while not rospy.is_shutdown():
         print("w_intersec_x " + str(w_intersec_x))
         print("w_intersec_y " + str(w_intersec_y))
 
-        vector_r_bl_rot_to_intersec = rotate_world_to_rob.cal(
-            world_origin_x=w_bl_rot_x,
-            world_origin_y=w_bl_rot_y,
-            world_origin_theta=w_rob_theta,
-            world_target_x=w_intersec_x,
-            world_target_y=w_intersec_y
-        )
-        print("vector_r_bl_rot_to_intersec " +
-              str(vector_r_bl_rot_to_intersec))
+        # Visualize InterSection Point
+        map_intersec.data.append(w_intersec_x)
+        map_intersec.data.append(w_intersec_y)
+        pub_intersec_pos.publish(map_intersec)
+        del map_intersec.data[:]
 
         vector_r_bl_rot_to_bl_tube = rotate_world_to_rob.cal(
             world_origin_x=w_bl_rot_x,
@@ -160,9 +151,19 @@ while not rospy.is_shutdown():
             world_target_x=w_bl_tube_x,
             world_target_y=w_bl_tube_y
         )
+        vector_r_bl_rot_to_intersec = rotate_world_to_rob.cal(
+            world_origin_x=w_bl_rot_x,
+            world_origin_y=w_bl_rot_y,
+            world_origin_theta=w_rob_theta,
+            world_target_x=w_intersec_x,
+            world_target_y=w_intersec_y
+        )
 
         print("vector_r_bl_rot_to_bl_tube " +
               str(vector_r_bl_rot_to_bl_tube) + "\n")
+
+        print("vector_r_bl_rot_to_intersec " +
+              str(vector_r_bl_rot_to_intersec))
 
         radian = getTubeAngle.cal(
             u_x=vector_r_bl_rot_to_intersec[0],
@@ -173,11 +174,5 @@ while not rospy.is_shutdown():
 
         print("radian " + str(radian))
         pub_bl_tube_angle.publish(radian)
-
-        # map_intersec.data.append(w_intersec_x)
-        # map_intersec.data.append(w_intersec_y)
-        # print("map_intersec.data "+str(map_intersec.data) + "\n")
-        # pub_intersec_pos.publish(map_intersec)
-        # del map_intersec.data[:]
 
     rate.sleep()

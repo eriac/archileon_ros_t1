@@ -1,7 +1,7 @@
 def cal(u_x, u_y, v_x, v_y):
     import numpy as np
     import math
-
+    # http: // www5d.biglobe.ne.jp/~noocyte/Programming/Geometry/RotationDirection.html
     s = u_x * v_y - u_y * v_x
 
     vector_u = np.array([u_x, u_y])

@@ -36,8 +36,7 @@ Panels:
     Help Height: 75
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Marker3
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 427
 Visualization Manager:
@@ -376,6 +375,14 @@ Visualization Manager:
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /map_rob_trajectory
+      Name: Marker
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /map_intersec
       Name: Marker
       Namespaces:
         "": true
