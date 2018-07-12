@@ -176,7 +176,7 @@
   <joint name="tubeL_joint1" type="fixed">
     <parent link="tubeL_link0"/>
     <child link="tubeL_link1"/>
-    <origin rpy="0 0 0" xyz="-0.12 0 -0.03"/>
+    <origin rpy="0 0 0" xyz="-0.105 0 -0.03"/>
   </joint>
 
   <link name="tubeR_link0">
@@ -210,7 +210,7 @@
   <joint name="tubeR_joint1" type="fixed">
     <parent link="tubeR_link0"/>
     <child link="tubeR_link1"/>
-    <origin rpy="0 0 0" xyz="-0.12 0 -0.03"/>
+    <origin rpy="0 0 0" xyz="-0.105 0 -0.03"/>
   </joint>
 
 </robot>

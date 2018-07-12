@@ -82,6 +82,7 @@ pub_intersec_pos = rospy.Publisher(
 
 rate = rospy.Rate(100)
 
+radian_last=0
 while not rospy.is_shutdown():
     w_bl_rot_x = float(func_world_bl_rot_pos.x)
     w_bl_rot_y = float(func_world_bl_rot_pos.y)
@@ -135,6 +136,7 @@ while not rospy.is_shutdown():
             w_intersec_x = float(w_result[1].x)
             w_intersec_y = float(w_result[1].y)
 
+
         print("w_intersec_x " + str(w_intersec_x))
         print("w_intersec_y " + str(w_intersec_y))
 
@@ -144,6 +146,8 @@ while not rospy.is_shutdown():
         pub_intersec_pos.publish(map_intersec)
         del map_intersec.data[:]
 
+
+        # print("w_origin_to_bl_tube " +str(w_bl_tube_x - w_bl_rot_x))
         vector_r_bl_rot_to_bl_tube = rotate_world_to_rob.cal(
             world_origin_x=w_bl_rot_x,
             world_origin_y=w_bl_rot_y,
@@ -151,6 +155,9 @@ while not rospy.is_shutdown():
             world_target_x=w_bl_tube_x,
             world_target_y=w_bl_tube_y
         )
+
+        # print("w_origin_to_intersec " +str(w_bl_tube_x - w_bl_rot_x))
+
         vector_r_bl_rot_to_intersec = rotate_world_to_rob.cal(
             world_origin_x=w_bl_rot_x,
             world_origin_y=w_bl_rot_y,
@@ -159,11 +166,11 @@ while not rospy.is_shutdown():
             world_target_y=w_intersec_y
         )
 
-        print("vector_r_bl_rot_to_bl_tube " +
-              str(vector_r_bl_rot_to_bl_tube) + "\n")
+        # print("vector_r_bl_rot_to_bl_tube " +
+        #       str(vector_r_bl_rot_to_bl_tube) + "\n")
 
-        print("vector_r_bl_rot_to_intersec " +
-              str(vector_r_bl_rot_to_intersec))
+        # print("vector_r_bl_rot_to_intersec " +
+        #       str(vector_r_bl_rot_to_intersec))
 
         radian = getTubeAngle.cal(
             u_x=vector_r_bl_rot_to_intersec[0],
@@ -172,7 +179,8 @@ while not rospy.is_shutdown():
             v_y=vector_r_bl_rot_to_bl_tube[1]
         )
 
-        print("radian " + str(radian))
-        pub_bl_tube_angle.publish(radian)
+        # print("radian " + str(radian))
+        pub_bl_tube_angle.publish(radian*1.0+radian_last)
+        radian_last=radian*1.0+radian_last
 
     rate.sleep()

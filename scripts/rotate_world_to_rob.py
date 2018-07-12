@@ -3,6 +3,7 @@ def cal(world_origin_x, world_origin_y, world_origin_theta, world_target_x, worl
 
     w_rob_x_target_x = world_target_x - world_origin_x
     w_rob_y_target_y = world_target_y - world_origin_y
+
     vector_origin_to_target = np.array([w_rob_x_target_x, w_rob_y_target_y])
 
     cos = float(np.cos(world_origin_theta))

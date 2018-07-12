@@ -36,7 +36,8 @@ Panels:
     Help Height: 75
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 427
 Visualization Manager:
@@ -358,10 +359,11 @@ Visualization Manager:
       type: SAC
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: map_visualizer
+      Marker Topic: /visualization_marker
       Name: Marker
       Namespaces:
         "": true
+        map_visualizer: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
