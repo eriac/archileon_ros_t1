@@ -38,13 +38,17 @@ void bl_nozzle_callback(const std_msgs::Float32& float_msg){
   std_msgs::Float32 sv1;
   sv1.data = -bl_servo_angle;
   bl_servo_pub.publish(sv1);
-
-
-
 }
 
 void br_nozzle_callback(const std_msgs::Float32& float_msg){
-  br_servo_angle = float_msg.data ;
+  ros::NodeHandle n;
+  ros::Publisher br_servo_pub;
+  br_servo_pub = n.advertise<std_msgs::Float32>("servo5", 1000);
+  br_servo_angle = float_msg.data;
+  std_msgs::Float32 sv1;
+  sv1.data = -br_servo_angle;
+  br_servo_pub.publish(sv1);
+
 }
 
 //temporal fixed
@@ -86,7 +90,6 @@ int main(int argc, char **argv){
 	while (ros::ok()){
         float f_val0=curve_value/curve_factor;
         float f_val1=speed_value;
-
 
         if(-0.05<f_val0 && f_val0<0.05){//straight
             std_msgs::Float32 ss;
