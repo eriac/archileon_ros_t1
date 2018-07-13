@@ -6,11 +6,6 @@ from std_msgs.msg import Float32MultiArray
 from geometry_msgs.msg import Point
 
 
-class func_world_rob_pos:
-    x = 0
-    y = 0
-
-
 class func_param:
     rob_way_points = []
     bl_tube_way_points = []
@@ -78,11 +73,11 @@ while not rospy.is_shutdown():
         p.y = point[1]
         marker_data.points.append(p)
 
-    # for point in func_param.br_tube_way_points:
-    #     p = Point()
-    #     p.x = point[0]
-    #     p.y = point[1]
-    #     marker_data.points.append(p)
+    for point in func_param.br_tube_way_points:
+        p = Point()
+        p.x = point[0]
+        p.y = point[1]
+        marker_data.points.append(p)
 
     pub_map_rob.publish(marker_data)
 
