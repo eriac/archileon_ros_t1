@@ -21,6 +21,13 @@ map_intersec = Float32MultiArray(data=array)
 r_bl_rot_point_x = -0.1258
 r_bl_rot_point_y = 0.075
 
+r_bl_tube_point_x = -0.235
+r_bl_tube_point_y = 0.075
+
+vector_r_bl_rot_to_bl_tube_x = r_bl_rot_point_x - r_bl_tube_point_x
+vector_r_bl_rot_to_bl_tube_y = r_bl_rot_point_y - r_bl_tube_point_y
+
+radian_list=[]
 
 def bl_rot_position_callback(float_msg):
     func_world_bl_rot_pos.x = float_msg.data[0]
@@ -114,57 +121,68 @@ while not rospy.is_shutdown():
     )
 
     if w_result:
-        diff_x = w_bl_tube_x - float(w_result[0].x)
-        diff_y = w_bl_tube_y - float(w_result[0].y)
-        diff1_xy = math.sqrt(diff_x**2 + diff_y**2)
+        # diff_x = w_bl_tube_x - float(w_result[0].x)
+        # diff_y = w_bl_tube_y - float(w_result[0].y)
+        # diff1_xy = math.sqrt(diff_x**2 + diff_y**2)
+        # print("diff1_xy " +str(diff1_xy))
 
-        diff_x = w_bl_tube_x - float(w_result[1].x)
-        diff_y = w_bl_tube_y - float(w_result[1].y)
-        diff2_xy = math.sqrt(diff_x**2 + diff_y**2)
-
-        if diff1_xy < diff2_xy:
-            w_intersec_x = float(w_result[0].x)
-            w_intersec_y = float(w_result[0].y)
-        else:
-            w_intersec_x = float(w_result[1].x)
-            w_intersec_y = float(w_result[1].y)
+        # diff_x = w_bl_tube_x - float(w_result[1].x)
+        # diff_y = w_bl_tube_y - float(w_result[1].y)
+        # diff2_xy = math.sqrt(diff_x**2 + diff_y**2)
+        # print("diff2_xy " +str(diff2_xy))
 
 
+        # if diff1_xy < diff2_xy:
+        #     w_intersec_x = float(w_result[0].x)
+        #     w_intersec_y = float(w_result[0].y)
+        #     print("AAAAAAA")
+        # else:
+        #     w_intersec_x = float(w_result[1].x)
+        #     w_intersec_y = float(w_result[1].y)
+        #     print("BBBBBBB")
+        for inter_p in w_result:  
+            vector_r_bl_rot_to_intersec = rotate_world_to_rob.cal(
+                world_origin_x=w_bl_rot_x,
+                world_origin_y=w_bl_rot_y,
+                world_origin_theta=w_rob_theta,
+                world_target_x=float(inter_p[0]),
+                world_target_y=float(inter_p[1])
+            )
+            radian = getTubeAngle.cal(
+                u_x=vector_r_bl_rot_to_intersec[0],
+                u_y=vector_r_bl_rot_to_intersec[1],
+                v_x=vector_r_bl_rot_to_bl_tube_x,
+                v_y=vector_r_bl_rot_to_bl_tube_y
+            )
+            # print("radian " +str(radian))
+            if radian < math.pi/2:
+                print("degrees " +str(math.degrees(radian)))
+            # if abs(radian) > math.pi/2:
+            #     print(inter_p[0])          
+            #     print(inter_p[1])
+            #     print("radian " + str(radian) +"\n")
+                pub_bl_tube_angle.publish(radian)
 
-        # Visualize InterSection Point
-        map_intersec.data.append(w_intersec_x)
-        map_intersec.data.append(w_intersec_y)
-        pub_intersec_pos.publish(map_intersec)
-        del map_intersec.data[:]
 
 
-        vector_r_bl_rot_to_bl_tube = rotate_world_to_rob.cal(
-            world_origin_x=w_bl_rot_x,
-            world_origin_y=w_bl_rot_y,
-            world_origin_theta=w_rob_theta,
-            world_target_x=w_bl_tube_x,
-            world_target_y=w_bl_tube_y
-        )
+            #     # Visualize InterSection Point
+            #     map_intersec.data.append(inter_p[0])
+            #     map_intersec.data.append(inter_p[1])
+            #     pub_intersec_pos.publish(map_intersec)
+            #     del map_intersec.data[:]
 
 
-        vector_r_bl_rot_to_intersec = rotate_world_to_rob.cal(
-            world_origin_x=w_bl_rot_x,
-            world_origin_y=w_bl_rot_y,
-            world_origin_theta=w_rob_theta,
-            world_target_x=w_intersec_x,
-            world_target_y=w_intersec_y
-        )
+        # vector_r_bl_rot_to_bl_tube = rotate_world_to_rob.cal(
+        #     world_origin_x=w_bl_rot_x,
+        #     world_origin_y=w_bl_rot_y,
+        #     world_origin_theta=w_rob_theta,
+        #     world_target_x=w_bl_tube_x,
+        #     world_target_y=w_bl_tube_y
+        # )
 
 
-        radian = getTubeAngle.cal(
-            u_x=vector_r_bl_rot_to_intersec[0],
-            u_y=vector_r_bl_rot_to_intersec[1],
-            v_x=vector_r_bl_rot_to_bl_tube[0],
-            v_y=vector_r_bl_rot_to_bl_tube[1]
-        )
 
-        # print("radian " + str(radian))
-        pub_bl_tube_angle.publish(radian*1.0+radian_last)
-        radian_last=radian*1.0+radian_last
+        # pub_bl_tube_angle.publish(radian*1.0+radian_last)
+        # radian_last=radian*1.0+radian_last
 
     rate.sleep()
