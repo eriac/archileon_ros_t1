@@ -100,7 +100,7 @@ int main(int argc, char **argv){
             std_msgs::Float32 ss;
             ss.data=0;
             std_msgs::Float32 ms;
-            ms.data=f_val1;
+            ms.data=f_val1 * 1/2;
             for(int i=0;i<4;i++){
                 servo_pub[i].publish(ss);
                 motor_pub[i].publish(ms);
