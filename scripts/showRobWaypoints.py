@@ -26,6 +26,9 @@ def position_callback(msg):
     func_world_rob_pos.y = msg.data[1]
     func_world_rob_pos.theta = msg.data[2]
 
+    ########For Using Vive Tracker##########
+    # func_world_rob_pos.theta = msg.data[2]  - (math.pi/4)* 3 
+
 
 area_map = AreaMap()
 rospy.init_node("show_error_dist")

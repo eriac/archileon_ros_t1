@@ -38,6 +38,12 @@ pub_map_rob = rospy.Publisher("map_rob_trajectory", Marker, queue_size=10)
 
 sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
+
+########For Using Vive Tracker##########
+# sub_rob_status = rospy.Subscriber( 
+#     "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback) 
+
+
 sub_bl_tube_status = rospy.Subscriber(
     "bl_pos_status", Float32MultiArray, bl_tube_position_callback)
 sub_br_tube_status = rospy.Subscriber(

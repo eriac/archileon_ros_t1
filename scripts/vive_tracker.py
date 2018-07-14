@@ -106,7 +106,7 @@ def vive_tracker():
             array =[]
             tracker_info_array=Float32MultiArray(data=array)
             tracker_info_array.data.append(x)
-            tracker_info_array.data.append(y)
+            tracker_info_array.data.append(-z)
             tracker_info_array.data.append(yaw)
             publisher[deviceName].publish(tracker_info_array)
 

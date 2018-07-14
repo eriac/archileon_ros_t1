@@ -11,8 +11,6 @@ import getDistRobTarget
 
 
 
-
-
 array = []
 map_target = Float32MultiArray(data=array)
 
@@ -27,7 +25,7 @@ class AreaMap():
         self.now_target_num = 55
 
 class func_parameter():
-    move_speed = 0.05
+    move_speed = 0.1
     move_curve = 0
 
 class func_world_rob_pos():
@@ -39,7 +37,9 @@ class func_world_rob_pos():
 def position_callback(float_msg):
     func_world_rob_pos.x = float_msg.data[0]
     func_world_rob_pos.y = float_msg.data[1]
-    func_world_rob_pos.theta = float_msg.data[2]
+    func_world_rob_pos.theta = float_msg.data[2] 
+    ########For Using Vive Tracker#######
+    # func_world_rob_pos.theta = float_msg.data[2]  - (math.pi/4)* 3 
 
     # diff_rob_target = abs(getDistRobTarget.cal(
     #     func_world_rob_pos.x, func_world_rob_pos.y, func_world_rob_pos.theta,
@@ -71,6 +71,10 @@ pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
 pub_target = rospy.Publisher('now_target_array', Float32MultiArray, queue_size=1000)
 sub_rob_status = rospy.Subscriber("robot_status", Float32MultiArray, position_callback)
+
+# For Uaing Vive Tracker
+# sub_rob_status = rospy.Subscriber("/vive/LHR_1CDCEA0B", Float32MultiArray, position_callback)
+
 
 rate = rospy.Rate(10)
 

@@ -78,6 +78,10 @@ sub_rob_status = rospy.Subscriber(
     "bl_pos_status", Float32MultiArray, bl_pos_position_callback)
 sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
+ 
+########For Using Vive Tracker##########
+# sub_rob_status = rospy.Subscriber( 
+#     "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback) 
 
 
 pub_bl_tube_angle = rospy.Publisher(
@@ -93,15 +97,17 @@ radian_last=0
 while not rospy.is_shutdown():
     w_bl_rot_x = float(func_world_bl_rot_pos.x)
     w_bl_rot_y = float(func_world_bl_rot_pos.y)
-    # w_bl_rot_theta = float(func_world_bl_rot_pos.theta)
+    
 
     w_bl_tube_x = float(func_world_bl_tube_pos.x)
     w_bl_tube_y = float(func_world_bl_tube_pos.y)
-    # w_bl_tube_theta = float(func_world_bl_tube_pos.theta)
-
+    
     w_rob_pos_x = float(func_world_rob_pos.x)
     w_rob_pos_y = float(func_world_rob_pos.y)
     w_rob_theta = float(func_world_rob_pos.theta)
+
+    ########For Using Vive Tracker##########
+    # w_rob_theta = float(func_world_rob_pos.theta)  - (math.pi/4)* 3 
 
     base_num = getNearestPoint.search_value_tube(
         func_param.bl_way_points,

@@ -145,7 +145,7 @@
 
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
   <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
-  <node name="tube_operation" pkg="archileon_ros_t1" type="tube_operation.py" output="screen"/>
+  <node name="bl_tube_operation" pkg="archileon_ros_t1" type="bl_tube_operation.py" output="screen"/>
   <node name="br_tube_operation" pkg="archileon_ros_t1" type="br_tube_operation.py" output="screen"/>
   <node name="showRobWaypoints" pkg="archileon_ros_t1" type="showRobWaypoints.py" />
 
