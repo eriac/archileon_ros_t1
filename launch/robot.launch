@@ -56,15 +56,13 @@
     <remap from="tube1" to="pif/BR/servo2"/>
   </node>
 
-  <!-- <group ns="vive" unless="$(arg vive)">  -->
-  <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
-  <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
-  <node name="tf_bl_pos_listen" pkg="archileon_ros_t1" type="tf_bl_pos_listen" />
-
-  <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
-  <node name="tf_br_pos_listen" pkg="archileon_ros_t1" type="tf_br_pos_listen" />
-
-  <!-- </group> -->
+  <group ns="vive" unless="$(arg vive)"> 
+    <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
+    <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
+    <node name="tf_bl_pos_listen" pkg="archileon_ros_t1" type="tf_bl_pos_listen" />
+    <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
+    <node name="tf_br_pos_listen" pkg="archileon_ros_t1" type="tf_br_pos_listen" />
+  </group>
 
   <group ns="vive" if="$(arg vive)">
     <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation2" args="0.0 0.0 1.55 0 0.0 0 world map 100" />
@@ -73,6 +71,13 @@
     <!-- connect vive to robot-->
     <!-- Be careful about the used vive tracker' serial number for the used frame like LHR_!!!!!!-->
     <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_1CDCEA0B base_link 100" />
+
+    <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
+    <node name="tf_bl_pos_listen" pkg="archileon_ros_t1" type="tf_bl_pos_listen" />
+    <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
+    <node name="tf_br_pos_listen" pkg="archileon_ros_t1" type="tf_br_pos_listen" />
+
+
   </group>
 
 

@@ -107,7 +107,8 @@ def vive_tracker():
             tracker_info_array=Float32MultiArray(data=array)
             tracker_info_array.data.append(x)
             tracker_info_array.data.append(-z)
-            tracker_info_array.data.append(yaw)
+            # tracker_info_array.data.append(yaw - (math.pi/4) *3)
+            tracker_info_array.data.append(yaw - (math.pi/4) *3)
             publisher[deviceName].publish(tracker_info_array)
 
             if "reference" not in deviceName:

@@ -36,7 +36,7 @@ void bl_nozzle_callback(const std_msgs::Float32& float_msg){
   bl_servo_pub = n.advertise<std_msgs::Float32>("servo4", 1000);
   bl_servo_angle = float_msg.data;
   std_msgs::Float32 sv1;
-  sv1.data = -bl_servo_angle;
+  sv1.data = bl_servo_angle;
   bl_servo_pub.publish(sv1);
 }
 

@@ -77,11 +77,12 @@ sub_rob_status = rospy.Subscriber(
 sub_rob_status = rospy.Subscriber(
     "br_pos_status", Float32MultiArray, br_pos_position_callback)
 
-sub_rob_status = rospy.Subscriber(
-    "robot_status", Float32MultiArray, rob_position_callback)
+# sub_rob_status = rospy.Subscriber(
+#     "robot_status", Float32MultiArray, rob_position_callback)
+
 ########For Using Vive Tracker##########
-# sub_rob_status = rospy.Subscriber( 
-#     "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback)
+sub_rob_status = rospy.Subscriber( 
+    "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback)
 
 
 pub_br_tube_angle = rospy.Publisher(
@@ -103,10 +104,10 @@ while not rospy.is_shutdown():
 
     w_rob_pos_x = float(func_world_rob_pos.x)
     w_rob_pos_y = float(func_world_rob_pos.y)
-    w_rob_theta = float(func_world_rob_pos.theta)
+    # w_rob_theta = float(func_world_rob_pos.theta)
 
     ########For Using Vive Tracker##########
-    # w_rob_theta = float(func_world_rob_pos.theta) - (math.pi/4)* 3
+    w_rob_theta = float(func_world_rob_pos.theta) 
 
     base_num = getNearestPoint.search_value_tube(
         func_param.br_way_points,
@@ -139,18 +140,18 @@ while not rospy.is_shutdown():
                 v_y=vector_r_br_rot_to_br_tube_y
             )
             # print("radian " +str(radian))
-            if -math.pi/2 < radian < math.pi/2:
-                print("degrees " +str(math.degrees(radian)))
-                print(inter_p[0])          
-                print(inter_p[1])
-                print("radian " + str(radian) +"\n")
-                pub_br_tube_angle.publish(radian)
+            # if 0 < radian < math.pi/4 or -math.pi/4 < radian < 0:
+            #     print("degrees " +str(math.degrees(radian)))
+            #     print(inter_p[0])          
+            #     print(inter_p[1])
+            #     print("radian " + str(radian) +"\n")
+            #     pub_br_tube_angle.publish(radian)
 
-                # Visualize InterSection Point
-                map_intersec.data.append(inter_p[0])
-                map_intersec.data.append(inter_p[1])
-                pub_intersec_pos.publish(map_intersec)
-                del map_intersec.data[:]
+            #     # Visualize InterSection Point
+            #     map_intersec.data.append(inter_p[0])
+            #     map_intersec.data.append(inter_p[1])
+            #     pub_intersec_pos.publish(map_intersec)
+            #     del map_intersec.data[:]
 
         # pub_br_tube_angle.publish(radian*1.0+radian_last)
         # radian_last=radian*1.0+radian_last
