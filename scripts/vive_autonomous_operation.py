@@ -39,6 +39,8 @@ class func_world_rob_pos():
 def position_callback(float_msg):
     func_world_rob_pos.x = float_msg.data[0]
     func_world_rob_pos.y = float_msg.data[1]
+    # func_world_rob_pos.theta = float_msg.data[2]
+    ########For Using Vive Tracker#######
     func_world_rob_pos.theta = float_msg.data[2]
 
     # diff_rob_target = abs(getDistRobTarget.cal(
@@ -66,15 +68,14 @@ def position_callback(float_msg):
 area_map = AreaMap()
 counter = Counter()
 
-rospy.init_node("autonomous_operation")
+rospy.init_node("vive_autonomous_operation")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
-
 pub_target = rospy.Publisher(
     'now_target_array', Float32MultiArray, queue_size=1000)
 
 sub_rob_status = rospy.Subscriber(
-    "robot_status", Float32MultiArray, position_callback)
+    "/vive/LHR_1CDCEA0B", Float32MultiArray, position_callback)
 
 
 rate = rospy.Rate(10)

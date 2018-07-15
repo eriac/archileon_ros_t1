@@ -56,15 +56,21 @@
     <remap from="tube1" to="pif/BR/servo2"/>
   </node>
 
-  <group ns="vive" unless="$(arg vive)"> 
+  <!-- <group ns="vive" unless="$(arg vive)"> 
     <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
     <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
     <node name="tf_bl_pos_listen" pkg="archileon_ros_t1" type="tf_bl_pos_listen" />
     <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
     <node name="tf_br_pos_listen" pkg="archileon_ros_t1" type="tf_br_pos_listen" />
-  </group>
+  </group> -->
 
-  <group ns="vive" if="$(arg vive)">
+  <!-- <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
+  <node name="bl_tube_operation" pkg="archileon_ros_t1" type="bl_tube_operation.py" output="screen"/>
+  <node name="br_tube_operation" pkg="archileon_ros_t1" type="br_tube_operation.py" output="screen"/> -->
+
+
+
+  <group ns = "vive" if="$(arg vive)">
     <node pkg="tf" type="static_transform_publisher" name="vive_world_orientation2" args="0.0 0.0 1.55 0 0.0 0 world map 100" />
     <node name="vive_world" pkg="archileon_ros_t1" type="vive_world.py" output="screen"/>
     <node name="vive_tracker" pkg="archileon_ros_t1" type="vive_tracker.py" output="screen"/>
@@ -72,13 +78,18 @@
     <!-- Be careful about the used vive tracker' serial number for the used frame like LHR_!!!!!!-->
     <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_1CDCEA0B base_link 100" />
 
-    <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
-    <node name="tf_bl_pos_listen" pkg="archileon_ros_t1" type="tf_bl_pos_listen" />
-    <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
-    <node name="tf_br_pos_listen" pkg="archileon_ros_t1" type="tf_br_pos_listen" />
-
-
   </group>
+
+  <node name="vive_autonomous_operation" pkg="archileon_ros_t1" type="vive_autonomous_operation.py" output="screen"/>
+  <node name="vive_bl_tube_operation" pkg="archileon_ros_t1" type="vive_bl_tube_operation.py" output="screen"/>
+  <node name="vive_br_tube_operation" pkg="archileon_ros_t1" type="vive_br_tube_operation.py" output="screen"/>
+  <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
+  <node name="tf_bl_pos_listen" pkg="archileon_ros_t1" type="tf_bl_pos_listen" />
+  <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
+  <node name="tf_br_pos_listen" pkg="archileon_ros_t1" type="tf_br_pos_listen" />
+
+
+
 
 
 
@@ -149,9 +160,6 @@
   </node>
 
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
-  <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
-  <node name="bl_tube_operation" pkg="archileon_ros_t1" type="bl_tube_operation.py" output="screen"/>
-  <node name="br_tube_operation" pkg="archileon_ros_t1" type="br_tube_operation.py" output="screen"/>
   <node name="showRobWaypoints" pkg="archileon_ros_t1" type="showRobWaypoints.py" />
 
 

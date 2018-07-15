@@ -71,15 +71,16 @@ class func_param():
     counter = 0
 
 
-rospy.init_node("bl_tube_operation")
-
-
-sub_rob_status = rospy.Subscriber(
-    "bl_pos_status", Float32MultiArray, bl_pos_position_callback)
-
+rospy.init_node("vive_bl_tube_operation")
 
 sub_rob_status = rospy.Subscriber(
-    "robot_status", Float32MultiArray, rob_position_callback)
+    "/vive/bl_rot_status", Float32MultiArray, bl_rot_position_callback)
+
+sub_rob_status = rospy.Subscriber(
+    "/vive/bl_pos_status", Float32MultiArray, bl_pos_position_callback)
+
+sub_rob_status = rospy.Subscriber(
+    "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback)
 
 
 pub_bl_tube_angle = rospy.Publisher(
@@ -100,8 +101,11 @@ while not rospy.is_shutdown():
 
     w_rob_pos_x = float(func_world_rob_pos.x)
     w_rob_pos_y = float(func_world_rob_pos.y)
-
     w_rob_theta = float(func_world_rob_pos.theta)
+
+    print(float(func_world_bl_rot_pos.x))
+    print(w_bl_rot_y)
+    print(w_rob_theta)
 
     base_num = getNearestPoint.search_value_tube(
         func_param.bl_way_points,
