@@ -68,6 +68,15 @@ def position_callback(float_msg):
 area_map = AreaMap()
 counter = Counter()
 
+###スピード調整用##########################################
+def speed_callback(my_msg):
+    print(my_msg)
+    func_parameter.move_speed = my_msg
+
+sub_speed = rospy.Subscriber(
+    "my_move_speed", Float32, speed_callback)
+###########################################################
+
 rospy.init_node("autonomous_operation")
 pub_speed = rospy.Publisher('move_speed', Float32, queue_size=1000)
 pub_curve = rospy.Publisher('move_curve', Float32, queue_size=1000)
