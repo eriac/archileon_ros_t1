@@ -69,6 +69,9 @@
   <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
   <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
   <node name="tf_bl_pos_listen" pkg="archileon_ros_t1" type="tf_bl_pos_listen" />
+  <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
+  <node name="tf_br_pos_listen" pkg="archileon_ros_t1" type="tf_br_pos_listen" />
+
 
   <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
   <node name="bl_tube_operation" pkg="archileon_ros_t1" type="bl_tube_operation.py" output="screen"/>

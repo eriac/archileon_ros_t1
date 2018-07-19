@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: UTF-8
+
 import rospy
 from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
@@ -19,15 +20,13 @@ map_intersec = Float32MultiArray(data=array)
 
 
 r_br_rot_point_x = -0.1258
-r_br_rot_point_y = 0.075
+r_br_rot_point_y = -0.075
 
 r_br_tube_point_x = -0.235
-r_br_tube_point_y = 0.075
+r_br_tube_point_y = -0.075
 
 vec_r_br_rot_to_br_tube_x = r_br_tube_point_x - r_br_rot_point_x
 vec_r_br_rot_to_br_tube_y = r_br_tube_point_y - r_br_rot_point_y
-
-# radian_list = []
 
 
 def br_rot_position_callback(float_msg):
@@ -85,10 +84,10 @@ sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
 
 
-pub_br_tube_angle = rospy.Pubrisher(
+pub_br_tube_angle = rospy.Publisher(
     'br_rot_tube_angle', Float32, queue_size=1000)
 
-pub_intersec_pos = rospy.Pubrisher(
+pub_intersec_pos = rospy.Publisher(
     'intersec_status', Float32MultiArray, queue_size=1000)
 
 
@@ -184,7 +183,7 @@ while not rospy.is_shutdown():
         # Visualize InterSection Point
         map_intersec.data.append(w_intersec_x)
         map_intersec.data.append(w_intersec_y)
-        pub_intersec_pos.pubrish(map_intersec)
+        pub_intersec_pos.publish(map_intersec)
         del map_intersec.data[:]
 
         vector_r_br_rot_to_intersec = rotate_world_to_rob.cal(
@@ -213,7 +212,7 @@ while not rospy.is_shutdown():
         print("radian " + str(radian) + "\n")
 
         if abs(radian) < math.pi / 2:
-            pub_br_tube_angle.pubrish(radian)
+            pub_br_tube_angle.publish(radian)
 
     # pub_br_tube_angle.pubrish(radian*1.0+radian_last)
     # radian_last = radian*1.0+radian_last
