@@ -167,7 +167,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.02" length="0.08"/>
+        <cylinder radius="0.02" length="1.08"/>
       </geometry>
       <material name="red" />
     </visual>

@@ -103,10 +103,6 @@ while not rospy.is_shutdown():
     w_rob_pos_y = float(func_world_rob_pos.y)
     w_rob_theta = float(func_world_rob_pos.theta)
 
-    print(float(func_world_bl_rot_pos.x))
-    print(w_bl_rot_y)
-    print(w_rob_theta)
-
     base_num = getNearestPoint.search_value_tube(
         func_param.bl_way_points,
         w_bl_tube_x,
@@ -124,8 +120,6 @@ while not rospy.is_shutdown():
 
     if len(w_result) == 2:
 
-        # print("inter_p " +str(inter_p[0]) + str(inter_p[1]))
-
         vector_r_bl_tube_to_intersec = rotate_world_to_rob.cal(
             world_origin_x=w_bl_tube_x,
             world_origin_y=w_bl_tube_y,
@@ -133,9 +127,6 @@ while not rospy.is_shutdown():
             world_target_x=float(w_result[0].x),
             world_target_y=float(w_result[0].y)
         )
-    # print("vector_r_origin_to_intersec "+str(vector_r_origin_to_intersec))
-        print("vector_r_bl_tube_to_intersec " +
-              str(vector_r_bl_tube_to_intersec))
 
         vector_r_bl_tube_to_intersec2 = rotate_world_to_rob.cal(
             world_origin_x=w_bl_tube_x,
@@ -145,16 +136,13 @@ while not rospy.is_shutdown():
             world_target_y=float(w_result[1].y)
         )
 
-        print("vector_r_bl_tube_to_intersec2 " +
-              str(vector_r_bl_tube_to_intersec2))
-
         diff1 = math.sqrt(
             (vector_r_bl_tube_to_intersec[0]**2 + vector_r_bl_tube_to_intersec[1]**2))
         diff2 = math.sqrt(
             (vector_r_bl_tube_to_intersec2[0]**2 + vector_r_bl_tube_to_intersec2[1]**2))
 
-        print("diff1 " + str(diff1))
-        print("diff2 " + str(diff2))
+        # print("diff1 " + str(diff1))
+        # print("diff2 " + str(diff2))
 
         if diff1 < diff2:
             w_intersec_x = float(w_result[0].x)
@@ -196,8 +184,8 @@ while not rospy.is_shutdown():
             v_x=vector_r_bl_rot_to_intersec[0],
             v_y=vector_r_bl_rot_to_intersec[1]
         )
-        print("degrees " + str(math.degrees(radian)))
-        print("radian " + str(radian))
+        # print("degrees " + str(math.degrees(radian)))
+        # print("radian " + str(radian))
 
         pub_bl_tube_angle.publish(radian)
 

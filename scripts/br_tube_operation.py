@@ -24,10 +24,11 @@ r_br_rot_point_y = 0.075
 r_br_tube_point_x = -0.235
 r_br_tube_point_y = 0.075
 
-vector_r_br_rot_to_br_tube_x = r_br_tube_point_x - r_br_rot_point_x 
-vector_r_br_rot_to_br_tube_y = r_br_tube_point_y - r_br_rot_point_y 
+vector_r_br_rot_to_br_tube_x = r_br_tube_point_x - r_br_rot_point_x
+vector_r_br_rot_to_br_tube_y = r_br_tube_point_y - r_br_rot_point_y
 
-radian_list=[]
+radian_list = []
+
 
 def br_rot_position_callback(float_msg):
     func_world_br_rot_pos.x = float_msg.data[0]
@@ -77,12 +78,8 @@ sub_rob_status = rospy.Subscriber(
 sub_rob_status = rospy.Subscriber(
     "br_pos_status", Float32MultiArray, br_pos_position_callback)
 
-# sub_rob_status = rospy.Subscriber(
-#     "robot_status", Float32MultiArray, rob_position_callback)
-
-########For Using Vive Tracker##########
-sub_rob_status = rospy.Subscriber( 
-    "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback)
+sub_rob_status = rospy.Subscriber(
+    "robot_status", Float32MultiArray, rob_position_callback)
 
 
 pub_br_tube_angle = rospy.Publisher(
@@ -94,7 +91,7 @@ pub_intersec_pos = rospy.Publisher(
 
 rate = rospy.Rate(100)
 
-radian_last=0
+radian_last = 0
 while not rospy.is_shutdown():
     w_br_rot_x = float(func_world_br_rot_pos.x)
     w_br_rot_y = float(func_world_br_rot_pos.y)
@@ -107,7 +104,7 @@ while not rospy.is_shutdown():
     # w_rob_theta = float(func_world_rob_pos.theta)
 
     ########For Using Vive Tracker##########
-    w_rob_theta = float(func_world_rob_pos.theta) 
+    w_rob_theta = float(func_world_rob_pos.theta)
 
     base_num = getNearestPoint.search_value_tube(
         func_param.br_way_points,
@@ -125,7 +122,7 @@ while not rospy.is_shutdown():
     )
 
     if w_result:
-        for inter_p in w_result:  
+        for inter_p in w_result:
             vector_r_br_rot_to_intersec = rotate_world_to_rob.cal(
                 world_origin_x=w_br_rot_x,
                 world_origin_y=w_br_rot_y,
@@ -142,7 +139,7 @@ while not rospy.is_shutdown():
             # print("radian " +str(radian))
             # if 0 < radian < math.pi/4 or -math.pi/4 < radian < 0:
             #     print("degrees " +str(math.degrees(radian)))
-            #     print(inter_p[0])          
+            #     print(inter_p[0])
             #     print(inter_p[1])
             #     print("radian " + str(radian) +"\n")
             #     pub_br_tube_angle.publish(radian)
