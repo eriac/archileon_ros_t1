@@ -18,16 +18,16 @@ array = []
 map_intersec = Float32MultiArray(data=array)
 
 
-# r_bl_rot_point_x = -0.1258
-# r_bl_rot_point_y = 0.075
+r_bl_rot_point_x = -0.1258
+r_bl_rot_point_y = 0.075
 
-# r_bl_tube_point_x = -0.235
-# r_bl_tube_point_y = 0.075
+r_bl_tube_point_x = -0.235
+r_bl_tube_point_y = 0.075
 
-# vector_r_bl_rot_to_bl_tube_x = r_bl_tube_point_x - r_bl_rot_point_x
-# vector_r_bl_rot_to_bl_tube_y = r_bl_tube_point_y - r_bl_rot_point_y
+vec_r_bl_rot_to_bl_tube_x = r_bl_tube_point_x - r_bl_rot_point_x
+vec_r_bl_rot_to_bl_tube_y = r_bl_tube_point_y - r_bl_rot_point_y
 
-radian_list = []
+# radian_list = []
 
 
 def bl_rot_position_callback(float_msg):
@@ -77,6 +77,9 @@ rospy.init_node("bl_tube_operation")
 sub_rob_status = rospy.Subscriber(
     "bl_pos_status", Float32MultiArray, bl_pos_position_callback)
 
+sub_rob_status = rospy.Subscriber(
+    "bl_rot_status", Float32MultiArray, bl_rot_position_callback)
+
 
 sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
@@ -84,6 +87,7 @@ sub_rob_status = rospy.Subscriber(
 
 pub_bl_tube_angle = rospy.Publisher(
     'bl_rot_tube_angle', Float32, queue_size=1000)
+
 pub_intersec_pos = rospy.Publisher(
     'intersec_status', Float32MultiArray, queue_size=1000)
 
@@ -109,6 +113,9 @@ while not rospy.is_shutdown():
         w_bl_tube_y
     )
 
+    print("base_num " + str(func_param.bl_way_points[base_num]))
+    print("next_num " + str(func_param.bl_way_points[base_num + 1]))
+
     w_result = getInterSectionPoint.calLine(
         center_x=w_bl_rot_x,
         center_y=w_bl_rot_y,
@@ -120,45 +127,55 @@ while not rospy.is_shutdown():
 
     if len(w_result) == 2:
 
-        # print("inter_p " +str(inter_p[0]) + str(inter_p[1]))
+        inter_sec_x1 = float(w_result[0].x)
+        inter_sec_y1 = float(w_result[0].y)
 
-        vector_r_bl_tube_to_intersec = rotate_world_to_rob.cal(
+        inter_sec_x2 = float(w_result[1].x)
+        inter_sec_y2 = float(w_result[1].y)
+
+        print("w_bl_rot " + str(w_bl_rot_x) + ", " + str(w_bl_rot_y))
+        print("w_bl_tube " + str(w_bl_tube_x) + ", " + str(w_bl_tube_y))
+
+        print("inter_sec1 " + str(inter_sec_x1) + ", " + str(inter_sec_y1))
+        print("inter_sec2 " + str(inter_sec_x2) + ", " + str(inter_sec_y2))
+
+        vec_r_bl_tube_to_intersec1 = rotate_world_to_rob.cal(
             world_origin_x=w_bl_tube_x,
             world_origin_y=w_bl_tube_y,
             world_origin_theta=w_rob_theta,
-            world_target_x=float(w_result[0].x),
-            world_target_y=float(w_result[0].y)
+            world_target_x=inter_sec_x1,
+            world_target_y=inter_sec_y1
         )
-    # print("vector_r_origin_to_intersec "+str(vector_r_origin_to_intersec))
-        print("vector_r_bl_tube_to_intersec " +
-              str(vector_r_bl_tube_to_intersec))
+        # print("vector_r_origin_to_intersec "+str(vector_r_origin_to_intersec))
+        print("vec_r_bl_tube_to_intersec1 " +
+              str(vec_r_bl_tube_to_intersec1))
 
-        vector_r_bl_tube_to_intersec2 = rotate_world_to_rob.cal(
+        vec_r_bl_tube_to_intersec2 = rotate_world_to_rob.cal(
             world_origin_x=w_bl_tube_x,
             world_origin_y=w_bl_tube_y,
             world_origin_theta=w_rob_theta,
-            world_target_x=float(w_result[1].x),
-            world_target_y=float(w_result[1].y)
+            world_target_x=inter_sec_x2,
+            world_target_y=inter_sec_y2
         )
 
-        print("vector_r_bl_tube_to_intersec2 " +
-              str(vector_r_bl_tube_to_intersec2))
+        print("vec_r_bl_tube_to_intersec2 " +
+              str(vec_r_bl_tube_to_intersec2))
 
         diff1 = math.sqrt(
-            (vector_r_bl_tube_to_intersec[0]**2 + vector_r_bl_tube_to_intersec[1]**2))
+            (vec_r_bl_tube_to_intersec1[0]**2 + vec_r_bl_tube_to_intersec1[1]**2))
         diff2 = math.sqrt(
-            (vector_r_bl_tube_to_intersec2[0]**2 + vector_r_bl_tube_to_intersec2[1]**2))
+            (vec_r_bl_tube_to_intersec2[0]**2 + vec_r_bl_tube_to_intersec2[1]**2))
 
         print("diff1 " + str(diff1))
         print("diff2 " + str(diff2))
 
         if diff1 < diff2:
-            w_intersec_x = float(w_result[0].x)
-            w_intersec_y = float(w_result[0].y)
+            w_intersec_x = inter_sec_x1
+            w_intersec_y = inter_sec_y1
             print("AAAAAA")
         else:
-            w_intersec_x = float(w_result[1].x)
-            w_intersec_y = float(w_result[1].y)
+            w_intersec_x = inter_sec_x2
+            w_intersec_y = inter_sec_y2
             print("BBBBBB")
 
         print("w_intersec_x "+str(w_intersec_x))
@@ -187,17 +204,18 @@ while not rospy.is_shutdown():
         )
 
         radian = getTubeAngle.cal(
-            u_x=vector_r_bl_rot_to_bl_tube[0],
-            u_y=vector_r_bl_rot_to_bl_tube[1],
+            u_x=vec_r_bl_rot_to_bl_tube_x,
+            u_y=vec_r_bl_rot_to_bl_tube_y,
             v_x=vector_r_bl_rot_to_intersec[0],
             v_y=vector_r_bl_rot_to_intersec[1]
         )
         print("degrees " + str(math.degrees(radian)))
-        print("radian " + str(radian))
+        print("radian " + str(radian) + "\n")
 
-        pub_bl_tube_angle.publish(radian)
+        if abs(radian) < math.pi / 2:
+            pub_bl_tube_angle.publish(radian)
 
     # pub_bl_tube_angle.publish(radian*1.0+radian_last)
-    # radian_last=radian*1.0+radian_last
+    # radian_last = radian*1.0+radian_last
 
     rate.sleep()

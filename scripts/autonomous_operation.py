@@ -26,7 +26,7 @@ class AreaMap():
 
 
 class func_parameter():
-    move_speed = 0.1
+    move_speed = 0.05
     move_curve = 0
 
 
