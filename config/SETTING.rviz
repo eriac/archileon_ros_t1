@@ -259,16 +259,10 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        LHB_A9DA3921:
-          Value: true
-        LHR_1CDCEA0B:
-          Value: true
         base_link:
           Value: true
         body_link:
           Value: false
-        map:
-          Value: true
         slider0_link:
           Value: false
         slider1_link:
@@ -283,8 +277,6 @@ Visualization Manager:
           Value: false
         vive_tracker_link:
           Value: false
-        vive_world:
-          Value: true
         wheelset0_holder1_link:
           Value: false
         wheelset0_holder2_link:
@@ -318,39 +310,34 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          map:
-            vive_world:
-              LHB_A9DA3921:
+          base_link:
+            body_link:
+              slider0_link:
+                wheelset0_holder1_link:
+                  wheelset0_holder2_link:
+                    wheelset0_wheel_link:
+                      {}
+                wheelset1_holder1_link:
+                  wheelset1_holder2_link:
+                    wheelset1_wheel_link:
+                      {}
+              slider1_link:
+                wheelset2_holder1_link:
+                  wheelset2_holder2_link:
+                    wheelset2_wheel_link:
+                      {}
+                wheelset3_holder1_link:
+                  wheelset3_holder2_link:
+                    wheelset3_wheel_link:
+                      {}
+            tubeL_link0:
+              tubeL_link1:
                 {}
-              LHR_1CDCEA0B:
-                base_link:
-                  body_link:
-                    slider0_link:
-                      wheelset0_holder1_link:
-                        wheelset0_holder2_link:
-                          wheelset0_wheel_link:
-                            {}
-                      wheelset1_holder1_link:
-                        wheelset1_holder2_link:
-                          wheelset1_wheel_link:
-                            {}
-                    slider1_link:
-                      wheelset2_holder1_link:
-                        wheelset2_holder2_link:
-                          wheelset2_wheel_link:
-                            {}
-                      wheelset3_holder1_link:
-                        wheelset3_holder2_link:
-                          wheelset3_wheel_link:
-                            {}
-                  tubeL_link0:
-                    tubeL_link1:
-                      {}
-                  tubeR_link0:
-                    tubeR_link1:
-                      {}
-                  vive_tracker_link:
-                    {}
+            tubeR_link0:
+              tubeR_link1:
+                {}
+            vive_tracker_link:
+              {}
       Update Interval: 0
       Value: true
     - Class: jsk_rviz_plugin/OverlayDiagnostic
@@ -390,13 +377,13 @@ Visualization Manager:
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
-      Enabled: false
+      Enabled: true
       Marker Topic: /map_rob_trajectory
       Name: Marker
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
-      Value: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -422,7 +409,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.12539148
+      Distance: 3.34434462
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1

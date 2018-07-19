@@ -40,14 +40,14 @@ sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
 
 ########For Using Vive Tracker##########
-# sub_rob_status = rospy.Subscriber( 
-#     "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback) 
+# sub_rob_status = rospy.Subscriber(
+#     "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback)
 
 
 sub_bl_tube_status = rospy.Subscriber(
-    "bl_pos_status", Float32MultiArray, bl_tube_position_callback)
+    "bl_tube_status", Float32MultiArray, bl_tube_position_callback)
 sub_br_tube_status = rospy.Subscriber(
-    "br_pos_status", Float32MultiArray, br_tube_position_callback)
+    "br_tube_status", Float32MultiArray, br_tube_position_callback)
 
 
 rate = rospy.Rate(10)
