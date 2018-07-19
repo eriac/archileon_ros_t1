@@ -33,6 +33,6 @@ def cal(w_rob_x, w_rob_y, w_rob_theta):
     w_bl_tube_pos = np.dot(reverse_rotate, r_bl_tube_pos)
 
     w_br_rot_pos = np.dot(reverse_rotate, r_br_tube_rot_pos)
-    w_br_pos = np.dot(reverse_rotate, r_br_tube_pos)
+    w_br_tube = np.dot(reverse_rotate, r_br_tube_pos)
 
-    return w_bl_rot_pos, w_bl_tube_pos, w_br_rot_pos, w_br_pos
+    return w_bl_rot_pos, w_bl_tube_pos, w_br_rot_pos, w_br_tube

@@ -35,7 +35,7 @@ def br_rot_position_callback(float_msg):
     func_world_br_rot_pos.theta = float_msg.data[2]
 
 
-def br_pos_position_callback(float_msg):
+def br_tube_position_callback(float_msg):
     func_world_br_tube_pos.x = float_msg.data[0]
     func_world_br_tube_pos.y = float_msg.data[1]
     func_world_br_tube_pos.theta = float_msg.data[2]
@@ -74,7 +74,7 @@ rospy.init_node("br_tube_operation")
 
 
 sub_rob_status = rospy.Subscriber(
-    "br_pos_status", Float32MultiArray, br_pos_position_callback)
+    "br_tube_status", Float32MultiArray, br_tube_position_callback)
 
 sub_rob_status = rospy.Subscriber(
     "br_rot_status", Float32MultiArray, br_rot_position_callback)
