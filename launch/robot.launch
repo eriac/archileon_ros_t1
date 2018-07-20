@@ -91,10 +91,15 @@
 
   <group unless="$(arg joy)">
     <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
-    <node name="bl_tube_operation" pkg="archileon_ros_t1" type="bl_tube_operation.py" output="screen"/>
-    <node name="br_tube_operation" pkg="archileon_ros_t1" type="br_tube_operation.py" output="screen"/>
+    <node name="bl_tube_driver" pkg="archileon_ros_t1" type="bl_tube_driver.py" output="screen"/>
+    <node name="bl_tube_inter_sec" pkg="archileon_ros_t1" type="bl_tube_inter_sec.py" />
+    <node name="br_tube_driver" pkg="archileon_ros_t1" type="br_tube_driver.py" output="screen"/>
+    <node name="br_tube_inter_sec" pkg="archileon_ros_t1" type="br_tube_inter_sec.py" />
+
+
   </group>
   
+
 
   <!-- Visualizer -->
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
