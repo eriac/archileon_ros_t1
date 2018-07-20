@@ -93,11 +93,8 @@
     <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
     <node name="bl_tube_operation" pkg="archileon_ros_t1" type="bl_tube_operation.py" output="screen"/>
     <node name="br_tube_operation" pkg="archileon_ros_t1" type="br_tube_operation.py" output="screen"/>
-
   </group>
   
-  
-
 
   <!-- Visualizer -->
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
@@ -105,6 +102,7 @@
   <node name="map_trajectory_visualizer" pkg="archileon_ros_t1" type="map_trajectory_visualizer.py" />
   <node name="map_target_visualizer" pkg="archileon_ros_t1" type="map_target_visualizer.py"/>
   <node name="map_intersec_visualizer" pkg="archileon_ros_t1" type="map_intersec_visualizer.py" />
+  <node name="map_target_publisher" pkg="archileon_ros_t1" type="map_target_publisher.py" output="screen"/>
 
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />

@@ -39,11 +39,6 @@ pub_map_rob = rospy.Publisher("map_rob_trajectory", Marker, queue_size=10)
 sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
 
-########For Using Vive Tracker##########
-# sub_rob_status = rospy.Subscriber(
-#     "/vive/LHR_1CDCEA0B", Float32MultiArray, rob_position_callback)
-
-
 sub_bl_tube_status = rospy.Subscriber(
     "bl_tube_status", Float32MultiArray, bl_tube_position_callback)
 sub_br_tube_status = rospy.Subscriber(
@@ -67,11 +62,11 @@ while not rospy.is_shutdown():
     marker_data.scale.x = 0.02
     marker_data.scale.y = 0.02
 
-    # for point in func_param.rob_way_points:
-    #     p = Point()
-    #     p.x = point[0]
-    #     p.y = point[1]
-    #     marker_data.points.append(p)
+    for point in func_param.rob_way_points:
+        p = Point()
+        p.x = point[0]
+        p.y = point[1]
+        marker_data.points.append(p)
 
     for point in func_param.bl_tube_way_points:
         p = Point()

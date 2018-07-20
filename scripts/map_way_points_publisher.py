@@ -14,8 +14,6 @@ br_tube_data = Float32MultiArray(data=array)
 
 rospy.init_node("map_way_points_publisher")
 map_pub = rospy.Publisher("map_data", Float32MultiArray, queue_size=10)
-bl_tube_pub = rospy.Publisher("bl_tube_data", Float32MultiArray, queue_size=10)
-br_tube_pub = rospy.Publisher("br_tube_data", Float32MultiArray, queue_size=10)
 
 rate = rospy.Rate(100)
 
@@ -34,7 +32,6 @@ for i in range(len(bl_tube_points)):
 for i in range(len(br_tube_points)):
     map_data.data.append(br_tube_points[i][0])
     map_data.data.append(br_tube_points[i][1])
-
 
 
 while not rospy.is_shutdown():
