@@ -39,24 +39,12 @@ void speed_callback(const std_msgs::Float32 &float_msg)
 
 void bl_nozzle_callback(const std_msgs::Float32 &float_msg)
 {
-  ros::NodeHandle n;
-  ros::Publisher bl_servo_pub;
-  bl_servo_pub = n.advertise<std_msgs::Float32>("servo4", 1000);
   bl_servo_angle = float_msg.data;
-  std_msgs::Float32 sv1;
-  sv1.data = bl_servo_angle;
-  bl_servo_pub.publish(sv1);
 }
 
 void br_nozzle_callback(const std_msgs::Float32 &float_msg)
 {
-  ros::NodeHandle n;
-  ros::Publisher br_servo_pub;
-  br_servo_pub = n.advertise<std_msgs::Float32>("servo5", 1000);
   br_servo_angle = float_msg.data;
-  std_msgs::Float32 sv1;
-  sv1.data = br_servo_angle;
-  br_servo_pub.publish(sv1);
 }
 
 //temporal fixed
@@ -100,10 +88,16 @@ int main(int argc, char **argv)
   {
     float f_val0 = curve_value / curve_factor;
     float f_val1 = speed_value;
-
     float center_y = 1 / f_val0;
-    float hypotense_sqrt = center_y * center_y + ws_pos[2][0] * ws_pos[2][0];
-    float hypotense = sqrt(hypotense_sqrt);
+    float hypotense = sqrt(center_y * center_y + ws_pos[2][0] * ws_pos[2][0]);
+
+    std_msgs::Float32 sv1;
+    std_msgs::Float32 sv2;
+
+    sv1.data = bl_servo_angle;
+    sv2.data = br_servo_angle;
+    servo_pub[4].publish(sv1);
+    servo_pub[5].publish(sv2);
 
     if (-0.05 < f_val0 && f_val0 < 0.05)
     { //straight
@@ -117,18 +111,19 @@ int main(int argc, char **argv)
         motor_pub[i].publish(ms);
       }
     }
+    //左回り
     else if (f_val0 > 0)
     { //curve
       for (int i = 0; i < 4; i++)
       {
         std_msgs::Float32 sv;
         std_msgs::Float32 mv;
-        if (i == 0 or i == 2)
+        if (i % 2 == 0)
         {
           sv.data = atan2(ws_pos[i][0], center_y - ws_pos[i][1]);
           mv.data = f_val1 * (hypotense - ws_pos[i][1]) / hypotense * 1 / 2;
         }
-        else if (i == 1 or i == 3)
+        else
         {
           sv.data = atan2(ws_pos[i][0], center_y - ws_pos[i][1]);
           mv.data = -f_val1 * (ws_pos[i][1] - hypotense) / hypotense * 1 / 2;
@@ -137,18 +132,19 @@ int main(int argc, char **argv)
         motor_pub[i].publish(mv);
       }
     }
+    //右回り
     else
     {
       for (int i = 0; i < 4; i++)
       {
         std_msgs::Float32 sv;
         std_msgs::Float32 mv;
-        if (i == 0 or i == 2)
+        if (i % 2 == 0)
         {
           sv.data = -atan2(ws_pos[i][0], ws_pos[i][1] - center_y);
           mv.data = f_val1 * (hypotense - ws_pos[i][1]) / hypotense * 1 / 2;
         }
-        else if (i == 1 or i == 3)
+        else
         {
           sv.data = -atan2(ws_pos[i][0], ws_pos[i][1] - center_y);
           mv.data = -f_val1 * (ws_pos[i][1] - hypotense) / hypotense * 1 / 2;
