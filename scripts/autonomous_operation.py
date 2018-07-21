@@ -12,7 +12,7 @@ import getDistRobTarget
 
 array = []
 map_target = Float32MultiArray(data=array)
-move_speed = 0.1
+move_speed = 0.05
 
 world_rob_x = None
 world_rob_y = None

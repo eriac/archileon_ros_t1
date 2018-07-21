@@ -6,56 +6,37 @@
   <param name="use_gui" value="$(arg gui)"/>
   <arg name="rvizconfig" default="$(find archileon_ros_t1)/config/SETTING.rviz" />
   <arg name="vive" default="false"/>
-  <arg name="joy" default="false"/>
 
-  <group if="$(arg joy)">
-    <node name="joy_node" pkg="joy" type="joy_node">
-      <param name="coalesce_interval" value="0.1"/>
-    </node>
-    <node name="joy_control" pkg="archileon_ros_t1" type="joy_control">
-      <remap from="servo0" to="pif/FL/servo1"/>
-      <remap from="servo1" to="pif/FR/servo1"/>
-      <remap from="servo2" to="pif/BL/servo1"/>
-      <remap from="servo3" to="pif/BR/servo1"/>
-      <remap from="servo4" to="pif/BL/servo2"/>
-      <remap from="servo5" to="pif/BR/servo2"/>
-      <remap from="motor0" to="pif/FL/motor"/>
-      <remap from="motor1" to="pif/FR/motor"/>
-      <remap from="motor2" to="pif/BL/motor"/>
-      <remap from="motor3" to="pif/BR/motor"/>
-    </node>
- </group>
-
-  <group unless="$(arg joy)">
-    <node name="move_driver" pkg="archileon_ros_t1" type="move_driver">
-      <remap from="servo0" to="pif/FL/servo1"/>
-      <remap from="servo1" to="pif/FR/servo1"/>
-      <remap from="servo2" to="pif/BL/servo1"/>
-      <remap from="servo3" to="pif/BR/servo1"/>
-      <remap from="servo4" to="pif/BL/servo2"/>
-      <remap from="servo5" to="pif/BR/servo2"/>
-      <remap from="motor0" to="pif/FL/motor"/>
-      <remap from="motor1" to="pif/FR/motor"/>
-      <remap from="motor2" to="pif/BL/motor"/>
-      <remap from="motor3" to="pif/BR/motor"/>
-    </node>
- </group>
-
-
-  <node name="move_sim" pkg="archileon_ros_t1" type="move_sim">
-    <remap from="steer0" to="pif/FL/servo1"/>
-    <remap from="steer1" to="pif/FR/servo1"/>
-    <remap from="steer2" to="pif/BL/servo1"/>
-    <remap from="steer3" to="pif/BR/servo1"/>
-
-    <remap from="steer4" to="pif/BL/servo2"/>
-    <remap from="steer5" to="pif/BR/servo2"/>
-
+  <node name="move_driver" pkg="archileon_ros_t1" type="move_driver">
+    <remap from="servo0" to="pif/FL/servo1"/>
+    <remap from="servo1" to="pif/FR/servo1"/>
+    <remap from="servo2" to="pif/BL/servo1"/>
+    <remap from="servo3" to="pif/BR/servo1"/>
+    <remap from="servo4" to="pif/BL/servo2"/>
+    <remap from="servo5" to="pif/BR/servo2"/>
     <remap from="motor0" to="pif/FL/motor"/>
     <remap from="motor1" to="pif/FR/motor"/>
     <remap from="motor2" to="pif/BL/motor"/>
     <remap from="motor3" to="pif/BR/motor"/>
   </node>
+
+
+  <group unless="$(arg vive)">
+    <node name="move_sim" pkg="archileon_ros_t1" type="move_sim">
+      <remap from="steer0" to="pif/FL/servo1"/>
+      <remap from="steer1" to="pif/FR/servo1"/>
+      <remap from="steer2" to="pif/BL/servo1"/>
+      <remap from="steer3" to="pif/BR/servo1"/>
+
+      <remap from="steer4" to="pif/BL/servo2"/>
+      <remap from="steer5" to="pif/BR/servo2"/>
+
+      <remap from="motor0" to="pif/FL/motor"/>
+      <remap from="motor1" to="pif/FR/motor"/>
+      <remap from="motor2" to="pif/BL/motor"/>
+      <remap from="motor3" to="pif/BR/motor"/>
+    </node>
+  </group>
   
 
   <node name="pif_to_joint" pkg="archileon_ros_t1" type="pif_to_joint">
@@ -81,7 +62,6 @@
     <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_1CDCEA0B base_link 100" />
   </group>
 
-  <!-- <group if="$(arg joy)"> -->
 
   <node name="test_tf_listen" pkg="archileon_ros_t1" type="test_tf_listen" />
   <node name="tf_bl_rot_listen" pkg="archileon_ros_t1" type="tf_bl_rot_listen" />
@@ -89,15 +69,12 @@
   <node name="tf_br_rot_listen" pkg="archileon_ros_t1" type="tf_br_rot_listen" />
   <node name="tf_br_tube_listen" pkg="archileon_ros_t1" type="tf_br_tube_listen" />
 
-  <group unless="$(arg joy)">
-    <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
-    <node name="bl_tube_driver" pkg="archileon_ros_t1" type="bl_tube_driver.py" output="screen"/>
-    <node name="bl_tube_inter_sec" pkg="archileon_ros_t1" type="bl_tube_inter_sec.py" />
-    <node name="br_tube_driver" pkg="archileon_ros_t1" type="br_tube_driver.py" output="screen"/>
-    <node name="br_tube_inter_sec" pkg="archileon_ros_t1" type="br_tube_inter_sec.py" />
 
-
-  </group>
+  <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
+  <node name="bl_tube_driver" pkg="archileon_ros_t1" type="bl_tube_driver.py" output="screen"/>
+  <node name="bl_tube_inter_sec" pkg="archileon_ros_t1" type="bl_tube_inter_sec.py" />
+  <node name="br_tube_driver" pkg="archileon_ros_t1" type="br_tube_driver.py" output="screen"/>
+  <node name="br_tube_inter_sec" pkg="archileon_ros_t1" type="br_tube_inter_sec.py" />
   
 
 
