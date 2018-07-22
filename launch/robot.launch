@@ -78,7 +78,6 @@
   
 
 
-  <!-- Visualizer -->
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
   <node name="map_way_points_publisher" pkg="archileon_ros_t1" type="map_way_points_publisher.py" />
   <node name="map_trajectory_visualizer" pkg="archileon_ros_t1" type="map_trajectory_visualizer.py" />
@@ -144,6 +143,5 @@
   </node>
 
   <node name="arduino_serial" pkg="archileon_ros_t1" type="arduino_serial" output="screen"/>
-  <node name="showRobWaypoints" pkg="archileon_ros_t1" type="showRobWaypoints.py" />
 
 </launch>

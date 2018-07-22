@@ -5,13 +5,14 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
 from sympy import *
 import math
+
+import os
+import sys
+sys.path.append(os.path.dirname(
+    os.path.abspath(__file__)) + '/../my_ros_utils')
 import getWayPoints
-import getTubePosition
-import getTubeAngle
-import getInterSectionTube
 import getNearestPoint
 import getInterSectionPoint
-import rotate_world_to_rob
 
 
 def bl_rot_position_callback(float_msg):

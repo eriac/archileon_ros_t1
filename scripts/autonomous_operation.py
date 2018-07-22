@@ -4,15 +4,18 @@ import rospy
 from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
 from sympy import *
-import math
-import getWayPoints
+# import getMoveCurve
+import os
+import sys
+sys.path.append(os.path.dirname(
+    os.path.abspath(__file__)) + '/../my_ros_utils')
 import getMoveCurve
-import getDistRobTarget
+import getWayPoints
 
 
 array = []
 map_target = Float32MultiArray(data=array)
-move_speed = 0.05
+move_speed = 0.1
 
 world_rob_x = None
 world_rob_y = None

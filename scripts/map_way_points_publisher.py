@@ -4,7 +4,14 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
 from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point
+import os
+import sys
+
+sys.path.append(os.path.dirname(
+    os.path.abspath(__file__)) + '/../my_ros_utils')
+import getMoveCurve
 import getWayPoints
+
 
 array = []
 map_data = Float32MultiArray(data=array)

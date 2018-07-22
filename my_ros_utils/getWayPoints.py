@@ -21,7 +21,7 @@ def read_rob():
         xy_list = []
         x = float(point_list[i][1:point_list[i].index(",")]) - 0.5
         y = float(point_list[i][point_list[i].index(
-            ",")+1: point_list[i].index("]")])+0.5
+            ",")+1: point_list[i].index("]")])
         xy_list.append(x)
         xy_list.append(y)
         way_points.append(xy_list)
@@ -51,7 +51,7 @@ def read_bl_tube_points():
         xy_list = []
         x = float(point_list[i][1:point_list[i].index(",")]) - 0.5
         y = float(point_list[i][point_list[i].index(
-            ",")+1: point_list[i].index("]")])+0.5
+            ",")+1: point_list[i].index("]")])
         xy_list.append(x)
         xy_list.append(y)
         way_points.append(xy_list)
@@ -81,7 +81,7 @@ def read_br_tube_points():
         xy_list = []
         x = float(point_list[i][1:point_list[i].index(",")]) - 0.5
         y = float(point_list[i][point_list[i].index(
-            ",")+1: point_list[i].index("]")])+0.5
+            ",")+1: point_list[i].index("]")])
         xy_list.append(x)
         xy_list.append(y)
         way_points.append(xy_list)

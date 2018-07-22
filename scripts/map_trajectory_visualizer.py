@@ -6,31 +6,39 @@ from std_msgs.msg import Float32MultiArray
 from geometry_msgs.msg import Point
 
 
-class func_param:
-    rob_way_points = []
-    bl_tube_way_points = []
-    br_tube_way_points = []
+# class func_param:
+#     rob_way_points = []
+#     bl_tube_way_points = []
+#     br_tube_way_points = []
+
+
+rob_way_points = []
+bl_tube_way_points = []
+br_tube_way_points = []
 
 
 def rob_position_callback(float_array):
     point = []
     point.append(float_array.data[0])
     point.append(float_array.data[1])
-    func_param.rob_way_points.append(point)
+    global rob_way_points
+    rob_way_points.append(point)
 
 
 def bl_tube_position_callback(float_array):
     point = []
     point.append(float_array.data[0])
     point.append(float_array.data[1])
-    func_param.bl_tube_way_points.append(point)
+    global bl_tube_way_points
+    bl_tube_way_points.append(point)
 
 
 def br_tube_position_callback(float_array):
     point = []
     point.append(float_array.data[0])
     point.append(float_array.data[1])
-    func_param.br_tube_way_points.append(point)
+    global br_tube_way_points
+    br_tube_way_points.append(point)
 
 
 rospy.init_node("map_trajectory_visualizer")
@@ -62,19 +70,19 @@ while not rospy.is_shutdown():
     marker_data.scale.x = 0.02
     marker_data.scale.y = 0.02
 
-    for point in func_param.rob_way_points:
+    for point in rob_way_points:
         p = Point()
         p.x = point[0]
         p.y = point[1]
         marker_data.points.append(p)
 
-    for point in func_param.bl_tube_way_points:
+    for point in bl_tube_way_points:
         p = Point()
         p.x = point[0]
         p.y = point[1]
         marker_data.points.append(p)
 
-    for point in func_param.br_tube_way_points:
+    for point in br_tube_way_points:
         p = Point()
         p.x = point[0]
         p.y = point[1]

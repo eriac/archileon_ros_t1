@@ -6,26 +6,23 @@ from std_msgs.msg import Float32MultiArray
 from geometry_msgs.msg import Point
 
 
-class func_world_rob_pos:
-    x = 0
-    y = 0
-
-
-class func_param:
-    intersec_list = []
-
-
 def position_callback(float_array):
     point = []
     point.append(float_array.data[0])
     point.append(float_array.data[1])
-    func_param.intersec_list.append(point)
+    global intersec_list
+    intersec_list.append(point)
 
+
+intersec_list = []
 
 rospy.init_node("map_intersec_visualizer")
 pub_intersec_pos = rospy.Publisher("map_intersec", Marker, queue_size=10)
-sub_rob_status = rospy.Subscriber(
-    "intersec_status", Float32MultiArray, position_callback)
+sub_intersec_status = rospy.Subscriber(
+    "bl_intersec_status", Float32MultiArray, position_callback)
+sub_br_intersec_status = rospy.Subscriber(
+    "br_intersec_status", Float32MultiArray, position_callback)
+
 
 rate = rospy.Rate(10)
 
@@ -44,7 +41,7 @@ while not rospy.is_shutdown():
     marker_data.scale.x = 0.02
     marker_data.scale.y = 0.02
 
-    for point in func_param.intersec_list:
+    for point in intersec_list:
         p = Point()
         p.x = point[0]
         p.y = point[1]

@@ -5,9 +5,15 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
 from sympy import *
 import math
-import getWayPoints
+
+# import getDistRobTarget
+
+import os
+import sys
+sys.path.append(os.path.dirname(
+    os.path.abspath(__file__)) + '/../my_ros_utils')
 import getMoveCurve
-import getDistRobTarget
+import getWayPoints
 
 
 array = []

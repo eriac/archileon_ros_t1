@@ -5,13 +5,14 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
 from sympy import *
 import math
+
+import os
+import sys
+sys.path.append(os.path.dirname(
+    os.path.abspath(__file__)) + '/../my_ros_utils')
 import getWayPoints
-import getTubePosition
-import getTubeAngle
-import getInterSectionTube
 import getNearestPoint
 import getInterSectionPoint
-import rotate_world_to_rob
 
 
 def br_rot_position_callback(float_msg):
@@ -53,9 +54,9 @@ world_rob_theta = None
 rospy.init_node("br_tube_inter_sec")
 sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
-sub_rob_status = rospy.Subscriber(
+sub_br_tube_status = rospy.Subscriber(
     "br_tube_status", Float32MultiArray, br_tube_position_callback)
-sub_rob_status = rospy.Subscriber(
+sub_br_rot_status = rospy.Subscriber(
     "br_rot_status", Float32MultiArray, br_rot_position_callback)
 pub_intersec_pos = rospy.Publisher(
     'br_intersec_status', Float32MultiArray, queue_size=1000)
