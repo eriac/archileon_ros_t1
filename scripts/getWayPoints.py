@@ -3,8 +3,9 @@ def read_rob():
     import os
     point_list = []
 
-    data_path = "/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/robot.txt"
-    # data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/robot.txt"
+    base = os.path.dirname(os.path.abspath(__file__))
+    data = "/robot.txt"
+    data_path = base + data
 
     f = open(data_path, "r")
     line = f.readline()
@@ -32,8 +33,9 @@ def read_bl_tube_points():
     import os
     point_list = []
 
-    data_path = "/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/nozzle_in.txt"
-    # data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/nozzle_in.txt"
+    base = os.path.dirname(os.path.abspath(__file__))
+    data = "/nozzle_in.txt"
+    data_path = base + data
 
     f = open(data_path, "r")
     line = f.readline()
@@ -61,8 +63,9 @@ def read_br_tube_points():
     import os
     point_list = []
 
-    data_path = "/home/archileon/catkin_ws/src/archileon_ros_t1/scripts/nozzle_out.txt"
-    # data_path = "/media/psf/paralles_share/ROS_ENV/catkin_ws/src/archileon_ros_t1/scripts/nozzle_out.txt"
+    base = os.path.dirname(os.path.abspath(__file__))
+    data = "/nozzle_out.txt"
+    data_path = base + data
 
     f = open(data_path, "r")
     line = f.readline()
