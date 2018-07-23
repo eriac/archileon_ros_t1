@@ -22,7 +22,8 @@ map_target = Float32MultiArray(data=array)
 
 class AreaMap():
     def __init__(self):
-        self.main_points = getWayPoints.read_rob()
+        rob_way_points = "robot.txt"
+        self.main_points = getWayPoints.first_read(rob_way_points)
         self.now_target_num = 35
 
 

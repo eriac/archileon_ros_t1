@@ -48,10 +48,6 @@ def inter_sec_callback(float_msg):
     world_inter_sec_y = float_msg.data[1]
 
 
-array = []
-map_intersec = Float32MultiArray(data=array)
-br_way_points = getWayPoints.read_br_tube_points()
-
 r_br_rot_point_x = -0.1258
 r_br_rot_point_y = 0.075
 r_br_tube_point_x = -0.235
@@ -114,11 +110,9 @@ while not rospy.is_shutdown():
             v_x=vector_r_br_rot_to_intersec[0],
             v_y=vector_r_br_rot_to_intersec[1]
         )
-        # print("degrees " + str(math.degrees(radian)))
-        # print("radian " + str(radian) + "\n")
 
         if abs(radian) < math.pi / 4:
-            print("radian " + str(radian))
+            # print("radian " + str(radian))
             last_radian = 0
             rest_radian = radian
             while True:
@@ -127,14 +121,9 @@ while not rospy.is_shutdown():
                     s_radian = c_radian + last_radian
                     pub_br_tube_angle.publish(s_radian)
                     last_radian = s_radian
-                    print("last radian " + str(last_radian))
+                    # print("last radian " + str(last_radian))
 
                     rest_radian = radian - s_radian
-                    # print(rest_radian)
                 else:
-                    print("break")
                     break
-
-                # pub_br_tube_angle.publish(radian)
-
         rate.sleep()

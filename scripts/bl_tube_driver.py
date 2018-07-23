@@ -48,10 +48,6 @@ def inter_sec_callback(float_msg):
     world_inter_sec_y = float_msg.data[1]
 
 
-array = []
-map_intersec = Float32MultiArray(data=array)
-bl_way_points = getWayPoints.read_bl_tube_points()
-
 r_bl_rot_point_x = -0.1258
 r_bl_rot_point_y = 0.075
 r_bl_tube_point_x = -0.235

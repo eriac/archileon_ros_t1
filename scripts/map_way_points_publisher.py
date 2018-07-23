@@ -21,9 +21,15 @@ map_pub = rospy.Publisher("map_data", Float32MultiArray, queue_size=10)
 
 rate = rospy.Rate(100)
 
-rob_way_points = getWayPoints.read_rob()
-bl_tube_points = getWayPoints.read_bl_tube_points()
-br_tube_points = getWayPoints.read_br_tube_points()
+r_way_points = "robot.txt"
+bl_tube_way_points = "nozzle_in.txt"
+br_tube_way_points = "nozzle_out.txt"
+
+
+rob_way_points = getWayPoints.first_read(r_way_points)
+bl_tube_points = getWayPoints.first_read(bl_tube_way_points)
+br_tube_points = getWayPoints.first_read(br_tube_way_points)
+
 
 for i in range(len(rob_way_points)):
     map_data.data.append(rob_way_points[i][0])

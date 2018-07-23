@@ -40,10 +40,23 @@ def rob_position_callback(float_msg):
     world_rob_theta = float_msg.data[2]
 
 
+def br_way_points_callback(float_msg):
+    global br_way_points
+    br_way_points = []
+    p_list = float_msg.data
+    for index in range(0, len(p_list), 2):
+        x = p_list[index]
+        y = p_list[index+1]
+        xy_list = []
+        xy_list.append(x)
+        xy_list.append(y)
+
+        br_way_points.append(xy_list)
+
+
 array = []
 map_intersec = Float32MultiArray(data=array)
-br_way_points = getWayPoints.read_br_tube_points()
-
+br_way_points = []
 
 world_br_rot_x = None
 world_br_rot_y = None
@@ -52,6 +65,10 @@ world_br_tube_y = None
 world_rob_theta = None
 
 rospy.init_node("br_tube_inter_sec")
+
+sub_br_way_points = rospy.Subscriber(
+    'br_way_points', Float32MultiArray, br_way_points_callback)
+
 sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
 sub_br_tube_status = rospy.Subscriber(
@@ -65,12 +82,15 @@ pub_intersec_pos = rospy.Publisher(
 rate = rospy.Rate(100)
 
 while not rospy.is_shutdown():
-    if world_br_rot_x is not None and world_br_rot_y is not None and world_br_tube_x is not None and world_br_tube_y is not None:
+    print(len(br_way_points))
+
+    if world_br_rot_x is not None and world_br_rot_y is not None and world_br_tube_x is not None and world_br_tube_y is not None and br_way_points != []:
         base_num = getNearestPoint.search_value_tube(
             br_way_points,
             world_br_tube_x,
             world_br_tube_y
         )
+
         w_result = getInterSectionPoint.calLine(
             center_x=world_br_rot_x,
             center_y=world_br_rot_y,

@@ -75,9 +75,12 @@
   <node name="autonomous_operation" pkg="archileon_ros_t1" type="autonomous_operation.py" output="screen"/>
   <node name="bl_tube_driver" pkg="archileon_ros_t1" type="bl_tube_driver.py" output="screen"/>
   <node name="bl_tube_inter_sec" pkg="archileon_ros_t1" type="bl_tube_inter_sec.py" />
+  
   <node name="br_tube_driver" pkg="archileon_ros_t1" type="br_tube_driver.py" output="screen"/>
   <node name="br_tube_inter_sec" pkg="archileon_ros_t1" type="br_tube_inter_sec.py" />
+  <node name="br_waypoints_publisher" pkg="archileon_ros_t1" type="br_waypoints_publisher.py" />
   
+  <node name="logger_br_tube" pkg="archileon_ros_t1" type="logger_br_tube.py" />
 
 
   <node name="map_visualizer" pkg="archileon_ros_t1" type="map_visualizer" />
