@@ -118,6 +118,23 @@ while not rospy.is_shutdown():
         # print("radian " + str(radian) + "\n")
 
         if abs(radian) < math.pi / 4:
-            pub_br_tube_angle.publish(radian)
+            print("radian " + str(radian))
+            last_radian = 0
+            rest_radian = radian
+            while True:
+                c_radian = rest_radian * 0.8
+                if abs(c_radian) > 0.001:
+                    s_radian = c_radian + last_radian
+                    pub_br_tube_angle.publish(s_radian)
+                    last_radian = s_radian
+                    print("last radian " + str(last_radian))
+
+                    rest_radian = radian - s_radian
+                    # print(rest_radian)
+                else:
+                    print("break")
+                    break
+
+                # pub_br_tube_angle.publish(radian)
 
         rate.sleep()
