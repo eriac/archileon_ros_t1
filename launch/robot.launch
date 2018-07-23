@@ -59,7 +59,9 @@
     <node name="vive_tracker" pkg="archileon_ros_t1" type="vive_tracker.py" output="screen"/>
     <!-- connect vive to robot-->
     <!-- Be careful about the used vive tracker' serial number for the used frame like LHR_!!!!!!-->
-    <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_1CDCEA0B base_link 100" />
+    <!-- <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_1CDCEA0B base_link 100" /> -->
+    <node pkg="tf" type="static_transform_publisher" name="vive_robot" args="0.185 0.0 -0.24 0 0.0 0 LHR_04DE9E87 base_link 100" />
+
   </group>
 
 

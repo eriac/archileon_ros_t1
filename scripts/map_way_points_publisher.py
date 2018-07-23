@@ -9,18 +9,15 @@ import sys
 
 sys.path.append(os.path.dirname(
     os.path.abspath(__file__)) + '/../my_ros_utils')
-import getMoveCurve
 import getWayPoints
 
 
 array = []
 map_data = Float32MultiArray(data=array)
-bl_tube_data = Float32MultiArray(data=array)
-br_tube_data = Float32MultiArray(data=array)
-
 
 rospy.init_node("map_way_points_publisher")
 map_pub = rospy.Publisher("map_data", Float32MultiArray, queue_size=10)
+
 
 rate = rospy.Rate(100)
 

@@ -12,9 +12,6 @@ sys.path.append(os.path.dirname(
 import getMoveCurve
 import getWayPoints
 
-
-array = []
-map_target = Float32MultiArray(data=array)
 move_speed = 0.1
 
 world_rob_x = None
