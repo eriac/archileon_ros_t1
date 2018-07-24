@@ -38,8 +38,8 @@ while not rospy.is_shutdown():
     marker_data.color.a = 1.0
     marker_data.color.g = 1.0
 
-    marker_data.scale.x = 0.001
-    marker_data.scale.y = 0.001
+    marker_data.scale.x = 0.003
+    marker_data.scale.y = 0.003
 
     for point in intersec_list:
         p = Point()

@@ -61,8 +61,8 @@ while not rospy.is_shutdown():
     marker_data.color.a = 1.0
     marker_data.color.g = 0.5
 
-    marker_data.scale.x = 0.01
-    marker_data.scale.y = 0.01
+    marker_data.scale.x = 0.003
+    marker_data.scale.y = 0.003
 
     # for point in rob_way_points:
     #     p = Point()

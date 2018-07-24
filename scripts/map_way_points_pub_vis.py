@@ -11,7 +11,7 @@ import getWayPoints
 
 way_points = []
 
-rospy.init_node("map_way_points_publisher")
+rospy.init_node("map_way_points_pub_vis")
 pub_map_way_points = rospy.Publisher("map_way_points", Marker, queue_size=10)
 
 
@@ -47,12 +47,10 @@ while not rospy.is_shutdown():
     marker_data.type = Marker.POINTS
     marker_data.color.g = 1.0
     marker_data.color.a = 1.0
-    # marker_data.lifetime = rospy.Duration(1)
 
-    marker_data.scale.x = 0.01
-    marker_data.scale.y = 0.01
+    marker_data.scale.x = 0.003
+    marker_data.scale.y = 0.003
 
-    # print(way_points)
     for point in range(0, len(way_points), 2):
         p = Point()
 
