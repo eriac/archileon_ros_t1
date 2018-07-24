@@ -6,12 +6,6 @@ from std_msgs.msg import Float32MultiArray
 from geometry_msgs.msg import Point
 
 
-# class func_param:
-#     rob_way_points = []
-#     bl_tube_way_points = []
-#     br_tube_way_points = []
-
-
 rob_way_points = []
 bl_tube_way_points = []
 br_tube_way_points = []
@@ -67,14 +61,14 @@ while not rospy.is_shutdown():
     marker_data.color.a = 1.0
     marker_data.color.g = 0.5
 
-    marker_data.scale.x = 0.02
-    marker_data.scale.y = 0.02
+    marker_data.scale.x = 0.01
+    marker_data.scale.y = 0.01
 
-    for point in rob_way_points:
-        p = Point()
-        p.x = point[0]
-        p.y = point[1]
-        marker_data.points.append(p)
+    # for point in rob_way_points:
+    #     p = Point()
+    #     p.x = point[0]
+    #     p.y = point[1]
+    #     marker_data.points.append(p)
 
     for point in bl_tube_way_points:
         p = Point()
