@@ -78,9 +78,11 @@
   <node name="bl_tube_intersec" pkg="archileon_ros_t1" type="bl_tube_intersec.py" />
   <node name="bl_tube_angle_driver" pkg="archileon_ros_t1" type="bl_tube_angle_driver.py" output="screen"/>
   
-  <!-- <node name="br_tube_driver" pkg="archileon_ros_t1" type="br_tube_driver.py" output="screen"/>
-  <node name="br_tube_inter_sec" pkg="archileon_ros_t1" type="br_tube_inter_sec.py" />
-  <node name="br_waypoints_publisher" pkg="archileon_ros_t1" type="br_waypoints_publisher.py" />
+  <node name="br_tube_find_nearest" pkg="archileon_ros_t1" type="br_tube_find_nearest.py" />
+  <node name="br_tube_angle_driver" pkg="archileon_ros_t1" type="br_tube_angle_driver.py" output="screen"/>
+  <node name="br_tube_intersec" pkg="archileon_ros_t1" type="br_tube_intersec.py" />
+
+  <!-- <node name="br_waypoints_publisher" pkg="archileon_ros_t1" type="br_waypoints_publisher.py" />
   <node name="logger_br_tube" pkg="archileon_ros_t1" type="logger_br_tube.py" /> -->
 
 

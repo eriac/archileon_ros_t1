@@ -41,7 +41,7 @@ def rob_position_callback(float_msg):
     world_rob_theta = float_msg.data[2]
 
 
-def inter_sec_callback(float_msg):
+def intersec_callback(float_msg):
     global world_inter_sec_x
     global world_inter_sec_y
     world_inter_sec_x = float_msg.data[0]
@@ -49,9 +49,9 @@ def inter_sec_callback(float_msg):
 
 
 r_br_rot_point_x = -0.1258
-r_br_rot_point_y = 0.075
+r_br_rot_point_y = -0.075
 r_br_tube_point_x = -0.235
-r_br_tube_point_y = 0.075
+r_br_tube_point_y = -0.075
 
 vec_r_br_rot_to_br_tube_x = r_br_tube_point_x - r_br_rot_point_x
 vec_r_br_rot_to_br_tube_y = r_br_tube_point_y - r_br_rot_point_y
@@ -70,7 +70,7 @@ world_inter_sec_x = None
 world_inter_sec_y = None
 
 
-rospy.init_node("br_tube_driver")
+rospy.init_node("br_tube_angle_driver")
 sub_rob_status = rospy.Subscriber(
     "robot_status", Float32MultiArray, rob_position_callback)
 sub_rob_status = rospy.Subscriber(
@@ -78,7 +78,7 @@ sub_rob_status = rospy.Subscriber(
 sub_rob_status = rospy.Subscriber(
     "br_rot_status", Float32MultiArray, br_rot_position_callback)
 pub_intersec_pos = rospy.Subscriber(
-    'br_intersec_status', Float32MultiArray, inter_sec_callback)
+    'br_intersec_status', Float32MultiArray, intersec_callback)
 pub_br_tube_angle = rospy.Publisher(
     'br_rot_tube_angle', Float32, queue_size=1000)
 
@@ -110,20 +110,10 @@ while not rospy.is_shutdown():
             v_x=vector_r_br_rot_to_intersec[0],
             v_y=vector_r_br_rot_to_intersec[1]
         )
+        # print("degrees " + str(math.degrees(radian)))
+        # print("radian " + str(radian) + "\n")
 
         if abs(radian) < math.pi / 4:
-            # print("radian " + str(radian))
-            last_radian = 0
-            rest_radian = radian
-            while True:
-                c_radian = rest_radian * 0.8
-                if abs(c_radian) > 0.001:
-                    s_radian = c_radian + last_radian
-                    pub_br_tube_angle.publish(s_radian)
-                    last_radian = s_radian
-                    # print("last radian " + str(last_radian))
+            pub_br_tube_angle.publish(radian)
 
-                    rest_radian = radian - s_radian
-                else:
-                    break
         rate.sleep()
