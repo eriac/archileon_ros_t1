@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(
 import getMoveCurve
 import getWayPoints
 
-move_speed = 0.05
+move_speed = 0.02
 
 world_rob_x = None
 world_rob_y = None

@@ -24,7 +24,7 @@ sub_br_intersec_status = rospy.Subscriber(
     "br_intersec_status", Float32MultiArray, position_callback)
 
 
-rate = rospy.Rate(10)
+rate = rospy.Rate(100)
 
 while not rospy.is_shutdown():
     marker_data = Marker()
