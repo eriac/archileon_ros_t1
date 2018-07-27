@@ -24,7 +24,7 @@ class AreaMap():
     def __init__(self):
         rob_way_points = "robot.txt"
         self.main_points = getWayPoints.first_read(rob_way_points)
-        self.now_target_num = 35
+        self.now_target_num = 350
 
 
 class func_world_rob_pos():
